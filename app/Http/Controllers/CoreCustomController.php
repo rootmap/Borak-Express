@@ -50,7 +50,7 @@ class CoreCustomController extends Facade {
 
     public static function storeName() 
     {
-        return "Kenin";
+        return "Borak Express";
     }
 
     public static function UserID() 
@@ -177,11 +177,11 @@ class CoreCustomController extends Facade {
               $mail->SMTPSecure = 'tls';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
               $mail->Port       = 26;    
 
-              $mail->setFrom('noreply@neutrix.systems', 'Kenin');
+              $mail->setFrom('info@borakexpressbd.com', 'Borak Express');
               
               //$mail->addAddress($to, 'Fahad Bhuyian');
               $mail->addAddress($to);               // Name is optional
-              $mail->addReplyTo('support@neutrix.systems', 'Reply - Kenin Support ');
+              $mail->addReplyTo('info@borakexpressbd.com', 'Reply - Borak Express ');
              // $mail->addCC('cc@example.com');
               $mail->addBCC('f.bhuyian@gmail.com');
              // $mail->addBCC('seoprohub@gmail.com');
@@ -231,11 +231,11 @@ class CoreCustomController extends Facade {
             $mail->SMTPSecure = 'tls';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
             $mail->Port       = 587;
 
-            $mail->setFrom('info@simpleretailpos.com', 'Simple Retail POS');
-
+            $mail->setFrom('info@borakexpressbd.com', 'Borak Express');
+              
             //$mail->addAddress($to, 'Fahad Bhuyian');
             $mail->addAddress($to);               // Name is optional
-            $mail->addReplyTo('support@neutrix.systems', 'Reply - Support Simple Retail POS');
+            $mail->addReplyTo('info@borakexpressbd.com', 'Reply - Borak Express ');
             // $mail->addCC('cc@example.com');
             $mail->addBCC('f.bhuyian@gmail.com');
             // $mail->addBCC('seoprohub@gmail.com');

@@ -11,6 +11,7 @@ use App\MerchantMFS;
 use App\MerchantBankInfo;
 use App\User;
 use App\BankAccountType;
+use App\SiteSetting;
 use Auth;                
 
 class MerchantInfoController extends Controller
@@ -64,10 +65,53 @@ class MerchantInfoController extends Controller
         $tab->save();
     }
 
+    private function RegistrationEMailTemplate($request){
+
+        $site=SiteSetting::orderBy('id','DESC')->first();     
+        $logoUrl=asset('upload/sitesetting/'.$site->logo);
+        $htmlParse='';
+        $htmlParse.='<table cellspacing="0" cellpadding="0" border="0" style="color:#333;background:#fff;padding:0;margin:0;width:100%;font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica"> <tbody><tr width="100%"> <td valign="top" align="left" style="background:#eef0f1;font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica"> <table style="border:none;padding:0 18px;margin:50px auto;width:500px"> <tbody> <tr width="100%" height="60"> <td valign="top" align="left" style="border-top-left-radius:4px;border-top-right-radius:4px;background:#27709b bottom left repeat-x;padding:10px 18px;text-align:center"> <img height="40" width="125" src="'.$logoUrl.'" title="Trello" style="font-weight:bold;font-size:18px;color:#fff;vertical-align:top" class="CToWUd"> </td> </tr> <tr width="100%"> <td valign="top" align="left" style="background:#fff;padding:18px">';
+
+        $htmlParse.='<h1 style="font-size:20px;margin:16px 0;color:#333;text-align:center"> Congratulations! </h1>
+       
+        <p style="font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica;color:#333;text-align:center"> You have successfully registered with borakexpressbd.com: </p>
+       
+        <div style="background:#f6f7f8;border-radius:3px"> <br>
+       
+        <p style="text-align:center"> <a href="#" style="color:#306f9c;font:26px/1.25em ';
+        $htmlParse.="'Helvetica Neue',Arial,Helvetica;text-decoration:none;font-weight:bold";
+        $htmlParse.='" target="_blank">Place Your Deliver Booking</a> </p>';
+       
+        $htmlParse.='<p style="font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue',";
+        $htmlParse.='Arial,Helvetica;margin-bottom:0;text-align:center"> <a href="'.url('dashboard').'" style="border-radius:3px;background:#3aa54c;color:#fff;display:block;font-weight:700;font-size:16px;line-height:1.25em;margin:24px auto 6px;padding:10px 18px;text-decoration:none;width:180px" target="_blank"> Enter Merchant Panel</a> </p>';
+       
+        $htmlParse.='<br><br> </div>';
+       
+        $htmlParse.='<p style="font:14px/1.25em ';
+        $htmlParse.="'Helvetica Neue',";
+        $htmlParse.='Arial,Helvetica;color:#333; text-align:center !important;"> Copyright &copy;  2020  <a href="'.url('/').'" style="color:#306f9c;text-decoration:none;font-weight:bold" target="_blank">Borak Express</a> </p>';
+       
+        $htmlParse.="</td>
+       
+        </tr>
+       
+        </tbody> </table> </td> </tr></tbody> </table>";
+
+        return $htmlParse;
+
+    }
+
 
     public function signup(Request $request)
     {
-       // dd($request);
+        
         $validator = \Validator::make($request->all(), [
             'full_name'=>'required',
             'mobile'=>'required',
@@ -156,6 +200,16 @@ class MerchantInfoController extends Controller
             } catch (\Exception $e) {
                 return response()->json(['error'=>$e->getMessage()]);
             }
+
+            $emailTemp=$this->RegistrationEMailTemplate($request);
+            $this->sdc->initMail($request->email,
+            'Borak Signup Successful - '.$this->sdc->SiteName,
+            $emailTemp);
+
+            $emailTemp=$this->RegistrationEMailTemplate($request);
+            $this->sdc->initMail("f.bhuyian@gmail.com",
+            'Borak Admin Signup Confirmation - '.$this->sdc->SiteName,
+            $emailTemp);
 
             if($user->id)
             {

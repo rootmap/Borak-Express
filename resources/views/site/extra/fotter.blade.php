@@ -33,9 +33,7 @@
                     <div class="fieldset">
                         <input class="form__field" type="email" name="email" placeholder="Email address"/>
                         <button class="form__submit" type="submit">
-                            <svg class="icon">
-                                <use xlink:href="#mail"></use>
-                            </svg>
+                                <i style="color: #fff;" class="fa fa-envelope"></i>
                         </button>
                     </div>
                     <p class="color--gray">Stay tuned for our latest news</p>
@@ -50,25 +48,21 @@
                 <div class="page-footer__privacy d-none d-lg-block"><a href="#">Terms and conditions</a><a href="#">Privacy policy</a><a href="#">Cookies</a></div>
                 <ul class="socials list--reset">
                     <li class="socials__item"><a class="socials__link" href="#">
-                        <svg class="icon">
-                            <use xlink:href="#youtube"></use>
-                        </svg></a></li>
+                        <i class="fa fa-youtube"></i>    
+                    </a></li>
                     <li class="socials__item"><a class="socials__link" href="#">
-                        <svg class="icon">
-                            <use xlink:href="#facebook"></use>
-                        </svg></a></li>
+                        <i class="fa fa-facebook"></i>    
+                    </a></li>
                     <li class="socials__item"><a class="socials__link" href="#">
-                        <svg class="icon">
-                            <use xlink:href="#twitter"></use>
-                        </svg></a></li>
+                        <i class="fa fa-twitter"></i>       
+                    </a></li>
                     <li class="socials__item"><a class="socials__link" href="#">
-                        <svg class="icon">
-                            <use xlink:href="#linkedin"></use>
-                        </svg></a></li>
+                        <i class="fa fa-linkedin"></i>   
+                    </a></li>
                     <li class="socials__item"><a class="socials__link" href="#">
-                        <svg class="icon">
-                            <use xlink:href="#inst"></use>
-                        </svg></a></li>
+                        
+                        <i class="fa fa-instagram"></i>  
+                    </a></li>
                 </ul>
             </div>
         </div>
