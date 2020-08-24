@@ -137,8 +137,8 @@
             </ul>
           </li> --}}
 
-          <li class="nav-item has-treeview {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod'))?'active':'' }}">
+          <li class="nav-item has-treeview {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod','shippingcost'))?'menu-open':'' }}">
+            <a href="#" class="nav-link {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod','shippingcost'))?'active':'' }}">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Booking Settings
@@ -180,6 +180,12 @@
                 <a href="{{url('paymentmethod')}}" class="nav-link {{ Request::path() == 'paymentmethod' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Payment Method</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('shippingcost')}}" class="nav-link {{ Request::path() == 'shippingcost' ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Booking Cost</p>
                 </a>
               </li>
             </ul>

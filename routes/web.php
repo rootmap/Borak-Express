@@ -583,3 +583,16 @@ Route::post('/paymentmethod/ajax','PaymentmethodController@ajaxSave');
 Route::post('/paymentmethod/datatable/ajax','PaymentmethodController@datatable');
 Route::post('/paymentmethod/update/{id}','PaymentmethodController@update');
 //======================== Paymentmethod Route End ===============================//
+//======================== Shippingcost Route Start ===============================//
+Route::get('/shippingcost/list','ShippingcostController@show');
+Route::get('/shippingcost/create','ShippingcostController@create');
+Route::get('/shippingcost/edit/{id}','ShippingcostController@edit');
+Route::get('/shippingcost/delete/{id}','ShippingcostController@destroy');
+Route::get('/shippingcost','ShippingcostController@index');
+Route::get('/shippingcost/export/excel','ShippingcostController@ExportExcel');
+Route::get('/shippingcost/export/pdf','ShippingcostController@ExportPDF');
+Route::post('/shippingcost','ShippingcostController@store');
+Route::post('/shippingcost/ajax','ShippingcostController@ajaxSave');
+Route::post('/shippingcost/datatable/ajax','ShippingcostController@datatable');
+Route::post('/shippingcost/update/{id}','ShippingcostController@update');
+//======================== Shippingcost Route End ===============================//

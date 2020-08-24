@@ -12,6 +12,7 @@ use App\BookingDeliveryType;
 use App\SendingType;      
 use App\BookingPackage;
 use App\PaymentMethod;
+use App\ShippingCost;
 use Auth;
                 
 
@@ -341,10 +342,12 @@ class BookingOrderController extends Controller
         $tab_BookingDeliveryType=BookingDeliveryType::all();
         $tab_BookingPackage=BookingPackage::all();           
         $tab_PaymentMethod=PaymentMethod::all();           
+        $tab_ShippingCost=ShippingCost::all();           
         return view('admin.pages.bookingorder.bookingorder_create',['dataRow_ItemType'=>$tab_ItemType,'dataRow_City'=>$tab_City,'dataRow_BookingArea'=>$tab_BookingArea,
         'dataRow_ItemType'=>$tab_ItemType,
         'dataRow_SendingType'=>$tab_SendingType,
         'dataRow_PaymentMethod'=>$tab_PaymentMethod,
+        'dataRow_ShippingCost'=>$tab_ShippingCost,
         'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage]);
     }
 

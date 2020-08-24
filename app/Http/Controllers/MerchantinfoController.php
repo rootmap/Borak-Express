@@ -122,8 +122,7 @@ class MerchantInfoController extends Controller
             'pickup_address'=>'required',
             'payment_method'=>'required',
         ]);
-
-
+            
         if (!$validator->passes()) {
 			return response()->json(['error'=>'Please fillup all fields.']);
         }
@@ -141,8 +140,6 @@ class MerchantInfoController extends Controller
         }
 
         $this->SystemAdminLog("Merchant Info","Save New","Create New account from site");
-
-
 
         try{
 
