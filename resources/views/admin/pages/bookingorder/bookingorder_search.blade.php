@@ -114,24 +114,100 @@
                                         </select>
                                     </div>
                                 </div>
+                               
+                                
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="recipient_name">Start Date</label>
-                                        <input type="text" class="form-control deliverdate" placeholder="Enter Recipient Name" id="search" name="start_date">
+                                        <input type="text" class="form-control deliverdate" value="{{$start_date}}" placeholder="Enter Recipient Name" id="search" name="start_date">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="recipient_name">End Date</label>
-                                        <input type="text" class="form-control deliverdate" placeholder="Enter Recipient Name" id="search" name="end_date">
+                                        <input type="text" class="form-control deliverdate" value="{{$end_date}}" placeholder="Enter Recipient Name" id="search" name="end_date">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-sm-4">
+                              @if (Auth::user()->user_type_id==1)
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>Choose Merchant</label>
+                                    <select class="form-control select2" style="width: 100%;"  id="merchant_id" name="merchant_id">
+                                      <option value="">Please Select</option>
+                                      @if(isset($merchant))    
+                                          @if(count($merchant)>0)
+                                              @foreach($merchant as $ItemType)
+                                                  <option 
+                                                  @if(isset($merchant_id))
+                                                      @if($merchant_id==$ItemType->user_id)
+                                                          selected="selected" 
+                                                      @endif
+                                                  @endif 
+                                                  value="{{$ItemType->user_id}}">{{$ItemType->full_name}}, {{$ItemType->email}}, {{$ItemType->mobile}}, {{$ItemType->business_name}}</option>
+                                                  
+                                              @endforeach
+                                          @endif
+                                      @endif 
+                                      
+                                </select>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Choose Deliver City</label>
+                                    <select class="form-control select2" style="width: 100%;"  id="city_id" name="city_id">
+                                      <option value="">Please Select</option>
+                                      @if(isset($city))    
+                                          @if(count($city)>0)
+                                              @foreach($city as $ItemType)
+                                                  <option 
+                                                  @if(isset($city_id))
+                                                      @if($city_id==$ItemType->id)
+                                                          selected="selected" 
+                                                      @endif
+                                                  @endif 
+                                                  value="{{$ItemType->id}}">{{$ItemType->name}}</option>
+                                                  
+                                              @endforeach
+                                          @endif
+                                      @endif 
+                                      
+                                </select>
+                                </div>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="form-group">
+                                    <label>Choose Deliver Area</label>
+                                    <select class="form-control select2" style="width: 100%;"  id="area_id" name="area_id">
+                                      <option value="">Please Select</option>
+                                      @if(!empty($area_id))
+                                        @if(isset($deliver_area))    
+                                            @if(count($deliver_area)>0)
+                                                @foreach($deliver_area as $ItemType)
+                                                    <option 
+                                                    
+                                                        @if($area_id==$ItemType->id)
+                                                            selected="selected" 
+                                                        @endif
+                                                    
+                                                    value="{{$ItemType->id}}">{{$ItemType->area_name}}</option>
+                                                @endforeach
+                                            @endif
+                                        @endif 
+                                      @endif 
+                                </select>
+                                </div>
+                              </div>
+                              @endif
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <button type="submit" class="btn btn-info"><i class="fas fa-search"></i> Search</button>
                                     <a href="javascript:void(0);" data-url="{{url('order/export/excel')}}" class="btn btn-info export"><i class="fas fa-file-excel"></i> Export Excel</a>
                                     <a href="javascript:void(0);" data-url="{{url('order/export/pdf')}}" class="btn btn-info export"><i class="fas fa-file-pdf"></i> Export PDF</a>
+                                    <a href="{{url('order/search')}}"  class="btn btn-danger"><i class="fas fa-trash"></i> Clear Search</a>
                                 </div>
                             </div>
                         </form>
@@ -265,17 +341,33 @@
     <script src="{{url('admin/plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>
     <script src="{{url('admin/plugins/daterangepicker/daterangepicker.js')}}"></script>
     <script>
+        var recipient_area=<?=json_encode($deliver_area)?>;
         $('.deliverdate').daterangepicker({
           timePicker: true,
           singleDatePicker: true,
           timePicker: false,
-          minDate: moment(),
           locale: {
             format: 'YYYY-MM-DD'
           }
         });   
 
         $(document).ready(function(){
+            $('#city_id').change(function(){
+              var delivery_city=$(this).val();
+              var area_html='<option value="">Select Delivery Area</option>';
+              if(delivery_city.length > 0)
+              {
+                  $.each(recipient_area,function(index,row){
+                      if(row.city_id==delivery_city)
+                      {
+                          area_html+='<option value="'+row.id+'">'+row.area_name+'</option>';
+                      }
+                  });
+              }
+
+              $("#area_id").html(area_html);
+              $("#area_id").select2();
+            });
             $(".select2").select2();
             $(".export").click(function(){
                 var data_url=$(this).attr('data-url');

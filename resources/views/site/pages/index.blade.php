@@ -17,10 +17,13 @@
 				<div class="row align-items-center">
 					<div class="col-xl-10 offset-xl-1 text-center">
 						<h2 class="front-promo__title">{{$slider->heading}}<span class="front-promo__overlay">{{$slider->water_mark}}</span></h2>
-						<p class="front-promo__subtitle">{{$slider->detail}}</p><a class="button button--promo" href="#signup"><span>Merchant Signup</span> 
-							<svg class="icon">
-								<use xlink:href="#arrow"></use>
-							</svg></a>
+						<p class="front-promo__subtitle">{{$slider->detail}}</p>
+							<a class="button button--promo" style="border-radius:20px 0 0px 0;" href="{{url('login')}}"><span>Merchant Login</span> 
+								<i class="fa fa-unlock"></i>
+							</a>
+							<a class="button button--promo" href="#signup"><span>Merchant Signup</span> 
+								<i class="fa fa-arrow-down"></i>
+							</a>
 					</div>
 				</div>
 			</div>

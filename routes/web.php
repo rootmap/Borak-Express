@@ -18,6 +18,13 @@ Auth::routes();
 Route::get('/master', 'HomeController@master')->name('master');
 Route::get('/', 'HomeController@index');
 Route::post('/merchant/signup','MerchantinfoController@signup');
+Route::get('/reset/password','MerchantinfoController@resetform');
+Route::post('/reset/password','MerchantinfoController@sendresetLink');
+Route::get('/reset/verify/{token}','MerchantinfoController@verifyresetLink');
+Route::post('/reset/token/password','MerchantinfoController@doResetPass');
+// Route::get('/register',function(){
+//     return redirect(url('login'));
+// });
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/crud', 'CrudController@crud')->name('crud');

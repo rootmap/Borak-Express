@@ -69,6 +69,15 @@
         </div>
       </form>
 
+      <div class="social-auth-links text-center mb-3">
+        <p>- OR -</p>
+      </div>
+      <!-- /.social-auth-links -->
+
+      <p class="mb-1">
+        <a href="{{url('reset/password')}}"><i class="fa fa-key"></i> Reset my password</a>
+      </p>
+
       <!-- /.social-auth-links -->
 
  

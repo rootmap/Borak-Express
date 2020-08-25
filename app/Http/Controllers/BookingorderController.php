@@ -13,7 +13,9 @@ use App\SendingType;
 use App\BookingPackage;
 use App\PaymentMethod;
 use App\ShippingCost;
+use App\MerchantInfo;
 use Auth;
+use Session;
                 
 
 class BookingOrderController extends Controller
@@ -64,14 +66,43 @@ class BookingOrderController extends Controller
             $status=$request->status;
         }
 
+        $merchant_id='';
+        if(isset($request->merchant_id))
+        {
+            $merchant_id=$request->merchant_id;
+        }
+
+        $city_id='';
+        if(isset($request->city_id))
+        {
+            $city_id=$request->city_id;
+        }
+        
+
+        $area_id='';
+        if(isset($request->area_id))
+        {
+            $area_id=$request->area_id;
+        }
+        
+       
+
         if(Auth::user()->user_type_id==1)
         {
+
+
             $tab=BookingOrder::orderBy('id','DESC')
+                ->when($merchant_id, function ($query) use ($merchant_id) {
+                        return $query->where('created_by',$merchant_id);
+                })
+                ->when($city_id, function ($query) use ($city_id) {
+                        return $query->where('recipient_city',$city_id);
+                })
                 ->when($search, function ($query) use ($search) {
                               
                     $query->whereRaw("(id LIKE '%".$search."%' OR recipient_number LIKE '%".$search."%' OR 
                     recipient_name LIKE '%".$search."%' OR 
-                    package_id LIKE '%".$search."%')");
+                    package_ids LIKE '%".$search."%')");
 
                     return $query;
                 })
@@ -81,8 +112,13 @@ class BookingOrderController extends Controller
                 ->when($status, function ($query) use ($status) {
                         return $query->where('parcel_status',$status);
                 })
+                
                 ->take(50)
                 ->get();
+
+                // dd($tab);
+
+                // dd($merchant_id);
         }
         else
         {
@@ -106,10 +142,27 @@ class BookingOrderController extends Controller
                             ->get();
         }
 
+        $tab_MerchantInfo=MerchantInfo::select('merchant_infos.id','merchant_infos.full_name','merchant_infos.email','merchant_infos.mobile','merchant_infos.business_name','users.id as user_id')
+                                        ->leftJoin('users','merchant_infos.email','=','users.email')
+                                        ->get();  
+        $tab_City=City::all();  
+        $tab_BookingArea=BookingArea::all(); 
 
         //dd($tab);
         
-        return view('admin.pages.bookingorder.bookingorder_search',['dataRow'=>$tab,'search'=>$request->search,'start_date'=>$start_date,'end_date'=>$request->end_time,'status'=>$status]);
+        return view('admin.pages.bookingorder.bookingorder_search',[
+            'dataRow'=>$tab,
+            'merchant'=>$tab_MerchantInfo,
+            'city'=>$tab_City,
+            'city_id'=>$city_id,
+            'deliver_area'=>$tab_BookingArea,
+            'area_id'=>$area_id,
+            'merchant_id'=>$merchant_id,
+            'search'=>$request->search,
+            'start_date'=>$start_date,
+            'end_date'=>$request->end_time,
+            'status'=>$status
+            ]);
     }
 
     private function filterExport($request){
@@ -330,9 +383,15 @@ class BookingOrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create(Request $request){
+        $order_id=0;       
+        // $order_id=Session::has('order_id')?Session::get('order_id'):'';
 
-
+        // if(empty($order_id) && strlen($order_id)==0)
+        // {
+        //     Session::put('order_id','BE'.unique());
+        //     $order_id=Session::get('order_id');
+        // }
         
         $tab_ItemType=ItemType::all();
         $tab_City=City::all();
@@ -342,12 +401,20 @@ class BookingOrderController extends Controller
         $tab_BookingDeliveryType=BookingDeliveryType::all();
         $tab_BookingPackage=BookingPackage::all();           
         $tab_PaymentMethod=PaymentMethod::all();           
-        $tab_ShippingCost=ShippingCost::all();           
+        $tab_ShippingCost=ShippingCost::all();        
+        $tab_MerchantInfo=MerchantInfo::select('merchant_infos.id','merchant_infos.full_name','merchant_infos.email','merchant_infos.mobile','merchant_infos.business_name','users.id as user_id')
+                                        ->leftJoin('users','merchant_infos.email','=','users.email')
+                                        ->get();         
+        
+       // dd($order_id);
+        
         return view('admin.pages.bookingorder.bookingorder_create',['dataRow_ItemType'=>$tab_ItemType,'dataRow_City'=>$tab_City,'dataRow_BookingArea'=>$tab_BookingArea,
+        'order_id'=>$order_id,
         'dataRow_ItemType'=>$tab_ItemType,
         'dataRow_SendingType'=>$tab_SendingType,
         'dataRow_PaymentMethod'=>$tab_PaymentMethod,
         'dataRow_ShippingCost'=>$tab_ShippingCost,
+        'dataRow_MerchantInfo'=>$tab_MerchantInfo,
         'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage]);
     }
 
@@ -388,12 +455,16 @@ class BookingOrderController extends Controller
                 'no_of_items'=>'required',
         ]);
 
+        $order_created_by=$this->sdc->UserID();
+
         if (Auth::user()->user_type_id==1) {
             $this->validate($request,[
                 'parcel_status'=>'required',
+                'merchant_id'=>'required',
             ]);
             $parcel_status=$request->parcel_status;    
             $payment_status=$request->payment_status;    
+            $order_created_by=$request->merchant_id;
         }
         else
         {
@@ -422,8 +493,8 @@ class BookingOrderController extends Controller
         $delivery_type_9_BookingDeliveryType=$tab_9_BookingDeliveryType->name;
         $tab_10_BookingPackage=BookingPackage::where('id',$request->package_id)->first();
         $package_id_10_BookingPackage=$tab_10_BookingPackage->name;
-        $tab=new BookingOrder();
         
+        $tab=new BookingOrder();
         $tab->sending_type_name=$sending_type_0_ItemType;
         $tab->sending_type=$request->sending_type;
         $tab->recipient_number=$request->recipient_number;
@@ -451,8 +522,10 @@ class BookingOrderController extends Controller
         $tab->shipping_cost=$request->shipping_cost;
         $tab->total_charge=$request->total_charge;
         $tab->payment_status=$payment_status;
-        $tab->created_by=$this->sdc->UserID();
+        $tab->created_by=$order_created_by;
         $tab->save();
+
+        Session::put('booking_id',$tab->id);
 
         return redirect('bookingorder')->with('status','Added Successfully !');
 
@@ -762,7 +835,21 @@ class BookingOrderController extends Controller
      */
     public function edit($id=0)
     {
+
+        
+
         $tab=BookingOrder::find($id); 
+
+        if($tab->parcel_status!="Pending")
+        {
+            if(Auth::user()->user_type_id!=1)
+            {
+                return redirect(url('dashboard'))->with('error','Invalid Request.');
+            }
+        }
+
+        
+
         $tab_ItemType=ItemType::all();
         $tab_SendingType=SendingType::all();
         $tab_City=City::all();
@@ -771,13 +858,19 @@ class BookingOrderController extends Controller
         $tab_BookingDeliveryType=BookingDeliveryType::all();
         $tab_BookingPackage=BookingPackage::all();     
         $tab_PaymentMethod=PaymentMethod::all();   
+        $tab_ShippingCost=ShippingCost::all();
+        $tab_MerchantInfo=MerchantInfo::select('merchant_infos.id','merchant_infos.full_name','merchant_infos.email','merchant_infos.mobile','merchant_infos.business_name','users.id as user_id')
+                                        ->leftJoin('users','merchant_infos.email','=','users.email')
+                                        ->get();  
         return view('admin.pages.bookingorder.bookingorder_edit',[
             'dataRow_ItemType'=>$tab_ItemType,
             'dataRow_City'=>$tab_City,
             'dataRow_BookingArea'=>$tab_BookingArea,
             'dataRow_ItemType'=>$tab_ItemType,
             'dataRow_SendingType'=>$tab_SendingType,
+            'dataRow_ShippingCost'=>$tab_ShippingCost,
             'dataRow_PaymentMethod'=>$tab_PaymentMethod,
+            'dataRow_MerchantInfo'=>$tab_MerchantInfo,
             'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'dataRow'=>$tab,'edit'=>true]);  
     }
 
@@ -791,8 +884,10 @@ class BookingOrderController extends Controller
         $tab_ItemType=ItemType::all();
         $tab_BookingDeliveryType=BookingDeliveryType::all();
         $tab_BookingPackage=BookingPackage::all();     
+        $tab_ShippingCost=ShippingCost::all();
         return view('admin.pages.bookingorder.bookingorder_view',['dataRow_ItemType'=>$tab_ItemType,'dataRow_City'=>$tab_City,'dataRow_BookingArea'=>$tab_BookingArea,
         'dataRow_ItemType'=>$tab_ItemType,
+        'dataRow_ShippingCost'=>$tab_ShippingCost,
         'dataRow_SendingType'=>$tab_SendingType,
         'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'dataRow'=>$tab,'edit'=>true]);  
     }
@@ -823,12 +918,15 @@ class BookingOrderController extends Controller
                 'no_of_items'=>'required',
         ]);
 
+        $order_created_by=$this->sdc->UserID();
         if (Auth::user()->user_type_id==1) {
             $this->validate($request,[
                 'parcel_status'=>'required',
+                'merchant_id'=>'required',
             ]);
             $parcel_status=$request->parcel_status;    
-            $payment_status=$request->payment_status;    
+            $payment_status=$request->payment_status;  
+            $order_created_by=$request->merchant_id;  
         }
         else
         {
@@ -856,6 +954,7 @@ class BookingOrderController extends Controller
         $delivery_type_9_BookingDeliveryType=$tab_9_BookingDeliveryType->name;
         $tab_10_BookingPackage=BookingPackage::where('id',$request->package_id)->first();
         $package_id_10_BookingPackage=$tab_10_BookingPackage->name;
+
         $tab=BookingOrder::find($id);
         $tab->sending_type_name=$sending_type_0_ItemType;
         $tab->sending_type=$request->sending_type;
@@ -884,7 +983,7 @@ class BookingOrderController extends Controller
         $tab->total_charge=$request->total_charge;
         $tab->parcel_status=$parcel_status;
         $tab->payment_status=$payment_status;
-        $tab->updated_by=$this->sdc->UserID();
+        $tab->updated_by=$order_created_by;
         $tab->save();
 
         return redirect('bookingorder')->with('status','Updated Successfully !');

@@ -168,20 +168,20 @@ class CoreCustomController extends Facade {
     {
           $mail = new PHPMailer(true);
           try {
-              $mail->SMTPDebug = $debug;
+              $mail->SMTPDebug = 1;
               $mail->isSMTP(); 
-              $mail->Host = 'mail.neutrix.systems';
+              $mail->Host = 'mail.borakexpressbd.com';
               $mail->SMTPAuth = true;
-              $mail->Username = 'noreply@neutrix.systems';
-              $mail->Password = '@sdQwe123';
+              $mail->Username = 'noreply@borakexpressbd.com';
+              $mail->Password = '5%P6Ub_b[wRW';
               $mail->SMTPSecure = 'tls';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-              $mail->Port       = 26;    
+              $mail->Port       = 587;    
 
-              $mail->setFrom('info@borakexpressbd.com', 'Borak Express');
+              $mail->setFrom('noreply@borakexpressbd.com', 'Borak Express');
               
               //$mail->addAddress($to, 'Fahad Bhuyian');
               $mail->addAddress($to);               // Name is optional
-              $mail->addReplyTo('info@borakexpressbd.com', 'Reply - Borak Express ');
+              $mail->addReplyTo('noreply@borakexpressbd.com', 'Reply - Borak Express ');
              // $mail->addCC('cc@example.com');
               $mail->addBCC('f.bhuyian@gmail.com');
              // $mail->addBCC('seoprohub@gmail.com');
@@ -222,20 +222,20 @@ class CoreCustomController extends Facade {
     ) {
         $mail = new PHPMailer(true);
         try {
-            $mail->SMTPDebug = $debug;
+            $mail->SMTPDebug =$debug;
             $mail->isSMTP();
-            $mail->Host = 'mail.simpleretailpos.com';
+            $mail->Host = 'mail.borakexpressbd.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'info@simpleretailpos.com';
-            $mail->Password = '@sdQwe123';
+            $mail->Username = 'noreply@borakexpressbd.com';
+            $mail->Password = '5%P6Ub_b[wRW';
             $mail->SMTPSecure = 'tls';            // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` also accepted
-            $mail->Port       = 587;
+            $mail->Port       = 465;    
 
-            $mail->setFrom('info@borakexpressbd.com', 'Borak Express');
-              
+            $mail->setFrom('noreply@borakexpressbd.com', 'Borak Express');
+            
             //$mail->addAddress($to, 'Fahad Bhuyian');
             $mail->addAddress($to);               // Name is optional
-            $mail->addReplyTo('info@borakexpressbd.com', 'Reply - Borak Express ');
+            $mail->addReplyTo('noreply@borakexpressbd.com', 'Reply - Borak Express ');
             // $mail->addCC('cc@example.com');
             $mail->addBCC('f.bhuyian@gmail.com');
             // $mail->addBCC('seoprohub@gmail.com');

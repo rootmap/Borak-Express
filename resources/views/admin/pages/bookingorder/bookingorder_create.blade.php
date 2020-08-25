@@ -78,7 +78,29 @@
                                     <hr>
                                   </div>
                                 </div>
-                                <div class="row">
+                                
+                                    @if (Auth::user()->user_type_id==1)
+                                    <div class="row">
+                                      <div class="col-md-12">
+                                        <div class="form-group">
+                                          <label>Choose Merchant</label>
+                                          <select class="form-control select2" style="width: 100%;"  id="merchant_id" name="merchant_id">
+                                                <option value="">Please Select</option>
+                                                @if(isset($dataRow_MerchantInfo))    
+                                                    @if(count($dataRow_MerchantInfo)>0)
+                                                        @foreach($dataRow_MerchantInfo as $ItemType)
+                                                            <option value="{{$ItemType->user_id}}">{{$ItemType->full_name}}, {{$ItemType->email}}, {{$ItemType->mobile}}, {{$ItemType->business_name}}</option>
+                                                            
+                                                        @endforeach
+                                                    @endif
+                                                @endif 
+                                                
+                                          </select>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    @endif
+                                    <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                           <label>Choose Sending Type</label>
@@ -256,15 +278,16 @@
                                   <div class="col-sm-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="product_price">Product Price</label>
+                                      <label for="product_price">Product Price </label>
                                       <input type="text" class="form-control"  maxlength="13"   placeholder="Enter Product Price" id="product_price" name="product_price" value="0">
+                                      <code>(Please Add Shipping Price with Product Price)</code>
                                     </div>
                                   </div>
       
                                   <div class="col-sm-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="product_price">Product Payment</label>
+                                      <label for="product_price">Payment Method</label>
                                       <select class="form-control select2" style="width: 100%;"  id="payment_method" name="payment_method">
                                             <option value="">Please Select</option>
                                             @if(isset($dataRow_PaymentMethod))    
@@ -410,18 +433,15 @@
                                                       <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
                                                   </tr>
                                                   <tr>
-                                                      <td>COD / BOD</td>
+                                                      <td>COD</td>
                                                       <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
                                                   </tr>
-                                                  <tr>
-                                                      <td>Fragile Charge</td>
-                                                      <td class="shipping_cost_cart cart_sum" id="fragile_charge">0</td>
-                                                  </tr>
+                                                  
                                                   <tr>
                                                       <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
                                                   </tr>
                                                   <tr>
-                                                    <td>Total Cost (+)</td>
+                                                    <td>Total Borak Express Cost (+)</td>
                                                     <td class="shipping_cost_cart" id="total_cart_sum">0</td>
                                                 </tr>
                                               </tbody>
@@ -482,7 +502,6 @@
       timePicker: true,
       singleDatePicker: true,
       timePicker: false,
-      minDate: moment(),
       locale: {
         format: 'YYYY-MM-DD'
       }
@@ -530,27 +549,21 @@
             }
         });
         console.log('charge =',area_charge);
+        $("#codbod_cost_cart").html(0);
         var product_price=$("input[name=product_price]").val();
         var shipping_cost=$("input[name=shipping_cost]").val();
 
         var total_shipping_and_shiping_charge=(product_price-0)+(shipping_cost-0);
         var total_charge=parseFloat((parseFloat(total_shipping_and_shiping_charge)*parseFloat(area_charge))/100);
         console.log(total_charge);
+        total_charge = Math.round(total_charge);
         $('input[name=total_charge]').val(total_charge);
 
-        if(payment_method_id==1)
-        {
-            $("#codbod_cost_cart").html(product_price);
+        
+        $("#codbod_cost_cart").html(total_charge);
             //codbod_cost_cart
-            $("#fragile_charge").html(total_charge);
-        }
-        else
-        {
-            $("#codbod_cost_cart").html(0);
-            //codbod_cost_cart
-            $("#fragile_charge").html(0);
-        }
-
+            //$("#fragile_charge").html(total_charge);
+        
         cart_sum();
         
     }

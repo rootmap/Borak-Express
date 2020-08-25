@@ -25,6 +25,98 @@ class MerchantInfoController extends Controller
     private $moduleName="Merchant Info";
     private $sdc;
     public function __construct(){ $this->sdc = new CoreCustomController(); }
+
+
+
+    public function resetform(){
+        return view('auth.passwords.email');
+    }
+
+    public function sendresetLink(Request $request){
+        $this->validate($request,[
+            'email'=>'required|email'
+        ]);
+
+        $checkMerchant=MerchantInfo::where('email',$request->email)->count();
+        if($checkMerchant==0)
+        {
+            return redirect(url('reset/password'))->with('error','Please enter a valid email.');
+        }
+
+        $token=md5(csrf_token());
+
+        \DB::table('password_resets')->where('email',$request->email)->delete();
+        \DB::table('password_resets')->insert(['email'=>$request->email,'token'=>$token,'created_at'=>date('Y-m-d H:i:s')]);
+
+        $reset_link=url('reset/verify/'.$token);
+
+        $resetEMailTemplate=$this->resetEMailTemplate($reset_link);
+
+        $this->sdc->initMail($request->email,
+            'Password Reset Request - '.$this->sdc->SiteName,
+            $resetEMailTemplate); 
+
+
+        return redirect(url('reset/password'))->with('success','Password reset email sent to your email.');
+
+
+    }
+
+    public function verifyresetLink($token){
+        if(!empty($token))
+        {
+            $data_verify=\DB::table('password_resets')->where('token',$token)->count();
+            if($data_verify==1)
+            {
+                $merchantInfo=\DB::table('password_resets')->where('token',$token)->first();
+                return view('auth.passwords.reset',['merchant'=>$merchantInfo]);
+            }
+            else
+            {
+                return redirect(url('reset/password'))->with('error','Invalid password reset link.');
+            }
+        }
+        else
+        {
+            return redirect(url('reset/password'))->with('error','Invalid password reset link.');
+        }
+    }
+
+    public function doResetPass(Request $request){
+        $this->validate($request,[
+            'email_token'=>'required',
+            'password'=>'required',
+            'repassword'=>'required'
+        ]);
+
+        if($request->password!=$request->repassword)
+        {
+            return redirect(url('reset/verify/'.$request->email_token))->with('error','Re-type password mismatch.');
+        }
+
+        $data_verify=\DB::table('password_resets')->where('token',$request->email_token)->count();
+        if($data_verify==1)
+        {
+            $tabs=\DB::table('password_resets')->where('token',$request->email_token)->first();
+            $email=$tabs->email;
+
+            $tab=MerchantInfo::where('email',$email)->first();
+            $tab->password=$request->password;
+            $tab->save();
+
+            $newPasswordHash=\Hash::make($request->password);
+
+            \DB::table('users')->where('email',$email)->update(['password'=>$newPasswordHash]);
+
+            return redirect(url('login'))->with('success','Password changed successfully.');
+
+        }
+        else
+        {
+            return redirect(url('reset/password'))->with('error','Invalid password reset link.');
+        }
+    }
+
     
     public function index(){
         $tab=MerchantInfo::all();
@@ -65,6 +157,49 @@ class MerchantInfoController extends Controller
         $tab->save();
     }
 
+    private function resetEMailTemplate($reset_link){
+
+        $site=SiteSetting::orderBy('id','DESC')->first();     
+        $logoUrl=asset('upload/sitesetting/'.$site->logo);
+        $htmlParse='';
+        $htmlParse.='<table cellspacing="0" cellpadding="0" border="0" style="color:#333;background:#fff;padding:0;margin:0;width:100%;font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica"> <tbody><tr width="100%"> <td valign="top" align="left" style="background:#eef0f1;font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica"> <table style="border:none;padding:0 18px;margin:50px auto;width:500px"> <tbody> <tr width="100%" height="60"> <td valign="top" align="left" style="border-top-left-radius:4px;border-top-right-radius:4px;background:#27709b bottom left repeat-x;padding:10px 18px;text-align:center"> <img height="40" width="125" src="'.$logoUrl.'" title="Borak Express" style="font-weight:bold;font-size:18px;color:#fff;vertical-align:top" class="CToWUd"> </td> </tr> <tr width="100%"> <td valign="top" align="left" style="background:#fff;padding:18px">';
+
+        $htmlParse.='<h1 style="font-size:20px;margin:16px 0;color:#333;text-align:center"> Reset Password! </h1>
+       
+        <p style="font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue'";
+        $htmlParse.=',Arial,Helvetica;color:#333;text-align:center"> Please copy the below link or click on button to rest your account password </p>
+       
+        <div style="background:#f6f7f8;border-radius:3px"> <br>
+       
+        <p style="text-align:center"> <a href="'.$reset_link.'" style="color:#306f9c;font:26px/1.25em ';
+        $htmlParse.="'Helvetica Neue',Arial,Helvetica;text-decoration:none;font-weight:bold";
+        $htmlParse.='" target="_blank">'.$reset_link.'</a> </p>';
+       
+        $htmlParse.='<p style="font:15px/1.25em ';
+        $htmlParse.="'Helvetica Neue',";
+        $htmlParse.='Arial,Helvetica;margin-bottom:0;text-align:center"> <a href="'.$reset_link.'" style="border-radius:3px;background:#3aa54c;color:#fff;display:block;font-weight:700;font-size:16px;line-height:1.25em;margin:24px auto 6px;padding:10px 18px;text-decoration:none;width:180px" target="_blank"> Reset Password </a> </p>';
+       
+        $htmlParse.='<br><br> </div>';
+       
+        $htmlParse.='<p style="font:14px/1.25em ';
+        $htmlParse.="'Helvetica Neue',";
+        $htmlParse.='Arial,Helvetica;color:#333; text-align:center !important;"> Copyright &copy;  2020  <a href="'.url('/').'" style="color:#306f9c;text-decoration:none;font-weight:bold" target="_blank">Borak Express</a> </p>';
+       
+        $htmlParse.="</td>
+       
+        </tr>
+       
+        </tbody> </table> </td> </tr></tbody> </table>";
+
+        return $htmlParse;
+
+    }
+
     private function RegistrationEMailTemplate($request){
 
         $site=SiteSetting::orderBy('id','DESC')->first();     
@@ -74,7 +209,7 @@ class MerchantInfoController extends Controller
         $htmlParse.="'Helvetica Neue'";
         $htmlParse.=',Arial,Helvetica"> <tbody><tr width="100%"> <td valign="top" align="left" style="background:#eef0f1;font:15px/1.25em ';
         $htmlParse.="'Helvetica Neue'";
-        $htmlParse.=',Arial,Helvetica"> <table style="border:none;padding:0 18px;margin:50px auto;width:500px"> <tbody> <tr width="100%" height="60"> <td valign="top" align="left" style="border-top-left-radius:4px;border-top-right-radius:4px;background:#27709b bottom left repeat-x;padding:10px 18px;text-align:center"> <img height="40" width="125" src="'.$logoUrl.'" title="Trello" style="font-weight:bold;font-size:18px;color:#fff;vertical-align:top" class="CToWUd"> </td> </tr> <tr width="100%"> <td valign="top" align="left" style="background:#fff;padding:18px">';
+        $htmlParse.=',Arial,Helvetica"> <table style="border:none;padding:0 18px;margin:50px auto;width:500px"> <tbody> <tr width="100%" height="60"> <td valign="top" align="left" style="border-top-left-radius:4px;border-top-right-radius:4px;background:#27709b bottom left repeat-x;padding:10px 18px;text-align:center"> <img height="40" width="125" src="'.$logoUrl.'" title="Borak Express" style="font-weight:bold;font-size:18px;color:#fff;vertical-align:top" class="CToWUd"> </td> </tr> <tr width="100%"> <td valign="top" align="left" style="background:#fff;padding:18px">';
 
         $htmlParse.='<h1 style="font-size:20px;margin:16px 0;color:#333;text-align:center"> Congratulations! </h1>
        
@@ -164,18 +299,18 @@ class MerchantInfoController extends Controller
 
                     $wp=WalletProvider::find($request->wallet_provider_id);
                     $nmf=new MerchantMFS();
-                    $nmf->merchant_id=$request->merchant_id;
+                    $nmf->merchant_id=$merchant_id;
                     $nmf->merchant_id_full_name=$request->full_name;
                     $nmf->wallet_provider_id=$request->wallet_provider_id;
                     $nmf->wallet_provider_id_name=$wp->name;
-                    $nmf->mobile_number=$request->wallet_no;
+                    $nmf->mobile_number=$request->mobile_number;
                     $nmf->save();
                 }
                 elseif($pm==2)
                 {
                     $wp_ac_type=BankAccountType::find($request->account_type);
                     $nmf=new MerchantBankInfo();
-                    $nmf->merchant_id=$request->merchant_id;
+                    $nmf->merchant_id=$merchant_id;
                     $nmf->merchant_id_full_name=$request->full_name;
                     $nmf->bank_name=$request->bank_name;
                     $nmf->bank_branch=$request->branch;
@@ -273,7 +408,7 @@ class MerchantInfoController extends Controller
 
             $wp=WalletProvider::find($request->wallet_provider_id);
             $nmf=new MerchantMFS();
-            $nmf->merchant_id=$request->merchant_id;
+            $nmf->merchant_id=$merchant_id;
             $nmf->merchant_id_full_name=$request->full_name;
             $nmf->wallet_provider_id=$request->wallet_provider_id;
             $nmf->wallet_provider_id_name=$wp->name;
@@ -284,7 +419,7 @@ class MerchantInfoController extends Controller
         {
             $wp_ac_type=BankAccountType::find($request->ac_type);
             $nmf=new MerchantBankInfo();
-            $nmf->merchant_id=$request->merchant_id;
+            $nmf->merchant_id=$merchant_id;
             $nmf->merchant_id_full_name=$request->full_name;
             $nmf->bank_name=$request->bank_name;
             $nmf->bank_branch=$request->branch;
@@ -726,10 +861,10 @@ class MerchantInfoController extends Controller
         }
         elseif($pm==2)
         {
-            $countMfs=MerchantBankInfo::where('merchant_id',$request->merchant_id)->count();  
+            $countMfs=MerchantBankInfo::where('merchant_id',$merchant_id)->count();  
             if($countMfs>0)
             {
-                MerchantBankInfo::where('merchant_id',$request->merchant_id)->delete(); 
+                MerchantBankInfo::where('merchant_id',$merchant_id)->delete(); 
             }
             $wp_ac_type=BankAccountType::find($request->ac_type);
             $nmf=new MerchantBankInfo();
