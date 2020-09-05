@@ -128,9 +128,25 @@ class CoreCustomController extends Facade {
     }
     
     
-    public static function PDFLayout($report_name,$table='')
+    public static function PDFLayout($report_name,$table='',$pageOrientation='')
     {
-                $mpdf=new Mpdf;
+                if(!empty($pageOrientation))
+                {
+                    $mpdf=new Mpdf(['orientation' => $pageOrientation,'format' => 'Legal','mode' => '+aCJK', 
+                    // "allowCJKoverflow" => true, 
+                    "autoScriptToLang" => true,
+                    // "allow_charset_conversion" => false,
+                    "autoLangToFont" => true]);
+                }
+                else
+                {
+                    $mpdf=new Mpdf;
+                }
+
+
+                
+                // $mpdf->allow_charset_conversion = true;
+                // $mpdf->charset_in = 'freesans, freeserif';
                 $mpdf->SetTitle($report_name);
                 //$mpdf->SetDisplayMode('fullpage');
                 //$mpdf->list_indent_first_level=0; // 1 or 0 - whether to indent the first level of a list
@@ -140,12 +156,14 @@ class CoreCustomController extends Facade {
                 $html='<table  class="col-md-12" cellpadding="10" style="width:100%;" width="100%;">
                         <tr>
                         
-                <td valign="top" style="border-bottom: 5px #000 solid; color: #008000; font-size: 20px; font-weight: bold; padding-left: 0px;">
+                <td valign="top" style="border-bottom: 5px #000 solid; text-align:center; color: #008000; font-size: 20px; font-weight: bold; padding-left: 0px;">
                 
-                '.$report_name.' : '.self::storeName().'
-                <hr style="height:5px;">
+                <h1 align="center">'.self::storeName().'</h1> <h4 align="center">'.$report_name.'<h4>  <br>
+                <h6 align="center"><b>Report Genarated : '.formatDateTime(date('Y-m-d H:i:s')).'</b></h6>
 
-                <b>Report Genarated : '.formatDateTime(date('Y-m-d H:i:s')).'<br /><br /></b></td>
+                <hr style="height:5px;">
+                <br />
+                </td>
                 <tr>
                 </table>';
                 
@@ -168,7 +186,7 @@ class CoreCustomController extends Facade {
     {
           $mail = new PHPMailer(true);
           try {
-              $mail->SMTPDebug = 1;
+              $mail->SMTPDebug = $debug;
               $mail->isSMTP(); 
               $mail->Host = 'mail.borakexpressbd.com';
               $mail->SMTPAuth = true;

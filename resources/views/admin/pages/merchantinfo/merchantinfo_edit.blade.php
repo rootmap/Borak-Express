@@ -287,15 +287,29 @@
                             </div>
                           </div>
       
+
                           <div class="col-sm-6 bank" style="display: none;">
                             <!-- text input -->
                             <div class="form-group">
                               <label for="pickup_address">Account Type</label>
-                              <input type="text" 
-                              @isset($wp_bank)
-                                  value="{{$wp_bank->account_type}}"
-                              @endisset 
-                              class="form-control" placeholder="Enter Account Type" id="ac_type" name="ac_type">
+                              <select class="form-control select2" style="width: 100%;"  id="ac_type" name="ac_type">
+                                    <option value="">Please Select</option>
+                                    @if(isset($bt))    
+                                        @if(count($bt)>0)
+                                            @foreach($bt as $PaymentType)
+                                                <option 
+                                                @isset($wp_bank)
+                                                    @if($wp_bank->account_type==$PaymentType->id)
+                                                        selected="selected" 
+                                                    @endif
+                                                @endisset
+                                                value="{{$PaymentType->id}}">{{$PaymentType->name}}</option>
+                                                
+                                            @endforeach
+                                        @endif
+                                    @endif 
+                                    
+                            </select>
                             </div>
                           </div>
       

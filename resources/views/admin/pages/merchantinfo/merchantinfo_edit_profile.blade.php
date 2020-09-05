@@ -244,8 +244,8 @@
                                         @if(count($bt)>0)
                                             @foreach($bt as $PaymentType)
                                                 <option 
-                                                @isset($wp_mfs)
-                                                    @if($wp_mfs->account_type==$PaymentType->id)
+                                                @isset($wp_bank)
+                                                    @if($wp_bank->account_type==$PaymentType->id)
                                                         selected="selected" 
                                                     @endif
                                                 @endisset

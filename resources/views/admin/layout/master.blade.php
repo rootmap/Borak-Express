@@ -20,7 +20,7 @@
       font-size: 0.7rem;
     }
   </style>
-   <link rel="shortcut icon" href="{{asset('fav/favicon.ico')}}"/>
+     <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}"/>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">

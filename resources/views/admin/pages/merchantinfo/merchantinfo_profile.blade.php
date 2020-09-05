@@ -248,7 +248,7 @@
                               <label for="pickup_address">Account Type</label>
                               <input disabled type="text" 
                               @isset($wp_bank)
-                                  value="{{$wp_bank->account_type}}"
+                                  value="{{$wp_bank->account_type_name}}"
                               @endisset 
                               class="form-control" placeholder="Enter Account Type" id="ac_type" name="ac_type">
                             </div>

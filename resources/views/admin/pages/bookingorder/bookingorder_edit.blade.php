@@ -476,6 +476,13 @@
                         <div class="col-sm-4">
                           <!-- text input -->
                           <div class="form-group">
+                            <label for="landmarks">Special Note</label>
+                            <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{$dataRow->special_note}}</textarea>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <!-- text input -->
+                          <div class="form-group">
                             <label for="deliver_date">Parcel Status</label>
                             <input type="text" disabled
                                 
@@ -518,6 +525,13 @@
                       
       
                       <div class="row">
+                        <div class="col-sm-4">
+                          <!-- text input -->
+                          <div class="form-group">
+                            <label for="landmarks">Special Note</label>
+                            <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{$dataRow->special_note}}</textarea>
+                          </div>
+                        </div>
                         <div class="col-sm-4">
                           <!-- radio -->
                             <div class="form-group">
@@ -816,7 +830,8 @@
         var product_price=$("input[name=product_price]").val();
         var shipping_cost=$("input[name=shipping_cost]").val();
 
-        var total_shipping_and_shiping_charge=(product_price-0)+(shipping_cost-0);
+        //var total_shipping_and_shiping_charge=(product_price-0)+(shipping_cost-0);
+        var total_shipping_and_shiping_charge=(product_price-0);
         var total_charge=parseFloat((parseFloat(total_shipping_and_shiping_charge)*parseFloat(area_charge))/100);
         console.log(total_charge);
         total_charge = Math.round(total_charge);

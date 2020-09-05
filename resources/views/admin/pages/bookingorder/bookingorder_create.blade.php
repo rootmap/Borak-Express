@@ -68,8 +68,7 @@
 
                         <fieldset>
                           
-                          <div class="row">
-                              <div class="col-md-8">
+                          
                                 <div class="row">
                                   <div class="col-md-12">
                                     <h6>
@@ -328,10 +327,64 @@
                                 </div>
       
                                 @if(Auth::user()->user_type_id==2)
-                                  
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                      <!-- text input -->
+                                      <div class="form-group">
+                                        <label for="landmarks">Special Note</label>
+                                        <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note"></textarea>
+                                      </div>
+                                    </div>
+                                      <div class="col-md-4">
+                                        <div class="card card-warning card-outline position-sticky">
+                                          <div class="card-header">
+                                            <h3 class="card-title">
+                                              <i class="fas fa-cash-register"></i>
+                                              Cost Management
+                                            </h3>
+                                          </div>
+                                          <div class="card-body" style="padding: 0px;">
+                                              <style type="text/css">
+                                                  .shipping_cost_cart::after{
+                                                      content: ' Tk';
+                                                      text-align: right;
+                                                  }
+                                              </style>
+                                              <table class="table table-bordered">
+                                                  <tbody>
+                                                      <tr>
+                                                          <td style="width: 59%;">Shipping Cost</td>
+                                                          <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>COD</td>
+                                                          <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
+                                                      </tr>
+                                                      
+                                                      <tr>
+                                                          <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>Total Borak Express Cost (+)</td>
+                                                        <td class="shipping_cost_cart" id="total_cart_sum">0</td>
+                                                    </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                          <!-- /.card -->
+                                        </div>
+                                      </div>
+                                  </div>
                                 @else 
                                 <div class="row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-3">
+                                    <!-- text input -->
+                                    <div class="form-group">
+                                      <label for="landmarks">Special Note</label>
+                                      <textarea class="form-control" rows="3"  placeholder="Enter Special Notes" id="special_note" name="special_note"></textarea>
+                                    </div>
+                                  </div>
+                                  <div class="col-sm-3">
                                     <!-- radio -->
                                     <div class="form-group">
                                     <label>Choose Parcel Status</label>
@@ -381,7 +434,7 @@
                                           </div>
                                       </div>
       
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-3">
                                     <!-- radio -->
                                     <div class="form-group">
                                     <label>Choose Payment Status</label>
@@ -406,51 +459,51 @@
                                       
                                           </div>
                                       </div>
+
+                                      <div class="col-md-3">
+                                        <div class="card card-warning card-outline position-sticky">
+                                          <div class="card-header">
+                                            <h3 class="card-title">
+                                              <i class="fas fa-cash-register"></i>
+                                              Cost Management
+                                            </h3>
+                                          </div>
+                                          <div class="card-body" style="padding: 0px;">
+                                              <style type="text/css">
+                                                  .shipping_cost_cart::after{
+                                                      content: ' Tk';
+                                                      text-align: right;
+                                                  }
+                                              </style>
+                                              <table class="table table-bordered">
+                                                  <tbody>
+                                                      <tr>
+                                                          <td style="width: 59%;">Shipping Cost</td>
+                                                          <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>COD</td>
+                                                          <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
+                                                      </tr>
+                                                      
+                                                      <tr>
+                                                          <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
+                                                      </tr>
+                                                      <tr>
+                                                        <td>Total Borak Express Cost (+)</td>
+                                                        <td class="shipping_cost_cart" id="total_cart_sum">0</td>
+                                                    </tr>
+                                                  </tbody>
+                                              </table>
+                                          </div>
+                                          <!-- /.card -->
+                                        </div>
+                                      </div>
+
+
                                   </div>
                                 @endif
-                              </div>
-                              <div class="col-md-4">
-                                    <div class="card card-warning card-outline position-sticky" 
-                                    {{-- style="position: absolute; bottom:20px; width:90%; left:20px;" --}}
-                                    >
-                                      <div class="card-header">
-                                        <h3 class="card-title">
-                                          <i class="fas fa-cash-register"></i>
-                                          Cost Management
-                                        </h3>
-                                      </div>
-                                      <div class="card-body" style="padding: 0px;">
-                                          <style type="text/css">
-                                              .shipping_cost_cart::after{
-                                                  content: ' Tk';
-                                                  text-align: right;
-                                              }
-                                          </style>
-                                          <table class="table table-bordered">
-                                              <tbody>
-                                                  <tr>
-                                                      <td style="width: 59%;">Shipping Cost</td>
-                                                      <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
-                                                  </tr>
-                                                  <tr>
-                                                      <td>COD</td>
-                                                      <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
-                                                  </tr>
-                                                  
-                                                  <tr>
-                                                      <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Total Borak Express Cost (+)</td>
-                                                    <td class="shipping_cost_cart" id="total_cart_sum">0</td>
-                                                </tr>
-                                              </tbody>
-                                          </table>
-                                      </div>
-                                      <!-- /.card -->
-                                    </div>
-                              </div>
-                          </div>
+                              
                           
                 
                           <code>Order Notes : After you submit your order you can modify or delete before 5 PM</code>
@@ -553,7 +606,8 @@
         var product_price=$("input[name=product_price]").val();
         var shipping_cost=$("input[name=shipping_cost]").val();
 
-        var total_shipping_and_shiping_charge=(product_price-0)+(shipping_cost-0);
+        //var total_shipping_and_shiping_charge=(product_price-0)+(shipping_cost-0);
+        var total_shipping_and_shiping_charge=(product_price-0);
         var total_charge=parseFloat((parseFloat(total_shipping_and_shiping_charge)*parseFloat(area_charge))/100);
         console.log(total_charge);
         total_charge = Math.round(total_charge);

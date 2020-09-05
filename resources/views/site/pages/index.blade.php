@@ -369,6 +369,9 @@
                   	}
 			}
 
+			// console.log(data);
+			// return false;
+
 			Swal.showLoading();
 			
 			$.ajax({
@@ -394,7 +397,10 @@
 
 						  if(data.redirect)
 						  {
-								window.location.href=merchantloginUrl;
+							  setTimeout(() => {
+									window.location.href=merchantloginUrl;
+							  }, 5000);
+								
 						  }
 
                       }

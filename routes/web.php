@@ -603,3 +603,16 @@ Route::post('/shippingcost/ajax','ShippingcostController@ajaxSave');
 Route::post('/shippingcost/datatable/ajax','ShippingcostController@datatable');
 Route::post('/shippingcost/update/{id}','ShippingcostController@update');
 //======================== Shippingcost Route End ===============================//
+//======================== Rpaerasevoucherreport Route Start ===============================//
+Route::get('/rpaerasevoucherreport/list','RpaerasevoucherreportController@show');
+Route::get('/rpaerasevoucherreport/create','RpaerasevoucherreportController@create');
+Route::get('/rpaerasevoucherreport/edit/{id}','RpaerasevoucherreportController@edit');
+Route::get('/rpaerasevoucherreport/delete/{id}','RpaerasevoucherreportController@destroy');
+Route::get('/rpaerasevoucherreport','RpaerasevoucherreportController@index');
+Route::get('/rpaerasevoucherreport/export/excel','RpaerasevoucherreportController@ExportExcel');
+Route::get('/rpaerasevoucherreport/export/pdf','RpaerasevoucherreportController@ExportPDF');
+Route::post('/rpaerasevoucherreport','RpaerasevoucherreportController@store');
+Route::post('/rpaerasevoucherreport/ajax','RpaerasevoucherreportController@ajaxSave');
+Route::post('/rpaerasevoucherreport/datatable/ajax','RpaerasevoucherreportController@datatable');
+Route::post('/rpaerasevoucherreport/update/{id}','RpaerasevoucherreportController@update');
+//======================== Rpaerasevoucherreport Route End ===============================//

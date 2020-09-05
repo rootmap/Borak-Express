@@ -313,11 +313,11 @@ class MerchantInfoController extends Controller
                     $nmf->merchant_id=$merchant_id;
                     $nmf->merchant_id_full_name=$request->full_name;
                     $nmf->bank_name=$request->bank_name;
-                    $nmf->bank_branch=$request->branch;
+                    $nmf->bank_branch=$request->bank_branch;
                     $nmf->account_type=$request->account_type;
                     $nmf->account_type_name=$wp_ac_type->name;
-                    $nmf->account_name=$request->ac_name;
-                    $nmf->account_number=$request->ac_no;
+                    $nmf->account_name=$request->account_name;
+                    $nmf->account_number=$request->account_number;
                     $nmf->save();
                 }
 
@@ -558,13 +558,15 @@ class MerchantInfoController extends Controller
          $dataDateTimeIns=formatDateTime(date('d-M-Y H:i:s a'));
         $data=array();
         $array_column=array(
-                                'ID','Full Name','Mobile','Email','Password','Business Name','Business Address','Pickup Address','Payment Method','Module Status','Created Date');
+                                'SL','Full Name','Mobile','Email','Password','Business Name','Business Address','Pickup Address','Payment Method','Account Status','Created Date');
         array_push($data, $array_column);
         $inv=$this->MerchantInfoQuery($request);
+        $sl=1;
         foreach($inv as $voi):
             $inv_arry=array(
-                                $voi->id,$voi->full_name,$voi->mobile,$voi->email,$voi->password,$voi->business_name,$voi->business_address,$voi->pickup_address,$voi->payment_method,$voi->module_status,formatDate($voi->created_at));
+                                $sl,$voi->full_name,$voi->mobile,$voi->email,$voi->password,$voi->business_name,$voi->business_address,$voi->pickup_address,$voi->payment_method_name,$voi->module_status,formatDateTime($voi->created_at));
             array_push($data, $inv_arry);
+            $sl++;
         endforeach;
 
         $excelArray=array(
@@ -584,7 +586,7 @@ class MerchantInfoController extends Controller
         $html="<table class='table table-bordered' style='width:100%;'>
                 <thead>
                 <tr>
-                <th class='text-center' style='font-size:12px;'>ID</th>
+                <th class='text-center' style='font-size:12px;'>SL</th>
                             <th class='text-center' style='font-size:12px;' >Full Name</th>
                         
                             <th class='text-center' style='font-size:12px;' >Mobile</th>
@@ -601,17 +603,17 @@ class MerchantInfoController extends Controller
                         
                             <th class='text-center' style='font-size:12px;' >Payment Method</th>
                         
-                            <th class='text-center' style='font-size:12px;' >Module Status</th>
+                            <th class='text-center' style='font-size:12px;' >Account Status</th>
                         
                 <th class='text-center' style='font-size:12px;'>Created Date</th>
                 </tr>
                 </thead>
                 <tbody>";
-
+                    $sl=1;
                     $inv=$this->MerchantInfoQuery($request);
                     foreach($inv as $voi):
                         $html .="<tr>
-                        <td style='font-size:12px;' class='text-center'>".$voi->id."</td>
+                        <td style='font-size:12px;' class='text-center'>".$sl."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->full_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->mobile."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->email."</td>
@@ -619,11 +621,11 @@ class MerchantInfoController extends Controller
                         <td style='font-size:12px;' class='text-center'>".$voi->business_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->business_address."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->pickup_address."</td>
-                        <td style='font-size:12px;' class='text-center'>".$voi->payment_method."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->payment_method_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->module_status."</td>
-                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDate($voi->created_at)."</td>
+                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDateTime($voi->created_at)."</td>
                         </tr>";
-
+                        $sl++;
                     endforeach;
 
 
@@ -634,7 +636,7 @@ class MerchantInfoController extends Controller
 
                 ";
 
-                $this->sdc->PDFLayout('Merchant Info Report',$html);
+                $this->sdc->PDFLayout('Merchant Info Report',$html,"L");
 
 
     }
@@ -655,12 +657,14 @@ class MerchantInfoController extends Controller
         $tab=MerchantInfo::find($id); 
         $tab_PaymentType=PaymentType::all();     
         $tab_WalletProvider=WalletProvider::all();     
+        $tab_BankAccountType=BankAccountType::where('module_status','Active')->get();  
         $tab_MerchantMFS=MerchantMFS::where('merchant_id',$id)->where('module_status','Active')->first();  
         $tab_MerchantBankInfo=MerchantBankInfo::where('merchant_id',$id)->where('module_status','Active')->first();  
         return view('admin.pages.merchantinfo.merchantinfo_edit',[
             'dataRow_PaymentType'=>$tab_PaymentType,
             'wp'=>$tab_WalletProvider,
             'wp_mfs'=>$tab_MerchantMFS,
+            'bt'=>$tab_BankAccountType,
             'wp_bank'=>$tab_MerchantBankInfo,
             'dataRow'=>$tab,'edit'=>true]);  
     }

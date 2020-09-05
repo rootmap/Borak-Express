@@ -57,7 +57,7 @@ class BookingOrderController extends Controller
         $dateString='';
         if(!empty($start_date) && !empty($end_date))
         {
-            $dateString="CAST(created_at as date) BETWEEN '".$start_date."' AND '".$end_date."'";
+            $dateString="CAST(booking_orders.created_at as date) BETWEEN '".$start_date."' AND '".$end_date."'";
         }
 
         $status='';
@@ -91,18 +91,28 @@ class BookingOrderController extends Controller
         {
 
 
-            $tab=BookingOrder::orderBy('id','DESC')
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                ->select('booking_orders.*',
+                'merchant_infos.full_name',
+                'merchant_infos.mobile',
+                'merchant_infos.email',
+                'merchant_infos.business_name',
+                'merchant_infos.business_address',
+                'merchant_infos.pickup_address'
+                )
+                ->orderBy('booking_orders.id','DESC')
                 ->when($merchant_id, function ($query) use ($merchant_id) {
-                        return $query->where('created_by',$merchant_id);
+                        return $query->where('booking_orders.created_by',$merchant_id);
                 })
                 ->when($city_id, function ($query) use ($city_id) {
-                        return $query->where('recipient_city',$city_id);
+                        return $query->where('booking_orders.recipient_city',$city_id);
                 })
                 ->when($search, function ($query) use ($search) {
                               
-                    $query->whereRaw("(id LIKE '%".$search."%' OR recipient_number LIKE '%".$search."%' OR 
-                    recipient_name LIKE '%".$search."%' OR 
-                    package_ids LIKE '%".$search."%')");
+                    $query->whereRaw("(booking_orders.id LIKE '%".$search."%' OR booking_orders.recipient_number LIKE '%".$search."%' OR 
+                    booking_orders.recipient_name LIKE '%".$search."%' OR 
+                    booking_orders.package_id LIKE '%".$search."%')");
 
                     return $query;
                 })
@@ -110,7 +120,7 @@ class BookingOrderController extends Controller
                         return $query->whereRaw($dateString);
                 })
                 ->when($status, function ($query) use ($status) {
-                        return $query->where('parcel_status',$status);
+                        return $query->where('booking_orders.parcel_status',$status);
                 })
                 
                 ->take(50)
@@ -122,12 +132,22 @@ class BookingOrderController extends Controller
         }
         else
         {
-            $tab=BookingOrder::where('created_by',$this->sdc->UserID())
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                                    'merchant_infos.full_name',
+                                    'merchant_infos.mobile',
+                                    'merchant_infos.email',
+                                    'merchant_infos.business_name',
+                                    'merchant_infos.business_address',
+                                    'merchant_infos.pickup_address'
+                            )
+                            ->where('booking_orders.created_by',$this->sdc->UserID())
                             ->when($search, function ($query) use ($search) {
                                             
-                                $query->whereRaw("(id LIKE '%".$search."%' OR recipient_number LIKE '%".$search."%' OR 
-                                recipient_name LIKE '%".$search."%' OR 
-                                package_id LIKE '%".$search."%')");
+                                $query->whereRaw("(booking_orders.id LIKE '%".$search."%' OR booking_orders.recipient_number LIKE '%".$search."%' OR 
+                                booking_orders.recipient_name LIKE '%".$search."%' OR 
+                                booking_orders.package_id LIKE '%".$search."%')");
 
                                 return $query;
                             })
@@ -135,9 +155,9 @@ class BookingOrderController extends Controller
                                     return $query->whereRaw($dateString);
                             })
                             ->when($status, function ($query) use ($status) {
-                                    return $query->where('parcel_status',$status);
+                                    return $query->where('booking_orders.parcel_status',$status);
                             })
-                            ->orderBy('id','DESC')
+                            ->orderBy('booking_orders.id','DESC')
                             ->take(50)
                             ->get();
         }
@@ -192,7 +212,7 @@ class BookingOrderController extends Controller
         $dateString='';
         if(!empty($start_date) && !empty($end_date))
         {
-            $dateString="CAST(created_at as date) BETWEEN '".$start_date."' AND '".$end_date."'";
+            $dateString="CAST(booking_orders.created_at as date) BETWEEN '".$start_date."' AND '".$end_date."'";
         }
 
         $status='';
@@ -203,12 +223,22 @@ class BookingOrderController extends Controller
 
         if(Auth::user()->user_type_id==1)
         {
-            $tab=BookingOrder::orderBy('id','DESC')
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                ->select('booking_orders.*',
+                'merchant_infos.full_name',
+                'merchant_infos.mobile',
+                'merchant_infos.email',
+                'merchant_infos.business_name',
+                'merchant_infos.business_address',
+                'merchant_infos.pickup_address'
+                )
+                ->orderBy('booking_orders.id','DESC')
                 ->when($search, function ($query) use ($search) {
                               
-                    $query->whereRaw("(id LIKE '%".$search."%' OR recipient_number LIKE '%".$search."%' OR 
-                    recipient_name LIKE '%".$search."%' OR 
-                    package_id LIKE '%".$search."%')");
+                    $query->whereRaw("(booking_orders.id LIKE '%".$search."%' OR booking_orders.recipient_number LIKE '%".$search."%' OR 
+                    booking_orders.recipient_name LIKE '%".$search."%' OR 
+                    booking_orders.package_id LIKE '%".$search."%')");
 
                     return $query;
                 })
@@ -216,18 +246,28 @@ class BookingOrderController extends Controller
                         return $query->whereRaw($dateString);
                 })
                 ->when($status, function ($query) use ($status) {
-                        return $query->where('parcel_status',$status);
+                        return $query->where('booking_orders.parcel_status',$status);
                 })
                 ->get();
         }
         else
         {
-            $tab=BookingOrder::where('created_by',$this->sdc->UserID())
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->where('booking_orders.created_by',$this->sdc->UserID())
                             ->when($search, function ($query) use ($search) {
                                             
-                                $query->whereRaw("(id LIKE '%".$search."%' OR recipient_number LIKE '%".$search."%' OR 
-                                recipient_name LIKE '%".$search."%' OR 
-                                package_id LIKE '%".$search."%')");
+                                $query->whereRaw("(booking_orders.id LIKE '%".$search."%' OR booking_orders.recipient_number LIKE '%".$search."%' OR 
+                                booking_orders.recipient_name LIKE '%".$search."%' OR 
+                                booking_orders.package_id LIKE '%".$search."%')");
 
                                 return $query;
                             })
@@ -235,9 +275,9 @@ class BookingOrderController extends Controller
                                     return $query->whereRaw($dateString);
                             })
                             ->when($status, function ($query) use ($status) {
-                                    return $query->where('parcel_status',$status);
+                                    return $query->where('booking_orders.parcel_status',$status);
                             })
-                            ->orderBy('id','DESC')
+                            ->orderBy('booking_orders.id','DESC')
                             ->get();
         }
 
@@ -248,29 +288,60 @@ class BookingOrderController extends Controller
         $dataDateTimeIns=formatDateTime(date('d-M-Y H:i:s a'));
         $data=array();
         $array_column=array(
-                                'ID','Sending Type','Recipient Number','Recipient Name','Address','Recipient City','Recipient Area','Landmarks','Product ID','Parcel Type','Delivery Type','Package ID','Product Price','Deliver Date','No of Items','Parcel Status','Payment Status','Created Date');
+            'ID',
+            'Merchant Name',
+            'Merchant Phone',
+            'Merchant Business Name',
+            'Sending Type',
+            'Recipient Number',
+            'Recipient 2nd Number',
+            'Recipient Name',
+            'Special Notes',
+            'Address',
+            'Recipient City',
+            'Recipient Area',
+            'Landmarks',
+            'Pickup Address',
+            'Product ID',
+            'Parcel Type',
+            'Delivery Type',
+            'Package Type',
+            'Product Price',
+            'Payment Method',
+            'Deliver Date',
+            'No of Items',
+            'Parcel Status',
+            'Payment Status',
+            'Created Date','');
         array_push($data, $array_column);
         $inv=$this->filterExport($request);
         foreach($inv as $voi):
             $inv_arry=array(
-                                $voi->id,
-                                $voi->sending_type_name,
-                                $voi->recipient_number,
-                                $voi->recipient_name,
-                                $voi->address,
-                                $voi->recipient_city_name,
-                                $voi->recipient_area_area_name,
-                                $voi->landmarks,
-                                $voi->product_id,
-                                $voi->parcel_type_name,
-                                $voi->delivery_type_name,
-                                $voi->package_id_name,
-                                $voi->product_price,
-                                $voi->deliver_date,
-                                $voi->no_of_items,
-                                $voi->parcel_status,
-                                $voi->payment_status,
-                                formatDate($voi->created_at));
+                $voi->id,
+                $voi->full_name,
+                $voi->mobile,
+                $voi->business_name,
+                $voi->sending_type_name,
+                $voi->recipient_number,
+                $voi->recipient_number_two,
+                $voi->recipient_name,
+                $voi->special_note,
+                $voi->address,
+                $voi->recipient_city_name,
+                $voi->recipient_area_area_name,
+                $voi->landmarks,
+                $voi->pickup_address,
+                $voi->product_id,
+                $voi->parcel_type_name,
+                $voi->delivery_type_name,
+                $voi->package_id_name,
+                $voi->product_price,
+                $voi->payment_method_name,
+                $voi->deliver_date,
+                $voi->no_of_items,
+                $voi->parcel_status,
+                $voi->payment_status,
+                formatDateTime($voi->created_at));
             array_push($data, $inv_arry);
         endforeach;
 
@@ -289,37 +360,45 @@ class BookingOrderController extends Controller
                 <thead>
                 <tr>
                 <th class='text-center' style='font-size:12px;'>ID</th>
-                            <th class='text-center' style='font-size:12px;' >Sending Type</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Recipient Number</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Recipient Name</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Address</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Recipient City</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Recipient Area</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Landmarks</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Product ID</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Parcel Type</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Delivery Type</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Package ID</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Product Price</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Deliver Date</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >No of Items</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Parcel Status</th>
-                        
-                            <th class='text-center' style='font-size:12px;' >Payment Status</th>
+                <th class='text-center' style='font-size:12px;' >Merchant Name</th>
+                <th class='text-center' style='font-size:12px;' >Merchant Phone</th>
+                <th class='text-center' style='font-size:12px;' >Merchant Business</th>
+
+                <th class='text-center' style='font-size:12px;' >Sending Type</th>
+            
+                <th class='text-center' style='font-size:12px;' >Recipient Number</th>
+                <th class='text-center' style='font-size:12px;' >Recipient 2nd Number</th>
+            
+                <th class='text-center' style='font-size:12px;' >Recipient Name</th>
+                <th class='text-center' style='font-size:12px;' >Special Notes</th>
+            
+                <th class='text-center' style='font-size:12px;' >Address</th>
+            
+                <th class='text-center' style='font-size:12px;' >Recipient City</th>
+            
+                <th class='text-center' style='font-size:12px;' >Recipient Area</th>
+            
+                <th class='text-center' style='font-size:12px;' >Landmarks</th>
+                <th class='text-center' style='font-size:12px;' >Pickup Address</th>
+            
+                <th class='text-center' style='font-size:12px;' >Product ID</th>
+            
+                <th class='text-center' style='font-size:12px;' >Parcel Type</th>
+            
+                <th class='text-center' style='font-size:12px;' >Delivery Type</th>
+            
+                <th class='text-center' style='font-size:12px;' >Package ID</th>
+            
+                <th class='text-center' style='font-size:12px;' >Product Price</th>
+                <th class='text-center' style='font-size:12px;' >Payment Method</th>
+            
+                <th class='text-center' style='font-size:12px;' >Deliver Date</th>
+            
+                <th class='text-center' style='font-size:12px;' >No of Items</th>
+            
+                <th class='text-center' style='font-size:12px;' >Parcel Status</th>
+            
+                <th class='text-center' style='font-size:12px;' >Payment Status</th>
                         
                 <th class='text-center' style='font-size:12px;'>Created Date</th>
                 </tr>
@@ -330,23 +409,30 @@ class BookingOrderController extends Controller
                     foreach($inv as $voi):
                         $html .="<tr>
                         <td style='font-size:12px;' class='text-center'>".$voi->id."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->full_name."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->mobile."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->business_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->sending_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_number."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->recipient_number_two."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_name."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->special_note."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->address."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_city_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_area_area_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->landmarks."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->pickup_address."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->product_id."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->parcel_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->delivery_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->package_id_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->product_price."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->payment_method_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->deliver_date."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->no_of_items."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->parcel_status."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->payment_status."</td>
-                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDate($voi->created_at)."</td>
+                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDateTime($voi->created_at)."</td>
                         </tr>";
 
                     endforeach;
@@ -359,17 +445,42 @@ class BookingOrderController extends Controller
 
                 ";
 
-                $this->sdc->PDFLayout('Booking Order Report',$html);
+                $this->sdc->PDFLayout('Booking Order Report',$html,"L");
     }
 
     public function index(){
         if(Auth::user()->user_type_id==1)
         {
-            $tab=BookingOrder::orderBy('id','DESC')->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                             ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                             ->select('booking_orders.*',
+                             'merchant_infos.full_name',
+                             'merchant_infos.mobile',
+                             'merchant_infos.email',
+                             'merchant_infos.business_name',
+                             'merchant_infos.business_address',
+                             'merchant_infos.pickup_address'
+                             )
+                             ->orderBy('booking_orders.id','DESC')
+                             ->get();
+
+            //dd($tab);
         }
         else
         {
-            $tab=BookingOrder::where('created_by',$this->sdc->UserID())->orderBy('id','DESC')->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+            ->select('booking_orders.*',
+            'merchant_infos.full_name',
+            'merchant_infos.mobile',
+            'merchant_infos.email',
+            'merchant_infos.business_name',
+            'merchant_infos.business_address',
+            'merchant_infos.pickup_address'
+            )
+            ->where('booking_orders.created_by',$this->sdc->UserID())
+            ->orderBy('booking_orders.id','DESC')
+            ->get();
         }
 
 
@@ -516,6 +627,7 @@ class BookingOrderController extends Controller
         $tab->product_price=$request->product_price;
         $tab->deliver_date=$request->deliver_date;
         $tab->no_of_items=$request->no_of_items;
+        $tab->special_note=$request->special_note;
         $tab->parcel_status=$parcel_status;
         $tab->payment_method=$request->payment_method;
         $tab->payment_method_name=$PaymentMethod_name;
@@ -681,11 +793,33 @@ class BookingOrderController extends Controller
 
         if(Auth::user()->user_type_id==1)
         {
-            $BookingOrder_data=BookingOrder::orderBy('id','DESC')->get();
+            $BookingOrder_data=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->orderBy('booking_orders.id','DESC')->get();
         }
         else
         {
-            $BookingOrder_data=BookingOrder::where('created_by',$this->sdc->UserID())->orderBy('id','DESC')->get();
+            $BookingOrder_data=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                                            ->select('booking_orders.*',
+                                            'merchant_infos.full_name',
+                                            'merchant_infos.mobile',
+                                            'merchant_infos.email',
+                                            'merchant_infos.business_name',
+                                            'merchant_infos.business_address',
+                                            'merchant_infos.pickup_address'
+                                            )
+                                            ->where('booking_orders.created_by',$this->sdc->UserID())
+                                            ->orderBy('booking_orders.id','DESC')
+                                            ->get();
         }
 
         return $BookingOrder_data;
@@ -698,26 +832,60 @@ class BookingOrderController extends Controller
          $dataDateTimeIns=formatDateTime(date('d-M-Y H:i:s a'));
         $data=array();
         $array_column=array(
-                                'ID','Sending Type','Recipient Number','Recipient Name','Address','Recipient City','Recipient Area','Landmarks','Product ID','Parcel Type','Delivery Type','Package ID','Product Price','Deliver Date','No of Items','Parcel Status','Payment Status','Created Date');
+                            'ID',
+                            'Merchant Name',
+                            'Merchant Phone',
+                            'Merchant Business Name',
+                            'Sending Type',
+                            'Recipient Number',
+                            'Recipient 2nd Number',
+                            'Recipient Name',
+                            'Special Notes',
+                            'Address',
+                            'Recipient City',
+                            'Recipient Area',
+                            'Landmarks',
+                            'Pickup Address',
+                            'Product ID',
+                            'Parcel Type',
+                            'Delivery Type',
+                            'Package Type',
+                            'Product Price',
+                            'Payment Method',
+                            'Deliver Date',
+                            'No of Items',
+                            'Parcel Status',
+                            'Payment Status',
+                            'Created Date','');
         array_push($data, $array_column);
         $inv=$this->BookingOrderQuery($request);
         foreach($inv as $voi):
             $inv_arry=array(
-                                $voi->id,
-                                $voi->sending_type_name,
-                                $voi->recipient_number,
-                                $voi->recipient_name,
-                                $voi->address,
-                                $voi->recipient_city_name,
-                                $voi->recipient_area_area_name,
-                                $voi->landmarks,
-                                $voi->product_id,
-                                $voi->parcel_type_name,
-                                $voi->delivery_type_name,
-                                $voi->package_id_name,
-                                $voi->product_price,
-                                $voi->deliver_date,
-                                $voi->no_of_items,$voi->parcel_status,$voi->payment_status,formatDate($voi->created_at));
+                            $voi->id,
+                            $voi->full_name,
+                            $voi->mobile,
+                            $voi->business_name,
+                            $voi->sending_type_name,
+                            $voi->recipient_number,
+                            $voi->recipient_number_two,
+                            $voi->recipient_name,
+                            $voi->special_note,
+                            $voi->address,
+                            $voi->recipient_city_name,
+                            $voi->recipient_area_area_name,
+                            $voi->landmarks,
+                            $voi->pickup_address,
+                            $voi->product_id,
+                            $voi->parcel_type_name,
+                            $voi->delivery_type_name,
+                            $voi->package_id_name,
+                            $voi->product_price,
+                            $voi->payment_method_name,
+                            $voi->deliver_date,
+                            $voi->no_of_items,
+                            $voi->parcel_status,
+                            $voi->payment_status,
+                            formatDateTime($voi->created_at));
             array_push($data, $inv_arry);
         endforeach;
 
@@ -735,15 +903,21 @@ class BookingOrderController extends Controller
     public function ExportPDF(Request $request)
     {
 
-        $html="<table class='table table-bordered' style='width:100%;'>
+        $html="<table class='table table-bordered' style='width:100%; font-family: 'SolaimanLipi', sans-serif;'>
                 <thead>
                 <tr>
                 <th class='text-center' style='font-size:12px;'>ID</th>
+                            <th class='text-center' style='font-size:12px;' >Merchant Name</th>
+                            <th class='text-center' style='font-size:12px;' >Merchant Phone</th>
+                            <th class='text-center' style='font-size:12px;' >Merchant Business</th>
+
                             <th class='text-center' style='font-size:12px;' >Sending Type</th>
                         
                             <th class='text-center' style='font-size:12px;' >Recipient Number</th>
+                            <th class='text-center' style='font-size:12px;' >Recipient 2nd Number</th>
                         
                             <th class='text-center' style='font-size:12px;' >Recipient Name</th>
+                            <th class='text-center' style='font-size:12px;' >Special Notes</th>
                         
                             <th class='text-center' style='font-size:12px;' >Address</th>
                         
@@ -752,6 +926,7 @@ class BookingOrderController extends Controller
                             <th class='text-center' style='font-size:12px;' >Recipient Area</th>
                         
                             <th class='text-center' style='font-size:12px;' >Landmarks</th>
+                            <th class='text-center' style='font-size:12px;' >Pickup Address</th>
                         
                             <th class='text-center' style='font-size:12px;' >Product ID</th>
                         
@@ -762,6 +937,7 @@ class BookingOrderController extends Controller
                             <th class='text-center' style='font-size:12px;' >Package ID</th>
                         
                             <th class='text-center' style='font-size:12px;' >Product Price</th>
+                            <th class='text-center' style='font-size:12px;' >Payment Method</th>
                         
                             <th class='text-center' style='font-size:12px;' >Deliver Date</th>
                         
@@ -780,23 +956,30 @@ class BookingOrderController extends Controller
                     foreach($inv as $voi):
                         $html .="<tr>
                         <td style='font-size:12px;' class='text-center'>".$voi->id."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->full_name."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->mobile."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->business_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->sending_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_number."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->recipient_number_two."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_name."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->special_note."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->address."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_city_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->recipient_area_area_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->landmarks."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->pickup_address."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->product_id."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->parcel_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->delivery_type_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->package_id_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->product_price."</td>
+                        <td style='font-size:12px;' class='text-center'>".$voi->payment_method_name."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->deliver_date."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->no_of_items."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->parcel_status."</td>
                         <td style='font-size:12px;' class='text-center'>".$voi->payment_status."</td>
-                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDate($voi->created_at)."</td>
+                        <td style='font-size:12px; text-align:center;' class='text-center'>".formatDateTime($voi->created_at)."</td>
                         </tr>";
 
                     endforeach;
@@ -809,7 +992,7 @@ class BookingOrderController extends Controller
 
                 ";
 
-                $this->sdc->PDFLayout('Booking Order Report',$html);
+                $this->sdc->PDFLayout('Booking Order Report',$html,"L");
 
 
     }
@@ -818,11 +1001,33 @@ class BookingOrderController extends Controller
         
         if(Auth::user()->user_type_id==1)
         {
-            $tab=BookingOrder::orderBy('id','DESC')->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->orderBy('booking_orders.id','DESC')->get();
         }
         else
         {
-            $tab=BookingOrder::where('created_by',$this->sdc->UserID())->orderBy('id','DESC')->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->where('booking_orders.created_by',$this->sdc->UserID())
+                            ->orderBy('booking_orders.id','DESC')
+                            ->get();
         }
         return view('admin.pages.bookingorder.bookingorder_list',['dataRow'=>$tab]);
     }
@@ -977,6 +1182,7 @@ class BookingOrderController extends Controller
         $tab->product_price=$request->product_price;
         $tab->deliver_date=$request->deliver_date;
         $tab->no_of_items=$request->no_of_items;
+        $tab->special_note=$request->special_note;
         $tab->payment_method=$request->payment_method;
         $tab->payment_method_name=$PaymentMethod_name;
         $tab->shipping_cost=$request->shipping_cost;

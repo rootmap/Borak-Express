@@ -436,6 +436,13 @@
                                 <div class="col-sm-4">
                                   <!-- text input -->
                                   <div class="form-group">
+                                    <label for="landmarks">Special Note</label>
+                                    <textarea disabled class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{$dataRow->special_note}}</textarea>
+                                  </div>
+                                </div>
+                                <div class="col-sm-4">
+                                  <!-- text input -->
+                                  <div class="form-group">
                                     <label for="deliver_date">Parcel Status</label>
                                     <input type="text" disabled
                                         
@@ -473,6 +480,13 @@
                               @endif
                           @else
                             <div class="row">
+                              <div class="col-sm-4">
+                                <!-- text input -->
+                                <div class="form-group">
+                                  <label for="landmarks">Special Note</label>
+                                  <textarea disabled class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{$dataRow->special_note}}</textarea>
+                                </div>
+                              </div>
                               <div class="col-sm-4">
                                 <!-- radio -->
                                       <div class="form-group">

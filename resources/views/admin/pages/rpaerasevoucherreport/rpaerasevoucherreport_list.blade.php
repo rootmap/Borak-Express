@@ -1,17 +1,17 @@
 
 @extends("admin.layout.master")
-@section("title","Merchant Info")
+@section("title","RPA Erase Voucher Report")
 @section("content")
         <section class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>Merchant Info</h1>
+                <h1>RPA Erase Voucher Report</h1>
               </div>
               <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                  <li class="breadcrumb-item"><a href="{{url('merchantinfo/create')}}">Create New </a></li>
-                  <li class="breadcrumb-item active">Merchant Info Data</li>
+                  <li class="breadcrumb-item"><a href="{{url('rpaerasevoucherreport/create')}}">Create New </a></li>
+                  <li class="breadcrumb-item active">RPA Erase Voucher Report Data</li>
                 </ol>
               </div>
             </div>
@@ -30,23 +30,23 @@
               <div class="card">
 
                 <div class="card-header">
-                  <h3 class="card-title">Merchant Info Data</h3>
+                  <h3 class="card-title">RPA Erase Voucher Report Data</h3>
 
                     <div class="card-tools">
                       <ul class="pagination pagination-sm float-right">
                         <li class="page-item">
-                            <a class="page-link bg-primary" href="{{url('merchantinfo/create')}}"> 
+                            <a class="page-link bg-primary" href="{{url('rpaerasevoucherreport/create')}}"> 
                                 Add New 
                                 <i class="fas fa-plus"></i> 
                             </a>
                         </li>
                         <li class="page-item">
-                          <a class="page-link" target="_blank" href="{{url('merchantinfo/export/pdf')}}">
+                          <a class="page-link" target="_blank" href="{{url('rpaerasevoucherreport/export/pdf')}}">
                             <i class="fas fa-file-pdf" data-toggle="tooltip" data-html="true"title="Pdf"></i>
                           </a>
                         </li>
                         <li class="page-item">
-                          <a class="page-link" target="_blank" href="{{url('merchantinfo/export/excel')}}">
+                          <a class="page-link" target="_blank" href="{{url('rpaerasevoucherreport/export/excel')}}">
                             <i class="fas fa-file-excel" data-toggle="tooltip" data-html="true"title="Excel"></i>
                           </a>
                         </li>
@@ -62,12 +62,10 @@
                     <thead>
                         <tr>
                             <th class="text-center">ID</th>
-                            <th class="text-center">Name</th>
-                            <th class="text-center">Business</th>
-                            <th class="text-center">Email</th>
-                            <th class="text-center">Mobile</th>
-                            <th class="text-center">PM</th>
-                            <th class="text-center">Status</th>
+                            <th class="text-center">MSISDN</th>
+                            <th class="text-center">Customer Name</th>
+                            <th class="text-center">Gender</th>
+                            <th class="text-center">Account Status</th>
                             <th class="text-center">Created At</th>
                             <th class="text-center">Actions</th>
 
@@ -77,23 +75,15 @@
                         @if(count($dataRow))
                             @foreach($dataRow as $row)  
                                 <tr>
-                                    <td class="text-center">{{$row->id}}</td>
-                                    <td class="text-center">{{$row->full_name}}</td>
-                                    
-                                    <td class="text-center">{{$row->business_name}}</td>
-                                    
-                                    <td class="text-center">{{$row->email}}</td>
-                                    <td class="text-center">{{$row->mobile}}</td>
-                                    <td class="text-center">{{$row->payment_method_name}}</td>
-                                    <td class="text-center">{{$row->module_status}}</td>
-                                    <td>{{formatDateTime($row->created_at)}}</td>
+                                    <td class="text-center">{{$row->id}}</td><td class="text-center">{{$row->msisdn}}</td><td class="text-center">{{$row->customer_name}}</td><td class="text-center">{{$row->gender}}</td><td class="text-center">{{$row->account_status}}</td>
+                                    <td>{{formatDate($row->created_at)}}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{url('merchantinfo/edit/'.$row->id)}}" type="button" class="btn btn-default">
+                                            <a href="{{url('rpaerasevoucherreport/edit/'.$row->id)}}" type="button" class="btn btn-default">
                                                 Edit 
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a href="{{url('merchantinfo/delete/'.$row->id)}}" type="button" class="btn btn-default">
+                                            <a href="{{url('rpaerasevoucherreport/delete/'.$row->id)}}" type="button" class="btn btn-default">
                                                 Delete 
                                                 <i class="fas fa-trash-alt"></i>
                                             </a>
@@ -107,15 +97,13 @@
                     </tbody>
                     <tfoot>
                     <tr>
-                      <th class="text-center">ID</th>
-                      <th class="text-center">Name</th>
-                      <th class="text-center">Business</th>
-                      <th class="text-center">Email</th>
-                      <th class="text-center">Mobile</th>
-                      <th class="text-center">PM</th>
-                      <th class="text-center">Status</th>
-                      <th class="text-center">Created At</th>
-                      <th class="text-center">Actions</th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">MSISDN</th>
+                        <th class="text-center">Customer Name</th>
+                        <th class="text-center">Gender</th>
+                        <th class="text-center">Account Status</th>
+                        <th class="text-center">Created At</th>
+                        <th class="text-center">Actions</th>
 
                     </tr>
                     </tfoot>

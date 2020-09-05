@@ -28,7 +28,20 @@ class FrontServiceController extends Controller
 
         if(Auth::user()->user_type_id==1)
         {
-            $tab=BookingOrder::orderBy('id','DESC')->whereDate('created_at', '=', date('Y-m-d'))->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->orderBy('booking_orders.id','DESC')
+                            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
+                            ->get();
+                            
             $total_booking = BookingOrder::select('id')->count();
             $total_booking_Accepted = BookingOrder::select('id')->where('parcel_status','Accepted')->count();
             $total_booking_Pickup = BookingOrder::select('id')->where('parcel_status','Pickup')->count();
@@ -38,7 +51,21 @@ class FrontServiceController extends Controller
         }
         else
         {
-            $tab=BookingOrder::where('created_by',$this->sdc->UserID())->whereDate('created_at', '=', date('Y-m-d'))->orderBy('id','DESC')->get();
+            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+                            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+                            ->select('booking_orders.*',
+                            'merchant_infos.full_name',
+                            'merchant_infos.mobile',
+                            'merchant_infos.email',
+                            'merchant_infos.business_name',
+                            'merchant_infos.business_address',
+                            'merchant_infos.pickup_address'
+                            )
+                            ->where('booking_orders.created_by',$this->sdc->UserID())
+                            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
+                            ->orderBy('booking_orders.id','DESC')
+                            ->get();
+
             $total_booking = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->count();
             $total_booking_Accepted = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Accepted')->count();
             $total_booking_Pickup = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Pickup')->count();
