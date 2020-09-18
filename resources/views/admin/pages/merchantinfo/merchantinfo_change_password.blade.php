@@ -37,16 +37,18 @@
                         <hr>
                     </div>
                 </div>
-                
-                <div class="row">
-                    <div class="col-sm-12">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label for="email">Your Current Password</label>
-                        <input type="password" class="form-control" placeholder="Enter Your Current Password" id="email" name="current_password">
+
+                @if(Auth::user()->user_type_id!=1)                
+                  <div class="row">
+                      <div class="col-sm-12">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label for="email">Your Current Password</label>
+                          <input type="password" class="form-control" placeholder="Enter Your Current Password" id="email" name="current_password">
+                        </div>
                       </div>
-                    </div>
-                </div>
+                  </div>
+                @endif
 
                 <div class="row">
                     <div class="col-sm-12">

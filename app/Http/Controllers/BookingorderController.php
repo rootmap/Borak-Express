@@ -1079,6 +1079,26 @@ class BookingOrderController extends Controller
             'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'dataRow'=>$tab,'edit'=>true]);  
     }
 
+    public function tracking(Request $request)
+    {
+
+        $tracking_no=$request->tracking_no;
+
+        $tracking_count=BookingOrder::where('id',$tracking_no)->count();
+
+        if($tracking_count==0)
+        {
+            return response()->json(['status'=>0,'message'=>'Invalid order tracking no.']);
+        }
+        else
+        {
+            $tracking=BookingOrder::where('id',$tracking_no)->first();
+            return response()->json(['status'=>1,'message'=>'Your order status is <b>'.$tracking->parcel_status.'</b>']);
+        }
+
+          
+    }
+
     public function view(BookingOrder $bookingorder,$id=0)
     {
         $tab=BookingOrder::find($id); 

@@ -22,6 +22,8 @@ Route::get('/reset/password','MerchantinfoController@resetform');
 Route::post('/reset/password','MerchantinfoController@sendresetLink');
 Route::get('/reset/verify/{token}','MerchantinfoController@verifyresetLink');
 Route::post('/reset/token/password','MerchantinfoController@doResetPass');
+//Route::post('/borak/tracking','MerchantinfoController@doResetPass');
+Route::post('/borak/tracking','BookingorderController@tracking');
 // Route::get('/register',function(){
 //     return redirect(url('login'));
 // });

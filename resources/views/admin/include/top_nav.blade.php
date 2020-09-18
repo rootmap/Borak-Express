@@ -61,9 +61,11 @@ class="main-header navbar navbar-expand-md navbar-light navbar-white">
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{url('change/password')}}" class="nav-link"><i class="fas fa-key"></i> Change Password</a>
       </li>
+      @if(Auth::user()->user_type_id!=1)  
       <li class="nav-item">
         <a href="{{url('user/profile')}}" class="nav-link"><i class="fas fa-user"></i> Profile</a>
       </li>
+      @endif
       <li class="nav-item">
         <a  onclick="event.preventDefault();
         document.getElementById('logout-form').submit();" href="javascript:void(0);" class="nav-link"><i class="fas fa-lock"></i> Logout</a>

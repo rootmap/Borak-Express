@@ -263,6 +263,7 @@
 <script>
 	var csrftLarVe = $('meta[name="csrf-token"]').attr("content");
 	var merchantSignupUrl="{{url('merchant/signup')}}";
+	var boraktrackingUrl="{{url('borak/tracking')}}";
 	var merchantloginUrl="{{url('login')}}";
 	function SweetError(msg)
 	{
@@ -285,8 +286,54 @@
 				return false;
 			}
 
-			SweetError("No data found, Please login to your panel."); 
-			return false;
+			var data={ 
+				'tracking_no': borak_track_id, 
+				'_token': csrftLarVe, 
+			}
+
+			$.ajax({
+				'async': false,
+				'type': "POST",
+				'global': false,
+				'dataType': 'json',
+				'url': boraktrackingUrl,
+				'data': data,
+				'error':function(res){
+					SweetError("Something wrong with your internet, Please try again."); return false;
+				},
+				'success': function(data) {
+					console.log("Completing Sales : " + data);
+					Swal.hideLoading();
+					if(data.status == 1)
+					{
+						Swal.fire({
+							icon: 'success',
+							title: '<h3 class="text-success">Order Found</h3>',
+							html: '<h5>'+data.message+'</h5>'
+						});
+						return false;
+						
+
+					}
+					else if(data.status == 0)
+					{
+						Swal.fire({
+							icon: 'warning',
+							title: '<h3 class="text-warning">Order Not Found</h3>',
+							html: '<h5>'+data.message+'</h5>'
+						});
+						return false;
+						
+
+					}
+					else
+					{
+						SweetError("Something wrong, Please try again."); return false;
+					}
+					
+				}
+			});
+
 		});
 
 		$('.complete-merchant').click(function(e){

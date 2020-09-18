@@ -88,7 +88,11 @@
                                                 @if(isset($dataRow_MerchantInfo))    
                                                     @if(count($dataRow_MerchantInfo)>0)
                                                         @foreach($dataRow_MerchantInfo as $ItemType)
-                                                            <option value="{{$ItemType->user_id}}">{{$ItemType->full_name}}, {{$ItemType->email}}, {{$ItemType->mobile}}, {{$ItemType->business_name}}</option>
+                                                            <option 
+                                                            @if(!empty(old('merchant_id')))
+                                                              {{old('merchant_id')==$ItemType->user_id?' selected="selected" ':''}}
+                                                            @endif 
+                                                            value="{{$ItemType->user_id}}">{{$ItemType->full_name}}, {{$ItemType->email}}, {{$ItemType->mobile}}, {{$ItemType->business_name}}</option>
                                                             
                                                         @endforeach
                                                     @endif
@@ -108,7 +112,11 @@
                                                 @if(isset($dataRow_SendingType))    
                                                     @if(count($dataRow_SendingType)>0)
                                                         @foreach($dataRow_SendingType as $ItemType)
-                                                            <option value="{{$ItemType->id}}">{{$ItemType->name}}</option>
+                                                            <option 
+                                                            @if(!empty(old('sending_type')))
+                                                              {{old('sending_type')==$ItemType->id?' selected="selected" ':''}}
+                                                            @endif 
+                                                            value="{{$ItemType->id}}">{{$ItemType->name}}</option>
                                                             
                                                         @endforeach
                                                     @endif
@@ -122,14 +130,14 @@
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="recipient_number">Recipient Mob. No.</label>
-                                        <input type="text" class="form-control" maxlength="13" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" placeholder="Enter Recipient Number" id="recipient_number" name="recipient_number">
+                                        <input type="text" class="form-control" maxlength="13" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" placeholder="Enter Recipient Number" id="recipient_number" name="recipient_number"  value="{{ old('recipient_number') }}" >
                                       </div>
                                     </div>
                                     <div class="col-sm-4">
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="recipient_number">Recipient Second Mob. No</label>
-                                        <input type="text" class="form-control" maxlength="13" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" placeholder="Enter Recipient Number" id="recipient_number_two" name="recipient_number_two">
+                                        <input type="text" class="form-control" maxlength="13" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" placeholder="Enter Recipient Number" id="recipient_number_two" name="recipient_number_two"  value="{{ old('recipient_number_two') }}" >
                                       </div>
                                     </div>
       
@@ -141,7 +149,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                       <label for="recipient_name">Recipient Name</label>
-                                      <input type="text" class="form-control" placeholder="Enter Recipient Name" id="recipient_name" name="recipient_name">
+                                      <input type="text" class="form-control" placeholder="Enter Recipient Name" id="recipient_name" name="recipient_name" value="{{ old('recipient_name') }}">
                                     </div>
                                   </div>
                                     
@@ -154,7 +162,11 @@
                                                 @if(isset($dataRow_City))    
                                                     @if(count($dataRow_City)>0)
                                                         @foreach($dataRow_City as $City)
-                                                            <option value="{{$City->id}}">{{$City->name}}</option>
+                                                            <option 
+                                                            @if(!empty(old('recipient_city')))
+                                                              {{old('recipient_city')==$City->id?' selected="selected" ':''}}
+                                                            @endif 
+                                                            value="{{$City->id}}">{{$City->name}}</option>
                                                             
                                                         @endforeach
                                                     @endif
@@ -171,7 +183,11 @@
                                                 @if(isset($dataRow_BookingArea))    
                                                     @if(count($dataRow_BookingArea)>0)
                                                         @foreach($dataRow_BookingArea as $BookingArea)
-                                                            <option data-charge="{{$BookingArea->shipping_price}}" value="{{$BookingArea->id}}">{{$BookingArea->area_name}}</option>
+                                                            <option 
+                                                            @if(!empty(old('recipient_area')))
+                                                              {{old('recipient_area')==$BookingArea->id?' selected="selected" ':''}}
+                                                            @endif 
+                                                            data-charge="{{$BookingArea->shipping_price}}" value="{{$BookingArea->id}}">{{$BookingArea->area_name}}</option>
                                                             
                                                         @endforeach
                                                     @endif
@@ -187,14 +203,14 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                       <label for="address">Address</label>
-                                      <textarea class="form-control" rows="3"  placeholder="Enter Address" id="address" name="address"></textarea>
+                                      <textarea class="form-control" rows="3"  placeholder="Enter Address" id="address" name="address">{{ old('address') }}</textarea>
                                     </div>
                                   </div>
                                     <div class="col-sm-4">
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="landmarks">Landmarks</label>
-                                        <textarea class="form-control" rows="3"  placeholder="Enter Recipient Area" id="landmarks" name="landmarks"></textarea>
+                                        <textarea class="form-control" rows="3"  placeholder="Enter Recipient Area" id="landmarks" name="landmarks">{{ old('landmarks') }}</textarea>
                                       </div>
                                     </div>
       
@@ -213,7 +229,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                       <label for="product_id">Product ID</label>
-                                      <input type="text" class="form-control" placeholder="Enter Product ID" id="product_id" name="product_id">
+                                      <input type="text" class="form-control" placeholder="Enter Product ID" id="product_id" name="product_id" value="{{ old('product_id') }}">
                                     </div>
                                   </div>
       
@@ -225,7 +241,11 @@
                                                   @if(isset($dataRow_ItemType))    
                                                       @if(count($dataRow_ItemType)>0)
                                                           @foreach($dataRow_ItemType as $ItemType)
-                                                              <option value="{{$ItemType->id}}">{{$ItemType->name}}</option>
+                                                              <option 
+                                                              @if(!empty(old('parcel_type')))
+                                                                {{old('parcel_type')==$ItemType->id?' selected="selected" ':''}}
+                                                              @endif 
+                                                              value="{{$ItemType->id}}">{{$ItemType->name}}</option>
                                                               
                                                           @endforeach
                                                       @endif
@@ -243,7 +263,11 @@
                                               @if(isset($dataRow_BookingDeliveryType))    
                                                   @if(count($dataRow_BookingDeliveryType)>0)
                                                       @foreach($dataRow_BookingDeliveryType as $BookingDeliveryType)
-                                                          <option value="{{$BookingDeliveryType->id}}">{{$BookingDeliveryType->name}}</option>
+                                                          <option 
+                                                          @if(!empty(old('delivery_type')))
+                                                            {{old('delivery_type')==$BookingDeliveryType->id?' selected="selected" ':''}}
+                                                          @endif 
+                                                          value="{{$BookingDeliveryType->id}}">{{$BookingDeliveryType->name}}</option>
                                                           
                                                       @endforeach
                                                   @endif
@@ -264,7 +288,11 @@
                                               @if(isset($dataRow_BookingPackage))    
                                                   @if(count($dataRow_BookingPackage)>0)
                                                       @foreach($dataRow_BookingPackage as $BookingPackage)
-                                                          <option value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
+                                                          <option 
+                                                          @if(!empty(old('package_id')))
+                                                            {{old('package_id')==$BookingPackage->id?' selected="selected" ':''}}
+                                                          @endif 
+                                                          value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
                                                           
                                                       @endforeach
                                                   @endif
@@ -278,7 +306,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                       <label for="product_price">Product Price </label>
-                                      <input type="text" class="form-control"  maxlength="13"   placeholder="Enter Product Price" id="product_price" name="product_price" value="0">
+                                      <input type="text" class="form-control"  maxlength="13"   placeholder="Enter Product Price" id="product_price" name="product_price" value="{{ old('product_price')?old('product_price'):'0' }}">
                                       <code>(Please Add Shipping Price with Product Price)</code>
                                     </div>
                                   </div>
@@ -292,7 +320,11 @@
                                             @if(isset($dataRow_PaymentMethod))    
                                                 @if(count($dataRow_PaymentMethod)>0)
                                                     @foreach($dataRow_PaymentMethod as $BookingPackage)
-                                                        <option data-charge="{{$BookingPackage->charge}}" value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
+                                                        <option 
+                                                        @if(!empty(old('payment_method')))
+                                                            {{old('payment_method')==$BookingPackage->id?' selected="selected" ':''}}
+                                                        @endif 
+                                                        data-charge="{{$BookingPackage->charge}}" value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
                                                     @endforeach
                                                 @endif
                                             @endif 
@@ -307,7 +339,7 @@
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="deliver_date">Deliver Date</label>
-                                        <input type="text" class="form-control deliverdate" placeholder="Enter Deliver Date" id="deliver_date" name="deliver_date">
+                                        <input type="text" class="form-control deliverdate" placeholder="Enter Deliver Date" id="deliver_date" name="deliver_date" value="{{ old('deliver_date') }}">
                                       </div>
                                     </div>
       
@@ -315,13 +347,13 @@
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="no_of_items">No of Items</label>
-                                        <input type="text" class="form-control" placeholder="Enter No of Items/Quantity" id="no_of_items" name="no_of_items">
+                                        <input type="text" class="form-control" placeholder="Enter No of Items/Quantity" id="no_of_items" name="no_of_items" value="{{ old('no_of_items') }}">
                                       </div>
                                     </div>
       
                                     
-                                    <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="shipping_cost" name="shipping_cost">
-                                    <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="total_charge" name="total_charge">
+                                    <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="shipping_cost" name="shipping_cost" value="{{ old('shipping_cost') }}">
+                                    <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="total_charge" name="total_charge" value="{{ old('total_charge') }}">
                                       
       
                                 </div>
@@ -332,7 +364,7 @@
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="landmarks">Special Note</label>
-                                        <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note"></textarea>
+                                        <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
                                       </div>
                                     </div>
                                       <div class="col-md-4">
@@ -381,7 +413,7 @@
                                     <!-- text input -->
                                     <div class="form-group">
                                       <label for="landmarks">Special Note</label>
-                                      <textarea class="form-control" rows="3"  placeholder="Enter Special Notes" id="special_note" name="special_note"></textarea>
+                                      <textarea class="form-control" rows="3"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
                                     </div>
                                   </div>
                                   <div class="col-sm-3">
@@ -623,7 +655,7 @@
     }
 
     $(document).ready(function(){
-
+      findShippingCost();
       $('#recipient_area').change(function(){ findShippingCost(); });
       $('#delivery_type').change(function(){ findShippingCost(); });
       $('#package_id').change(function(){ findShippingCost(); });

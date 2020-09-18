@@ -64,7 +64,11 @@
                                         @if(isset($dataRow_BookingDeliveryType))    
                                             @if(count($dataRow_BookingDeliveryType)>0)
                                                 @foreach($dataRow_BookingDeliveryType as $BookingDeliveryType)
-                                                    <option value="{{$BookingDeliveryType->id}}">{{$BookingDeliveryType->name}}</option>
+                                                    <option 
+                                                    @if(!empty(old('delivery_type')))
+                                                        {{old('delivery_type')==$BookingDeliveryType->id?' selected="selected" ':''}}
+                                                    @endif 
+                                                    value="{{$BookingDeliveryType->id}}">{{$BookingDeliveryType->name}}</option>
                                                     
                                                 @endforeach
                                             @endif
@@ -82,7 +86,11 @@
                                         @if(isset($dataRow_BookingPackage))    
                                             @if(count($dataRow_BookingPackage)>0)
                                                 @foreach($dataRow_BookingPackage as $BookingPackage)
-                                                    <option value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
+                                                    <option 
+                                                    @if(!empty(old('package_weight')))
+                                                        {{old('package_weight')==$BookingPackage->id?' selected="selected" ':''}}
+                                                    @endif 
+                                                    value="{{$BookingPackage->id}}">{{$BookingPackage->name}}</option>
                                                     
                                                 @endforeach
                                             @endif
@@ -100,7 +108,11 @@
                                         @if(isset($dataRow_City))    
                                             @if(count($dataRow_City)>0)
                                                 @foreach($dataRow_City as $City)
-                                                    <option value="{{$City->id}}">{{$City->name}}</option>
+                                                    <option 
+                                                    @if(!empty(old('delivery_city')))
+                                                        {{old('delivery_city')==$City->id?' selected="selected" ':''}}
+                                                    @endif 
+                                                    value="{{$City->id}}">{{$City->name}}</option>
                                                     
                                                 @endforeach
                                             @endif
@@ -117,14 +129,21 @@
                                   <label>Choose Delivery Area</label>
                                   <select class="form-control select2" style="width: 100%;"  id="delivery_area" name="delivery_area">
                                         <option value="">Please Select</option>
-                                        {{-- @if(isset($dataRow_BookingArea))    
-                                            @if(count($dataRow_BookingArea)>0)
-                                                @foreach($dataRow_BookingArea as $BookingArea)
-                                                    <option value="{{$BookingArea->id}}">{{$BookingArea->area_name}}</option>
-                                                    
-                                                @endforeach
-                                            @endif
-                                        @endif  --}}
+                                        @if(!empty(old('delivery_city')))
+                                          @if(isset($dataRow_BookingArea))    
+                                              @if(count($dataRow_BookingArea)>0)
+                                                  @foreach($dataRow_BookingArea as $BookingArea)
+                                                      <option 
+                                                      @if(!empty(old('delivery_area')))
+                                                          {{old('delivery_area')==$BookingArea->id?' selected="selected" ':''}}
+                                                      @endif 
+                                                      value="{{$BookingArea->id}}">{{$BookingArea->area_name}}</option>
+                                                      
+                                                  @endforeach
+                                              @endif
+                                          @endif
+                                        @endif 
+                                        {{--   --}}
                                         
                                   </select>
                                 </div>
@@ -134,7 +153,7 @@
                       <!-- text input -->
                       <div class="form-group">
                         <label for="price">Price</label>
-                        <input type="text" class="form-control" placeholder="Enter Price" id="price" name="price">
+                        <input type="text" class="form-control" placeholder="Enter Price" id="price" name="price" value="{{old('price')}}">
                       </div>
                     </div>
  

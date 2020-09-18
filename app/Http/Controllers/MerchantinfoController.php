@@ -757,49 +757,84 @@ class MerchantInfoController extends Controller
     public function changePassword()
     {
         $email=Auth::user()->email;
-        $tab=MerchantInfo::where('email',$email)->first(); 
-        $tab_PaymentType=PaymentType::all();     
-        $tab_WalletProvider=WalletProvider::all();     
-        $tab_MerchantMFS=MerchantMFS::where('merchant_id',$tab->id)->where('module_status','Active')->first();  
-        $tab_MerchantBankInfo=MerchantBankInfo::where('merchant_id',$tab->id)->where('module_status','Active')->first();  
-        return view('admin.pages.merchantinfo.merchantinfo_change_password',[
-            'dataRow_PaymentType'=>$tab_PaymentType,
-            'wp'=>$tab_WalletProvider,
-            'wp_mfs'=>$tab_MerchantMFS,
-            'wp_bank'=>$tab_MerchantBankInfo,
-            'dataRow'=>$tab,'edit'=>true]);  
+        if(Auth::user()->user_type_id==1)
+        {
+            $tab=User::where('email',$email)->first(); 
+            return view('admin.pages.merchantinfo.merchantinfo_change_password',[
+                'dataRow'=>$tab,'edit'=>true]);  
+        }
+        else
+        {
+            $tab=MerchantInfo::where('email',$email)->first(); 
+            $tab_PaymentType=PaymentType::all();     
+            $tab_WalletProvider=WalletProvider::all();     
+            $tab_MerchantMFS=MerchantMFS::where('merchant_id',$tab->id)->where('module_status','Active')->first();  
+            $tab_MerchantBankInfo=MerchantBankInfo::where('merchant_id',$tab->id)->where('module_status','Active')->first();  
+            return view('admin.pages.merchantinfo.merchantinfo_change_password',[
+                'dataRow_PaymentType'=>$tab_PaymentType,
+                'wp'=>$tab_WalletProvider,
+                'wp_mfs'=>$tab_MerchantMFS,
+                'wp_bank'=>$tab_MerchantBankInfo,
+                'dataRow'=>$tab,'edit'=>true]);  
+        }
+        
     }
 
     public function dochangePassword(Request $request)
     {
-        $this->validate($request,[
-            'current_password'=>'required',
-            'new_password'=>'required',
-            'retype_password'=>'required',
-        ]);
         $email=Auth::user()->email;
-        $tab=MerchantInfo::where('email',$email)->first(); 
-        $password = $tab->password;
-
-        if($password!=$request->current_password)
+        if(Auth::user()->user_type_id==1)
         {
-            return redirect(url('change/password'))->with('error','Current password mismatch.');
-        }
+            $this->validate($request,[
+                'new_password'=>'required',
+                'retype_password'=>'required',
+            ]);
 
-        
-        if($request->retype_password!=$request->new_password)
+            $email=Auth::user()->email;
+
+            if($request->retype_password!=$request->new_password)
+            {
+                return redirect(url('change/password'))->with('error','New password mismatch with retype password.');
+            }
+
+            \DB::table('users')->where('email',$email)->update(['password'=>\Hash::make($request->new_password)]);
+            
+            Auth::logout();
+    
+            return redirect(url('login'))->with('status','Password Changed successfully');
+        }
+        else
         {
-            return redirect(url('change/password'))->with('error','New password mismatch with retype password.');
+            $this->validate($request,[
+                'current_password'=>'required',
+                'new_password'=>'required',
+                'retype_password'=>'required',
+            ]);
+            $email=Auth::user()->email;
+            $tab=MerchantInfo::where('email',$email)->first(); 
+            $password = $tab->password;
+    
+            if($password!=$request->current_password)
+            {
+                return redirect(url('change/password'))->with('error','Current password mismatch.');
+            }
+    
+            
+            if($request->retype_password!=$request->new_password)
+            {
+                return redirect(url('change/password'))->with('error','New password mismatch with retype password.');
+            }
+    
+            $tab->password=$request->new_password;
+            $tab->save();
+    
+            \DB::table('users')->where('email',$email)->update(['password'=>\Hash::make($request->new_password)]);
+            
+            Auth::logout();
+    
+            return redirect(url('login'))->with('status','Password Changed successfully');
         }
-
-        $tab->password=$request->new_password;
-        $tab->save();
-
-        \DB::table('users')->where('email',$email)->update(['password'=>\Hash::make($request->new_password)]);
         
-        Auth::logout();
-
-        return redirect(url('login'))->with('status','Password Changed successfully');
     }
 
     /**
