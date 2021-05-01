@@ -128,7 +128,7 @@
                <hr /> 
               <div class="card-body" style="overflow: scroll;">
                 <table id="example2" class="table table-bordered table-striped">
-                  <thead>
+                  <thead style="/*background-color: var(--maincolor); color: var(--white)*/">
                       <tr>
                         <th class="text-center">Tracking ID</th>
                         <th class="text-center">Merchant Name</th>

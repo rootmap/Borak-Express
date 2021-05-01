@@ -28,6 +28,14 @@ Route::post('/borak/tracking','BookingorderController@tracking');
 //     return redirect(url('login'));
 // });
 
+/* public api start */
+
+Route::post('/api/v1/order/create','api\BookingorderrestController@create');
+
+
+/* public api end */
+
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/crud', 'CrudController@crud')->name('crud');
     Route::post('/crud', 'CrudController@crudgenarate')->name('crudgenarate');
@@ -400,6 +408,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/merchantbankinfo/datatable/ajax','MerchantbankinfoController@datatable');
     Route::post('/merchantbankinfo/update/{id}','MerchantbankinfoController@update');
     //======================== Merchantbankinfo Route End ===============================//
+
+    //======================== Merchantbankinfo Route Start ===============================//
+    Route::get('/merchantapi/gettoken','MerchantApiController@index');
+   
+    //======================== Merchantbankinfo Route End ===============================//
+
+
     //======================== Sendingtype Route Start ===============================//
     Route::get('/sendingtype/list','SendingtypeController@show');
     Route::get('/sendingtype/create','SendingtypeController@create');
