@@ -411,7 +411,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     //======================== Merchantbankinfo Route Start ===============================//
     Route::get('/merchantapi/gettoken','MerchantApiController@index');
-   
+    Route::get('/merchantapi/gettokenajax','MerchantApiController@gettoken');
+    Route::get('/merchantapi/tracking','MerchantApiController@tracking');
+    Route::post('/merchantapi/importexcel','MerchantApiController@import');
+    Route::get('/merchantapi/pdf/{id}','MerchantApiController@pdf');
+    Route::get('/merchantapi/download', 'MerchantApiController@getDownload');
     //======================== Merchantbankinfo Route End ===============================//
 
 
@@ -511,6 +515,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/bookingorder/ajax','BookingorderController@ajaxSave');
     Route::post('/bookingorder/datatable/ajax','BookingorderController@datatable');
     Route::post('/bookingorder/update/{id}','BookingorderController@update');
+    Route::get('/bookingorder/pdf/{id}','BookingorderController@generatePdf');
     //======================== Bookingorder Route End ===============================//
 
 });

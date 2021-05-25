@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBankAccountTypesTable extends Migration
+class CreateOrderStatusHistoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateBankAccountTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank_account_types', function (Blueprint $table) {
+        Schema::create('order_status_histories', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('module_status');
-            $table->integer('store_id');
+            $table->integer('order_id');
+            $table->string('note');
+            $table->string('parcel_status');
             $table->integer('created_by');
             $table->integer('updated_by');
-            
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateBankAccountTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bank_account_types');
+        Schema::dropIfExists('order_status_histories');
     }
 }

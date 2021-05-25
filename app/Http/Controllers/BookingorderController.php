@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use DB;
 use App\BookingOrder;
 use App\AdminLog;
 use Illuminate\Http\Request;
@@ -14,9 +14,12 @@ use App\BookingPackage;
 use App\PaymentMethod;
 use App\ShippingCost;
 use App\MerchantInfo;
+use App\OrderStatusHistory;  
 use Auth;
 use Session;
-                
+use PDF;
+use Mpdf\Mpdf;
+
 
 class BookingOrderController extends Controller
 {
@@ -636,6 +639,14 @@ class BookingOrderController extends Controller
         $tab->payment_status=$payment_status;
         $tab->created_by=$order_created_by;
         $tab->save();
+        $order_status = new OrderStatusHistory;
+            
+            $order_status->parcel_status = $parcel_status;;
+            $order_status->order_id = $tab->id;
+            $order_status->created_by = $order_created_by;
+            $order_status->remarks = '';
+
+            $order_status->save();
 
         Session::put('booking_id',$tab->id);
 
@@ -1212,6 +1223,21 @@ class BookingOrderController extends Controller
         $tab->updated_by=$order_created_by;
         $tab->save();
 
+        $order_status = new OrderStatusHistory;
+        $check_parcel_insertion_status = DB::table('booking_order_status_history')->where('order_id','=',$id)
+        ->where('parcel_status','=',$request->parcel_status)->count();
+  //  print_r($check_parcel_insertion_status); die;
+          if($check_parcel_insertion_status<1){
+            
+            $order_status->parcel_status = $request->parcel_status;
+            $order_status->order_id = $id;
+            $order_status->created_by = $order_created_by;
+            //$order_status->remarks = $request->special_note;
+            $order_status->remarks = '';
+
+            $order_status->save();
+          }
+
         return redirect('bookingorder')->with('status','Updated Successfully !');
     }
 
@@ -1227,5 +1253,178 @@ class BookingOrderController extends Controller
 
         $tab=BookingOrder::find($id);
         $tab->delete();
-        return redirect('bookingorder')->with('status','Deleted Successfully !');}
+        return redirect('bookingorder')->with('status','Deleted Successfully !');
+    }
+
+//    pdf start
+
+    function generatePdf($id)
+    {
+        $data = BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+            ->select('booking_orders.*',
+                'merchant_infos.full_name',
+                'merchant_infos.mobile',
+                'merchant_infos.email',
+                'merchant_infos.business_name',
+                'merchant_infos.business_address',
+                'merchant_infos.pickup_address'
+            )
+            ->where('booking_orders.id', '=', $id)
+            ->orderBy('booking_orders.id','DESC')
+            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
+            ->get();
+        return $data;
+//        $pdf = \App::make('dompdf.wrapper');
+//        $pdf->loadHTML($this->convert_customer_data_to_html($id));
+//        return $pdf->stream();
+        $mpdf = new \Mpdf\Mpdf();
+        $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
+
+        $mpdf->Output('filename.pdf', \Mpdf\Output\Destination::INLINE);
+    }
+    function convert_customer_data_to_html($id)
+    {
+        $data = BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
+            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
+            ->select('booking_orders.*',
+                'merchant_infos.full_name',
+                'merchant_infos.mobile',
+                'merchant_infos.email',
+                'merchant_infos.business_name',
+                'merchant_infos.business_address',
+                'merchant_infos.pickup_address'
+            )
+            ->where('booking_orders.id', '=', $id)
+            ->orderBy('booking_orders.id','DESC')
+            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
+            ->first();
+
+
+        $output ='
+     <table width="100%" border="0">
+    <tr>
+        <td>
+            <table width="100%" border="0" cellspacing="0" cellpadding="10">
+                <tr>
+                    <td width="50%">
+                        <table border="1" width="100%" cellspacing="0" cellpadding="10">
+                            <tr>
+                                <td>
+                                    <h2>SHIP FROM :</h2>
+                                    <h5>Date : ' . date('d M, Y', strtotime($data->created_at)) . '</h5>
+                                    <h5> ' . $data->business_name . '</h5>
+                                    <p>Adress: ' . $data->business_address . '
+                                    </p>
+                                    <p>Phone : '. $data->mobile.'</p>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </td>
+                    <td width="50%">
+                        <table width="100%" border="1" cellspacing="0" cellpadding="10">
+                            <tr>
+                                <td>
+                                    <h2>SHIP TO :</h2>
+                                    <h5>Date : '. date('d M, Y', strtotime($data->deliver_date)) . '</h5>
+                                    <h5>' . $data->recipient_name . '</h5>
+                                    <p>Adress: ' . $data->address . ' </p>
+                                    <p>Phone :  ' . $data->recipient_number . ' </p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <h2 align="center">INSTRUCTION: DELIVARY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h2>
+        </td>
+    </tr>
+  <tr>
+      <td>
+          <table width="80%" align="center" border="1" cellpadding="10" cellspacing="0">
+
+              <tr>
+                  <td>
+                      <table width="100%" cellspacing="0" cellpadding="20">
+                          <tr>
+                              <td width="50%" align="center">
+                                  <h1 style="border-inline-end: 3px solid #000000;">'. $data->payment_method_name . '</h1>
+                              </td>
+                              <td width="50%">
+                                  <h1>'. $data->product_price . '</h1>
+                              </td>
+                          </tr>
+                      </table>
+                  </td>
+              </tr>
+          </table>
+      </td>
+  </tr>
+
+    <tr>
+        <td>
+            <table width="80%" align="center" border="0" cellpadding="20" cellspacing="0">
+
+                <tr>
+                    <td>
+                        <input type="checkbox" checked id="delivered" name="delivered" value="delivered">
+                        <label for="delivered"> DELIVERED</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="cancelled" name="cancelled" value="cancelled">
+                        <label for="cancelled"> CANCELLED</label>
+                    </td>
+                    <td>
+                        <input type="checkbox" id="hold" name="hold" value="hold">
+                        <label for="hold"> HOLD</label>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="98%" align="center" border="1" cellpadding="10" cellspacing="0">
+
+                <tr>
+                    <td>
+                        <table width="100%" cellspacing="0" cellpadding="10">
+                            <tr>
+                                <td width="50%">
+                                    <h2>Borak Express</h2>
+                                    <h4>Trakcing ID : '. $data->id . '</h4>
+                                    <img src="'.asset("Gray/pdf_image.svg").'">
+                                </td>
+                                <td width="50%" align="center">
+                                    <img src="'.asset("Gray/pdf_logo.svg").'">
+                                    <p>Adress: uttara dhaka , sector- 7
+                                        road -8. house -36, Uttara Dhaka-1230
+                                    </p>
+                                    <p>Phone : XXXXXXXXXX</p>
+
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p align="center">NOTED: IF LOST, PLEASE RETURN TO BORAK EXPRESS</p>
+            <p align="center">Addess : 261, West Agargaon, Dhaka-1207</p>
+        </td>
+    </tr>
+  </table>';
+        return $output;
+    }
+//    pdf end
 }

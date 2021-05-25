@@ -257,13 +257,80 @@
 		</div>
 	</div>
 </section>
+<style>
+.progressbar_bg{
+	background:#fff;
+	width: 100%;
+	padding: 20px 30px;
+}
+    #progressbar {
+        overflow: hidden;
+        color: #000000;
+        padding-left: 0px;
+		/* background: #fff;
+		padding: 20px 30px;
+		width: 100%; */
+    }
+
+    #progressbar li {
+        list-style-type: none;
+        font-size: 13px;
+        height: auto;
+        position: relative;
+        font-weight: 400;
+    }
+	#progressbar li:last-child hr{
+		border-bottom: none;
+		display: none;
+    }
+	#progressbar li hr{
+		border-bottom: 1px solid #000;
+    }
+    #progressbar li:after {
+        width: 1px;
+        height: 82px;
+        border-left: 2px dotted red;
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: 14px;
+        z-index: 1;
+    }
+    #progressbar li:last-child:after {
+        width: 0 !important;
+        border: 0 !important;
+
+    }
+	#progressbar li:first-child .step_heading{
+        color:#28a745 !important;
+
+    }
+    .step0{
+        display: flex;
+        margin: 15px 0;
+    }
+	.step_note{
+		margin-bottom:5px !important;
+	}
+    
+    .step_heading, .step_note, .step_date_time{
+        margin: 0;
+		text-align: left;
+    }
+	.step_image{
+		width: 30px !important;
+		max-width: 30px !important;
+		height: 30px !important;
+		z-index: 2;
+	}
+</style>
 @endsection				
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script>
 	var csrftLarVe = $('meta[name="csrf-token"]').attr("content");
 	var merchantSignupUrl="{{url('merchant/signup')}}";
-	var boraktrackingUrl="{{url('borak/tracking')}}";
+	var boraktrackingUrl="{{url('/merchantapi/tracking')}}";
 	var merchantloginUrl="{{url('login')}}";
 	function SweetError(msg)
 	{
@@ -288,12 +355,12 @@
 
 			var data={ 
 				'tracking_no': borak_track_id, 
-				'_token': csrftLarVe, 
+				//'_token': csrftLarVe, 
 			}
 
 			$.ajax({
 				'async': false,
-				'type': "POST",
+				'type': "GET",
 				'global': false,
 				'dataType': 'json',
 				'url': boraktrackingUrl,
@@ -303,33 +370,90 @@
 				},
 				'success': function(data) {
 					console.log("Completing Sales : " + data);
+
+                    var html = "";
+					for( var key in data ) {
+						console.log(key);
+						var image = "";
+						if(data[key].parcel_status=='Pending'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/pendig & process.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='Accepted'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/Shipped.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='Pickup'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/Picked.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='On The Way'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/Shipped.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='Delivered'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/Delivered.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='Cancel'){
+                            image='<img class="step_image" src="{{asset('Order Proces icon/Shipped.svg')}}">';
+
+						}
+						if(data[key].parcel_status=='Hold'){
+                            image='<img class="step_image" src="{{asset('Gray/Shipped.svg')}}">';
+
+						}
+						
+						html += '<li class="step0">'+
+        					'<div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">'+
+            				image+
+        					'</div>'+
+        					'<div>'+
+            				'<h6 class="step_heading">' + data[key].parcel_status + '</h6>'+
+           					'<p class="step_note">'+ data[key].remarks +'</p>'+
+            				'<p class="step_date_time">'+data[key].created_at+'</p>'+
+							'<hr>'
+        					'</div>'+
+    						'</li>';
+                     
+					}
+  
+
+                           
+						   console.log(html);
+						   console.log(data.parcel_status);
+
 					Swal.hideLoading();
-					if(data.status == 1)
-					{
+					 if(data !='')
+					 {
 						Swal.fire({
 							icon: 'success',
-							title: '<h3 class="text-success">Order Found</h3>',
-							html: '<h5>'+data.message+'</h5>'
+							title: '<h6 class="text-success">Order Id- '+borak_track_id+'</h3>',
+							width: '800px',
+							background: '#F7F8FA',
+							html: '<div class="progressbar_bg">'+
+							'<ul id="progressbar" class="text-center">'+
+
+    						html+
+							'</ul>'+
+							'</div>'
 						});
 						return false;
 						
 
 					}
-					else if(data.status == 0)
+					else 
 					{
 						Swal.fire({
 							icon: 'warning',
 							title: '<h3 class="text-warning">Order Not Found</h3>',
-							html: '<h5>'+data.message+'</h5>'
+							html: '<h5>Invalid order tracking no.</h5>'
 						});
 						return false;
 						
 
 					}
-					else
-					{
-						SweetError("Something wrong, Please try again."); return false;
-					}
+					
 					
 				}
 			});
