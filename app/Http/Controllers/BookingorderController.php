@@ -1263,7 +1263,7 @@ class BookingOrderController extends Controller
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
-        $mpdf->Output('filename.pdf', \Mpdf\Output\Destination::INLINE);
+        $mpdf->Output('order_'.$id.'.pdf', \Mpdf\Output\Destination::INLINE);
     }
     function convert_customer_data_to_html($id)
     {

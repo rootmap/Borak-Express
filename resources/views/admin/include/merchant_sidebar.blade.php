@@ -53,7 +53,7 @@
          
           
 
-
+{{-- 
           <li class="nav-item has-treeview {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantmfs','merchantmfs/list','merchantbankinfo','merchantbankinfo/list'))?'menu-open':'' }}">
             <a href="#" class="nav-link {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantbankinfo','merchantbankinfo/list'))?'active':'' }}">
               <i class="nav-icon fas fa-table"></i>
@@ -78,7 +78,7 @@
               
               
             </ul>
-          </li>
+          </li> --}}
 
 
         </ul>
