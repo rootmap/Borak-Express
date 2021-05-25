@@ -1260,24 +1260,6 @@ class BookingOrderController extends Controller
 
     function generatePdf($id)
     {
-        $data = BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
-            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
-            ->select('booking_orders.*',
-                'merchant_infos.full_name',
-                'merchant_infos.mobile',
-                'merchant_infos.email',
-                'merchant_infos.business_name',
-                'merchant_infos.business_address',
-                'merchant_infos.pickup_address'
-            )
-            ->where('booking_orders.id', '=', $id)
-            ->orderBy('booking_orders.id','DESC')
-            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
-            ->get();
-        return $data;
-//        $pdf = \App::make('dompdf.wrapper');
-//        $pdf->loadHTML($this->convert_customer_data_to_html($id));
-//        return $pdf->stream();
         $mpdf = new \Mpdf\Mpdf();
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
@@ -1297,7 +1279,6 @@ class BookingOrderController extends Controller
             )
             ->where('booking_orders.id', '=', $id)
             ->orderBy('booking_orders.id','DESC')
-            ->whereDate('booking_orders.created_at', '=', date('Y-m-d'))
             ->first();
 
 
