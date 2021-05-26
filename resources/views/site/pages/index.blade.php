@@ -410,7 +410,7 @@
         					'</div>'+
         					'<div>'+
             				'<h6 class="step_heading">' + data[key].parcel_status + '</h6>'+
-           					'<p class="step_note">'+ data[key].remarks +'</p>'+
+           					// '<p class="step_note">'+ data[key].remarks +'</p>'+
             				'<p class="step_date_time">'+data[key].created_at+'</p>'+
 							'<hr>'
         					'</div>'+

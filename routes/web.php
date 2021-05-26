@@ -11,6 +11,17 @@
 |
 */
 
+if(version_compare(PHP_VERSION, '7.2.0', '>=')) {
+    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+}
+// clear application cache
+Route::get('/cache-clear', function() {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    Artisan::call('route:clear');
+    Artisan::call('view:clear');
+    return "Application cache cache";
+});
 
 Auth::routes();
 
@@ -31,6 +42,8 @@ Route::post('/borak/tracking','BookingorderController@tracking');
 /* public api start */
 
 Route::post('/api/v1/order/create','api\BookingorderrestController@create');
+Route::get('/merchantapi/tracking','MerchantApiController@tracking');
+
 
 
 /* public api end */
@@ -412,7 +425,6 @@ Route::group(['middleware' => ['auth']], function () {
     //======================== Merchantbankinfo Route Start ===============================//
     Route::get('/merchantapi/gettoken','MerchantApiController@index');
     Route::get('/merchantapi/gettokenajax','MerchantApiController@gettoken');
-    Route::get('/merchantapi/tracking','MerchantApiController@tracking');
     Route::post('/merchantapi/importexcel','MerchantApiController@import');
     Route::get('/merchantapi/pdf/{id}','MerchantApiController@pdf');
     Route::get('/merchantapi/download', 'MerchantApiController@getDownload');
