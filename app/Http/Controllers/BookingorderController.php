@@ -1295,7 +1295,7 @@ class BookingOrderController extends Controller
                                     <h2>SHIP FROM :</h2>
                                     <h5>Date : ' . date('d M, Y', strtotime($data->created_at)) . '</h5>
                                     <h5> ' . $data->business_name . '</h5>
-                                    <p>Adress: ' . $data->business_address . '
+                                    <p>Address: ' . $data->business_address . '
                                     </p>
                                     <p>Phone : '. $data->mobile.'</p>
                                 </td>
@@ -1310,7 +1310,7 @@ class BookingOrderController extends Controller
                                     <h2>SHIP TO :</h2>
                                     <h5>Date : '. date('d M, Y', strtotime($data->deliver_date)) . '</h5>
                                     <h5>' . $data->recipient_name . '</h5>
-                                    <p>Adress: ' . $data->address . ' </p>
+                                    <p>Address: ' . $data->address . ' </p>
                                     <p>Phone :  ' . $data->recipient_number . ' </p>
                                 </td>
                             </tr>
@@ -1322,7 +1322,7 @@ class BookingOrderController extends Controller
         </td>
     </tr>
     <tr>
-        <td>
+        <td align="center">
 
             <h2 align="center">INSTRUCTION: DELIVARY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h2>
         </td>
@@ -1385,10 +1385,9 @@ class BookingOrderController extends Controller
                                 </td>
                                 <td width="50%" align="center">
                                     <img src="'.asset("Gray/pdf_logo.svg").'">
-                                    <p>Adress: uttara dhaka , sector- 7
-                                        road -8. house -36, Uttara Dhaka-1230
-                                    </p>
-                                    <p>Phone : XXXXXXXXXX</p>
+                                    <p>Address: 261, West Agargaon, Dhaka-1207
+                                    </p> 
+                                    <p>Phone : +880-1794706299</p>
 
                                 </td>
                             </tr>
@@ -1399,9 +1398,9 @@ class BookingOrderController extends Controller
         </td>
     </tr>
     <tr>
-        <td>
+        <td align="center">
             <p align="center">NOTED: IF LOST, PLEASE RETURN TO BORAK EXPRESS</p>
-            <p align="center">Addess : 261, West Agargaon, Dhaka-1207</p>
+            <p align="center">Address : 261, West Agargaon, Dhaka-1207</p>
         </td>
     </tr>
   </table>';
