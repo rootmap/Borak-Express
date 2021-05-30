@@ -1385,7 +1385,7 @@ class BookingOrderController extends Controller
                                 </td>
                                 <td width="50%" align="center">
                                     <img src="'.asset("Gray/pdf_logo.svg").'">
-                                    <p>Address: 261, West Agargaon, Dhaka-1207
+                                    <p>Address: Jahan Villa, House: 36, Road: 1, Mohammadi Housing Limited, Dhaka-1207
                                     </p> 
                                     <p>Phone : +880-1794706299</p>
 
@@ -1400,7 +1400,7 @@ class BookingOrderController extends Controller
     <tr>
         <td align="center">
             <p align="center">NOTED: IF LOST, PLEASE RETURN TO BORAK EXPRESS</p>
-            <p align="center">Address : 261, West Agargaon, Dhaka-1207</p>
+            <p align="center">Address : Jahan Villa, House: 36, Road: 1, Mohammadi Housing Limited, Dhaka-1207</p>
         </td>
     </tr>
   </table>';

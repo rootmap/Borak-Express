@@ -110,6 +110,7 @@
                                             @endif
                                           </ul>
                                         </div>
+                                          <a class="btn" target="_blank" href="{{url('bookingorder/pdf/'.$row->id)}}"><i class="fas fa-print"> PDF</i></a>
                                       </div>
                                     </td>
                                     <td class="text-center">{{$row->full_name}}</td>
