@@ -1280,7 +1280,36 @@ class BookingOrderController extends Controller
             ->where('booking_orders.id', '=', $id)
             ->orderBy('booking_orders.id','DESC')
             ->first();
-
+        $delivered = '';
+        if( $data->parcel_status == "Delivered")
+        {
+            $delivered .= '
+             <input type="image" id="delivered" src="'.asset("Gray/checked.png").'" >
+             ';
+        } else {
+            $delivered .='
+        <input type="checkbox"  id="delivered" name="delivered" >';
+        }
+        $cancel = '';
+        if( $data->parcel_status == "Cancel")
+        {
+            $cancel .= '
+             <input type="image" id="cancel" src="'.asset("Gray/checked.png").'" >
+            ';
+        } else {
+            $cancel .='
+        <input type="checkbox"  id="cancel" name="cancel" >';
+        }
+        $hold = '';
+        if( $data->parcel_status == "Hold")
+        {
+            $hold .= '
+            <input type="image" id="hold" src="'.asset("Gray/checked.png").'" >
+            ';
+        } else {
+            $hold .='
+        <input type="checkbox"  id="hold" name="hold" >';
+        }
 
         $output ='
      <table width="100%" border="0">
@@ -1324,7 +1353,8 @@ class BookingOrderController extends Controller
     <tr>
         <td align="center">
 
-            <h2 align="center">INSTRUCTION: DELIVARY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h2>
+            <h3 align="center">INSTRUCTION: DELIVARY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h3>
+             <p>&nbsp;</p>
         </td>
     </tr>
   <tr>
@@ -1354,16 +1384,16 @@ class BookingOrderController extends Controller
             <table width="80%" align="center" border="0" cellpadding="20" cellspacing="0">
 
                 <tr>
-                    <td>
-                        <input type="checkbox" checked id="delivered" name="delivered" value="delivered">
+                    <td> 
+                         '.$delivered.'              
                         <label for="delivered"> DELIVERED</label>
                     </td>
                     <td>
-                        <input type="checkbox" id="cancelled" name="cancelled" value="cancelled">
+                        '.$cancel.'
                         <label for="cancelled"> CANCELLED</label>
                     </td>
                     <td>
-                        <input type="checkbox" id="hold" name="hold" value="hold">
+                       '.$hold.'
                         <label for="hold"> HOLD</label>
                     </td>
                 </tr>
@@ -1399,6 +1429,7 @@ class BookingOrderController extends Controller
     </tr>
     <tr>
         <td align="center">
+         <p>&nbsp;</p>
             <p align="center">NOTED: IF LOST, PLEASE RETURN TO BORAK EXPRESS</p>
             <p align="center">Address : Jahan Villa, House: 36, Road: 1, Mohammadi Housing Limited, Dhaka-1207</p>
         </td>
