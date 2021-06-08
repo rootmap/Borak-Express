@@ -50,7 +50,14 @@
               <p>Booking Order Report</p>
             </a>
           </li>
-         
+
+         <li class="nav-item">
+            <a href="{{url('bookingorder/bulkUpload')}}" class="nav-link {{ Request::path() == 'bookingorder/bulkUpload' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-file-upload"></i>
+              <p>Bulk Order Upload</p>
+            </a>
+          </li>
+
           
 
 {{-- 

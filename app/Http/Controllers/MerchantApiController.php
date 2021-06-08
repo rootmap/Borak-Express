@@ -155,6 +155,7 @@ class MerchantApiController extends Controller
         'total_charge' => $value->total_charge,
         'payment_status' => $value->payment_status,
         'created_by' => $value->order_created_by,
+         'created_at' => date('Y-m-d H:i:s'),
         //  'order_id' => $value->order_id,
         //  'parcel_status' => $value->parcel_status,
         //  'remarks' => $value->remarks,

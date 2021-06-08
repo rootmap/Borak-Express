@@ -69,10 +69,8 @@
                   <input type="hidden" name="_token" value="{{ csrf_token() }}">
                   <div class="form-group">
                   <input type="file" name="file" >
-                  <div>
-                  <div>
-                  <button type="submit" class="btn btn-success">Submit</button>
                   </div>
+                  <button type="submit" class="btn btn-success">Submit</button>
 
                   </form>
                   
@@ -82,15 +80,177 @@
               <!-- /.card -->
 
 
-              <div class="card">
+              <div class="card p-5">
+                  <div class="row">
+                      <div class="col-6">
+                          <div class="row">
+                              <div class="col-6">
+                                  <div class="card">
+                                      <div class="card-header">sending type</div>
+                                      <div class="card-body">
+                                          <table class="table">
+                                              <tr>
+                                                  <th>sending type name</th>
+                                                  <th>sending type Id</th>
+                                              </tr>
+                                              @foreach($dataRow_SendingType as $row)
+                                                  <tr>
+                                                      <td>{{$row->name}}</td>
+                                                      <td>{{$row->id}}</td>
+                                                  </tr>
+                                              @endforeach
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-6">
+                                  <div class="card">
+                                      <div class="card-header">Choose Recipient City</div>
+                                      <div class="card-body">
+                                          <table class="table">
+                                              <tr>
+                                                  <th>recipient city name</th>
+                                                  <th>recipient city name Id</th>
+                                              </tr>
+                                              @foreach($dataRow_City as $row)
+                                                  <tr>
+                                                      <td>{{$row->name}}</td>
+                                                      <td>{{$row->id}}</td>
+                                                  </tr>
+                                              @endforeach
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-12">
+                                  <div class="card">
+                                      <div class="card-header">Choose Package Name</div>
+                                      <div class="card-body">
+                                          <table class="table">
+                                              <tr>
+                                                  <th>delivery type name</th>
+                                                  <th>delivery type Id</th>
+                                              </tr>
+                                              @foreach($dataRow_BookingPackage as $row)
+                                                  <tr>
+                                                      <td>{{$row->name}}</td>
+                                                      <td>{{$row->id}}</td>
+                                                  </tr>
+                                              @endforeach
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="col-12">
+                                  <div class="row">
+                                      <div class="col-6">
+                                          <div class="card">
+                                              <div class="card-header">Choose Parcel Type</div>
+                                              <div class="card-body">
 
-              <table>
-              <tr>
-              <td>
-              <?php echo($dataRow_SendingType) ?>
-              </td>
-              </tr>
-              </table>
+                                                  <table class="table">
+                                                      <tr>
+                                                          <th>parcel type name</th>
+                                                          <th>parcel type Id</th>
+                                                      </tr>
+                                                      @foreach($dataRow_ItemType as $row)
+                                                          <tr>
+                                                              <td>{{$row->name}}</td>
+                                                              <td>{{$row->id}}</td>
+                                                          </tr>
+                                                      @endforeach
+                                                  </table>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="col-6">
+                                          <div class="row">
+                                              <div class="col-12">
+                                                  <div class="card">
+                                                      <div class="card-header">Choose Delivery Type</div>
+                                                      <div class="card-body">
+                                                          <table class="table">
+                                                              <tr>
+                                                                  <th>delivery type name</th>
+                                                                  <th>delivery type Id</th>
+                                                              </tr>
+                                                              @foreach($dataRow_BookingDeliveryType as $row)
+                                                                  <tr>
+                                                                      <td>{{$row->name}}</td>
+                                                                      <td>{{$row->id}}</td>
+                                                                  </tr>
+                                                              @endforeach
+                                                          </table>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="col-12">
+                                                  <div class="card">
+                                                      <div class="card-header">Choose Delivery Type</div>
+                                                      <div class="card-body">
+                                                          <table class="table">
+                                                              <tr>
+                                                                  <th>payment method name</th>
+                                                                  <th>payment method Id</th>
+                                                              </tr>
+                                                              @foreach($dataRow_PaymentMethod as $row)
+                                                                  <tr>
+                                                                      <td>{{$row->name}}</td>
+                                                                      <td>{{$row->id}}</td>
+                                                                  </tr>
+                                                              @endforeach
+                                                          </table>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                  </div>
+
+                              </div>
+
+                              <div class="col-12">
+
+                              </div>
+
+                          </div>
+                      </div>
+
+
+
+                      <div class="col-6">
+                          <div class="row">
+                              <div class="col-12">
+                                  <div class="card">
+                                      <div class="card-header">Choose Recipient Area</div>
+                                      <div class="card-body">
+
+                                          <table class="table">
+                                              <tr>
+                                                  <th>recipient city name</th>
+                                                  <th>recipient city name Id</th>
+                                                  <th>recipient area area name</th>
+                                                  <th>recipient area Id</th>
+                                              </tr>
+                                              @foreach($dataRow_BookingArea as $row)
+                                                  <tr>
+                                                      <td>{{$row->city_id_name}}</td>
+                                                      <td>{{$row->city_id}}</td>
+                                                      <td>{{$row->area_name}}</td>
+                                                      <td>{{$row->id}}</td>
+                                                  </tr>
+                                              @endforeach
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+
+
               </div>
             </div>
             <!-- /.col -->

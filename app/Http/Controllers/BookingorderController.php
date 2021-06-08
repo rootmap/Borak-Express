@@ -18,6 +18,10 @@ use App\OrderStatusHistory;
 use Auth;
 use Session;
 use PDF;
+use Excel;
+use File;
+use Config;
+use Response;
 use Mpdf\Mpdf;
 
 
@@ -1438,4 +1442,155 @@ class BookingOrderController extends Controller
         return $output;
     }
 //    pdf end
+
+//   bilk upload start
+    public function bulkUpload()
+    {
+        $tab_ItemType=ItemType::all();
+        $tab_SendingType=SendingType::all();
+        $tab_City=City::all();
+        $tab_BookingArea=BookingArea::all();
+        $tab_ItemType=ItemType::all();
+        $tab_BookingDeliveryType=BookingDeliveryType::all();
+        $tab_BookingPackage=BookingPackage::all();
+        $tab_PaymentMethod=PaymentMethod::all();
+        $tab_ShippingCost=ShippingCost::all();
+        $tab_MerchantInfo=MerchantInfo::select('merchant_infos.id','merchant_infos.full_name','merchant_infos.email','merchant_infos.mobile','merchant_infos.business_name','users.id as user_id')
+            ->leftJoin('users','merchant_infos.email','=','users.email')
+            ->get();
+        return view('admin.pages.bookingorder.bookingorder_bulk_upload',[
+            'dataRow_ItemType'=>$tab_ItemType,
+            'dataRow_City'=>$tab_City,
+            'dataRow_BookingArea'=>$tab_BookingArea,
+            'dataRow_ItemType'=>$tab_ItemType,
+            'dataRow_SendingType'=>$tab_SendingType,
+            'dataRow_ShippingCost'=>$tab_ShippingCost,
+            'dataRow_PaymentMethod'=>$tab_PaymentMethod,
+            'dataRow_MerchantInfo'=>$tab_MerchantInfo,
+            'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'edit'=>true]);
+
+
+    }
+    public function import(Request $request){
+        //validate the xls file
+        $this->validate($request, array(
+            'file'      => 'required'
+        ));
+
+        if($request->hasFile('file')){
+            $extension = File::extension($request->file->getClientOriginalName());
+            if ($extension == "xlsx" || $extension == "xls" || $extension == "csv") {
+
+                $path = $request->file->getRealPath();
+                $data = Excel::load($path, function($reader) {
+                })->get();
+                // ignoreEmpty()->skip(1)
+                if(!empty($data) && $data->count()){
+                $order_count = 0;
+                    foreach ($data as $key => $value) {
+
+                        if($value->filter()->isNotEmpty()){
+                            $order_count++;
+                            $tab_0_ItemType=SendingType::where('id',$value->sending_type)->first();
+                            $sending_type_0_ItemType=$tab_0_ItemType->name;
+
+                            $tab_0_PaymentMethod=PaymentMethod::where('id',$value->payment_method)->first();
+                            $PaymentMethod_name=$tab_0_PaymentMethod->name;
+
+                            $tab_4_City=City::where('id',$value->recipient_city)->first();
+                            $recipient_city_4_City=$tab_4_City->name;
+                            $tab_5_BookingArea=BookingArea::where('id',$value->recipient_area)->first();
+                            $recipient_area_5_BookingArea=$tab_5_BookingArea->area_name;
+                            $tab_8_ItemType=ItemType::where('id',$value->parcel_type)->first();
+                            $parcel_type_8_ItemType=$tab_8_ItemType->name;
+                            $tab_9_BookingDeliveryType=BookingDeliveryType::where('id',$value->delivery_type)->first();
+                            $delivery_type_9_BookingDeliveryType=$tab_9_BookingDeliveryType->name;
+                            $tab_10_BookingPackage=BookingPackage::where('id',$value->package_id)->first();
+                            $package_id_10_BookingPackage=$tab_10_BookingPackage->name;
+                            $shipping_cost=$tab_10_BookingPackage->price;
+
+                            $parcel_status="Pending";
+                            $payment_status="";
+                            //$total_charge= ($value->no_of_items)*$shipping_cost;
+                            $total_charge="0.00";
+
+                            $insert[] = [
+
+
+                                'sending_type_name' => $sending_type_0_ItemType,
+                                'sending_type' => $value->sending_type,
+                                'recipient_number' => $value->recipient_number,
+                                'recipient_number_two' => $value->recipient_number_two,
+                                'recipient_name' => $value->recipient_name,
+                                'address' => $value->address,
+                                'recipient_city_name' => $recipient_city_4_City,
+                                'recipient_city' => $value->recipient_city,
+                                'recipient_area_area_name' => $recipient_area_5_BookingArea,
+                                'recipient_area' => $value->recipient_area,
+                                'landmarks' => $value->landmarks,
+                                'product_id' => $value->product_id,
+                                'parcel_type_name' => $parcel_type_8_ItemType,
+                                'parcel_type' => $value->parcel_type,
+                                'delivery_type_name' => $delivery_type_9_BookingDeliveryType,
+                                'delivery_type' => $value->delivery_type,
+                                'package_id_name' => $package_id_10_BookingPackage,
+                                'package_id' => $value->package_id,
+                                'product_price' => $value->product_price,
+                                'deliver_date' => $value->deliver_date,
+                                'no_of_items' => $value->no_of_items,
+                                'special_note' => $value->special_note,
+                                'parcel_status' => $parcel_status,
+                                'payment_method' => $value->payment_method,
+                                'payment_method_name' => $PaymentMethod_name,
+                                'shipping_cost' => $shipping_cost,
+                                'total_charge' => $total_charge,
+                                'payment_status' => $payment_status,
+                                'created_by' => $this->sdc->UserID(),
+                                'created_at' => date('Y-m-d H:i:s'),
+                                //  'order_id' => $value->order_id,
+                                //  'parcel_status' => $value->parcel_status,
+                                //  'remarks' => $value->remarks,
+                                //  'created_by' => $value->created_by,
+                            ];
+                        }
+
+                    }
+
+                    if(!empty($insert)){
+
+                        $insertData = DB::table('booking_orders')->insert($insert);
+                        $latest_order = DB::table('booking_orders')->SELECT('*')
+                            ->orderBy('created_at', 'desc')->take($order_count)->get();
+
+                       foreach ($latest_order as $latest){
+
+                        $status_data = [
+                            'order_id' => $latest->id,
+                            'parcel_status'=>$latest->parcel_status,
+                            'created_by'=>$latest->created_by
+                        ];
+
+                        $insertData = DB::table('booking_order_status_history')->insert($status_data);
+                    }
+                        if ($insertData) {
+                            Session::flash('success', 'Your Data has successfully imported');
+                        }else {
+                            Session::flash('error', 'Error inserting the data..');
+                            return back();
+                        }
+                    }
+                }
+
+               return back();
+                //return $data;
+
+            }else {
+                Session::flash('error', 'File is a '.$extension.' file.!! Please upload a valid xls/csv file..!!');
+                return back();
+            }
+        }
+    }
+
+
+    // bulk upload end
 }
