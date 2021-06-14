@@ -111,7 +111,7 @@
                                 </div>
                                 <div class="col-6">
                                     <div class="card">
-                                        <div class="card-header">Choose Recipient City</div>
+                                        <div class="card-header">Recipient City</div>
                                         <div class="card-body">
                                             <table class="table">
                                                 <tr>
@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="card">
-                                        <div class="card-header">Choose Package Name</div>
+                                        <div class="card-header">Package Name</div>
                                         <div class="card-body">
                                             <table class="table">
                                                 <tr>
@@ -151,7 +151,7 @@
                                     <div class="row">
                                         <div class="col-6">
                                             <div class="card">
-                                                <div class="card-header">Choose Parcel Type</div>
+                                                <div class="card-header">Parcel Type</div>
                                                 <div class="card-body">
 
                                                     <table class="table">
@@ -173,7 +173,7 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="card">
-                                                        <div class="card-header">Choose Delivery Type</div>
+                                                        <div class="card-header">Delivery Type</div>
                                                         <div class="card-body">
                                                             <table class="table">
                                                                 <tr>
@@ -245,7 +245,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="card">
-                                        <div class="card-header">Choose Recipient Area</div>
+                                        <div class="card-header">Recipient Area</div>
                                         <div class="card-body">
                                             <input id="areaInput" type="text" placeholder="Search area here..."
                                             style="width: 100%;margin-bottom: 20px;">
