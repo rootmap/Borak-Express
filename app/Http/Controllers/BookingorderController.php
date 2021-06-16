@@ -1264,7 +1264,10 @@ class BookingOrderController extends Controller
 
     function generatePdf($id)
     {
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf =  new \Mpdf\Mpdf([
+            'default_font' => 'bangla',
+            'mode' => 'utf-8'
+        ]);
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
         $mpdf->Output('order_'.$id.'.pdf', \Mpdf\Output\Destination::INLINE);
