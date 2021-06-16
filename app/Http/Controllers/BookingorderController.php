@@ -1264,7 +1264,10 @@ class BookingOrderController extends Controller
 
     function generatePdf($id)
     {
-        $mpdf = new \Mpdf\Mpdf();
+        $mpdf =  new \Mpdf\Mpdf([
+            'default_font' => 'bangla',
+            'mode' => 'utf-8'
+        ]);
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
         $mpdf->Output('order_'.$id.'.pdf', \Mpdf\Output\Destination::INLINE);
@@ -1484,35 +1487,39 @@ class BookingOrderController extends Controller
                 $path = $request->file->getRealPath();
                 $data = Excel::load($path, function($reader) {
                 })->get();
+                //echo '<pre>';
+                //var_dump($data); die;
+                //echo '</pre>';
                 // ignoreEmpty()->skip(1)
                 if(!empty($data) && $data->count()){
                 $order_count = 0;
                     foreach ($data as $key => $value) {
 
-                        if($value->filter()->isNotEmpty()){
+                        if($value->filter()->isNotEmpty()) {
+                            if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method) {
                             $order_count++;
-                            $tab_0_ItemType=SendingType::where('id',$value->sending_type)->first();
-                            $sending_type_0_ItemType=$tab_0_ItemType->name;
+                            $tab_0_ItemType = SendingType::where('id', $value->sending_type)->first();
+                            $sending_type_0_ItemType = $tab_0_ItemType->name;
 
-                            $tab_0_PaymentMethod=PaymentMethod::where('id',$value->payment_method)->first();
-                            $PaymentMethod_name=$tab_0_PaymentMethod->name;
+                            $tab_0_PaymentMethod = PaymentMethod::where('id', $value->payment_method)->first();
+                            $PaymentMethod_name = $tab_0_PaymentMethod->name;
 
-                            $tab_4_City=City::where('id',$value->recipient_city)->first();
-                            $recipient_city_4_City=$tab_4_City->name;
-                            $tab_5_BookingArea=BookingArea::where('id',$value->recipient_area)->first();
-                            $recipient_area_5_BookingArea=$tab_5_BookingArea->area_name;
-                            $tab_8_ItemType=ItemType::where('id',$value->parcel_type)->first();
-                            $parcel_type_8_ItemType=$tab_8_ItemType->name;
-                            $tab_9_BookingDeliveryType=BookingDeliveryType::where('id',$value->delivery_type)->first();
-                            $delivery_type_9_BookingDeliveryType=$tab_9_BookingDeliveryType->name;
-                            $tab_10_BookingPackage=BookingPackage::where('id',$value->package_id)->first();
-                            $package_id_10_BookingPackage=$tab_10_BookingPackage->name;
-                            $shipping_cost=$tab_10_BookingPackage->price;
+                            $tab_4_City = City::where('id', $value->recipient_city)->first();
+                            $recipient_city_4_City = $tab_4_City->name;
+                            $tab_5_BookingArea = BookingArea::where('id', $value->recipient_area)->first();
+                            $recipient_area_5_BookingArea = $tab_5_BookingArea->area_name;
+                            $tab_8_ItemType = ItemType::where('id', $value->parcel_type)->first();
+                            $parcel_type_8_ItemType = $tab_8_ItemType->name;
+                            $tab_9_BookingDeliveryType = BookingDeliveryType::where('id', $value->delivery_type)->first();
+                            $delivery_type_9_BookingDeliveryType = $tab_9_BookingDeliveryType->name;
+                            $tab_10_BookingPackage = BookingPackage::where('id', $value->package_id)->first();
+                            $package_id_10_BookingPackage = $tab_10_BookingPackage->name;
+                            $shipping_cost = $tab_10_BookingPackage->price;
 
-                            $parcel_status="Pending";
-                            $payment_status="";
+                            $parcel_status = "Pending";
+                            $payment_status = "";
                             //$total_charge= ($value->no_of_items)*$shipping_cost;
-                            $total_charge="0.00";
+                            $total_charge = "0.00";
 
                             $insert[] = [
 
@@ -1552,6 +1559,7 @@ class BookingOrderController extends Controller
                                 //  'remarks' => $value->remarks,
                                 //  'created_by' => $value->created_by,
                             ];
+                        }
                         }
 
                     }
