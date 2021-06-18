@@ -45,6 +45,12 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="{{url('bookingorder/adminBulkUpload')}}" class="nav-link {{ Request::path() == 'bookingorder/adminBulkUpload' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-file-upload"></i>
+              <p>Bulk Order Upload</p>
+            </a>
+          </li>
+          <li class="nav-item">
             <a href="{{url('order/search')}}" class="nav-link {{ Request::path() == 'order/search' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>Booking Order Report</p>

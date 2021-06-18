@@ -1498,6 +1498,11 @@ class BookingOrderController extends Controller
                         if($value->filter()->isNotEmpty()) {
                             if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method) {
                             $order_count++;
+                                $order_created_by=$this->sdc->UserID();
+
+                                if (Auth::user()->user_type_id==1) {
+                                    $order_created_by=$request->merchant_id;
+                                }
                             $tab_0_ItemType = SendingType::where('id', $value->sending_type)->first();
                             $sending_type_0_ItemType = $tab_0_ItemType->name;
 
@@ -1517,7 +1522,7 @@ class BookingOrderController extends Controller
                             $shipping_cost = $tab_10_BookingPackage->price;
 
                             $parcel_status = "Pending";
-                            $payment_status = "";
+                            $payment_status = null;
                             //$total_charge= ($value->no_of_items)*$shipping_cost;
                             $total_charge = "0.00";
 
@@ -1552,7 +1557,7 @@ class BookingOrderController extends Controller
                                 'shipping_cost' => $shipping_cost,
                                 'total_charge' => $total_charge,
                                 'payment_status' => $payment_status,
-                                'created_by' => $this->sdc->UserID(),
+                                'created_by' => $order_created_by,
                                 'created_at' => date('Y-m-d H:i:s'),
                                 //  'order_id' => $value->order_id,
                                 //  'parcel_status' => $value->parcel_status,
@@ -1598,7 +1603,33 @@ class BookingOrderController extends Controller
             }
         }
     }
+    public function adminBulkUpload()
+    {
+        $tab_ItemType=ItemType::all();
+        $tab_SendingType=SendingType::all();
+        $tab_City=City::all();
+        $tab_BookingArea=BookingArea::all();
+        $tab_ItemType=ItemType::all();
+        $tab_BookingDeliveryType=BookingDeliveryType::all();
+        $tab_BookingPackage=BookingPackage::all();
+        $tab_PaymentMethod=PaymentMethod::all();
+        $tab_ShippingCost=ShippingCost::all();
+        $tab_MerchantInfo=MerchantInfo::select('merchant_infos.id','merchant_infos.full_name','merchant_infos.email','merchant_infos.mobile','merchant_infos.business_name','users.id as user_id')
+            ->leftJoin('users','merchant_infos.email','=','users.email')
+            ->get();
+        return view('admin.pages.bookingorder.bookingorder_admin_bulk_upload',[
+            'dataRow_ItemType'=>$tab_ItemType,
+            'dataRow_City'=>$tab_City,
+            'dataRow_BookingArea'=>$tab_BookingArea,
+            'dataRow_ItemType'=>$tab_ItemType,
+            'dataRow_SendingType'=>$tab_SendingType,
+            'dataRow_ShippingCost'=>$tab_ShippingCost,
+            'dataRow_PaymentMethod'=>$tab_PaymentMethod,
+            'dataRow_MerchantInfo'=>$tab_MerchantInfo,
+            'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'edit'=>true]);
 
+
+    }
 
     // bulk upload end
 }

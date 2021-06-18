@@ -529,6 +529,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/bookingorder/update/{id}','BookingorderController@update');
     Route::get('/bookingorder/pdf/{id}','BookingorderController@generatePdf');
     Route::get('/bookingorder/bulkUpload','BookingorderController@bulkUpload');
+    Route::get('/bookingorder/adminBulkUpload','BookingorderController@adminBulkUpload');
     Route::post('/bookingorder/importexcel','BookingorderController@import');
     //======================== Bookingorder Route End ===============================//
 
