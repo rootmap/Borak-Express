@@ -1360,7 +1360,7 @@ class BookingOrderController extends Controller
     <tr>
         <td align="center">
 
-            <h3 align="center">INSTRUCTION: DELIVARY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h3>
+            <h3 align="center">INSTRUCTION: DELIVERY SHOULD DONE BY '. date('d M, Y', strtotime($data->deliver_date)) . '</h3>
              <p>&nbsp;</p>
         </td>
     </tr>

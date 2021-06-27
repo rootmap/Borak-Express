@@ -1,0 +1,4 @@
+.star-after.star-after:after {
+    content: " *";
+    color: #D33282;
+}
