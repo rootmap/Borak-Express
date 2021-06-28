@@ -1,7 +1,7 @@
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(180deg, #56759F 0%, #1D3557 100%);">
     <!-- Brand Logo -->
-    <a href="{{url('dashboard')}}" class="brand-link">
+    <a href="{{url('dashboard')}}" class="brand-link" style="background: #034EA1">
       <img src="{{ url('admin/dist/img/AdminLTELogo.png') }}"
            alt="Admin Logo"
            class="brand-image img-circle elevation-3"
