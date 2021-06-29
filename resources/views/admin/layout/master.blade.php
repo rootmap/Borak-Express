@@ -54,7 +54,7 @@
   <footer class="main-footer"
    
 @if (Auth::user()->user_type_id==2)
-style="margin-left:0px;" 
+{{--style="margin-left:0px;" --}}
 @endif 
   >
     <div class="float-right d-none d-sm-block">
