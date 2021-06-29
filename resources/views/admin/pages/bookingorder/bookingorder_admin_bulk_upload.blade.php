@@ -118,7 +118,6 @@
                                         <div class="card-body">
                                             <input id="searchInput" type="text" placeholder="Search merchant here..."
                                                    style="width: 100%;margin-bottom: 20px;">
-                                        <?php echo $dataRow_MerchantInfo ?>
 
                                             <table class="table" id="merchantTable">
                                                 <tr>
