@@ -1,14 +1,8 @@
-@extends("admin.layout.master")
+@extends("public.layout.master")
 @section("title","Bulk Upload")
 @section("content")
     <section class="content-header">
         <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Bulk Upload</h1>
-                </div>
-
-            </div>
             <div class="row">
                 <div class="col-md-12">
                     @include("admin.include.msg")
@@ -52,59 +46,7 @@
                         </div>
                     </div>
             @endif
-            <!-- /.card -->
-                <div class="card">
 
-                    <!-- /.card-header -->
-                    <div class="card-body text-center">
-
-                        <div id="token_button_container" style="margin: 20px 0">
-                            <a href="{{url('/excel/bulk_order_template.xlsx')}}" class="btn btn-large btn-info"><i
-                                        class="icon-download-alt"> </i> Download Bulk Order Upload Template </a><br>
-                        </div>
-                        <div class="p-3">
-                            <form action="{{url('/bookingorder/importexcel')}}" enctype="multipart/form-data"
-                                  method="post">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <div class="form-row mb-3">
-                                    <div class="col-5 text-right">
-                                        <label style="font-size: 15px">Choose Merchant:</label>
-                                    </div>
-                                    <div class="col-7 text-left">
-                                        <select class="form-control select2" style="width: 90%;"  id="merchant_id" name="merchant_id" required>
-                                            <option value="">Please Select</option>
-                                            @if(isset($dataRow_MerchantInfo))
-                                                @if(count($dataRow_MerchantInfo)>0)
-                                                    @foreach($dataRow_MerchantInfo as $ItemType)
-                                                        <option
-                                                                value="{{$ItemType->user_id}}">{{$ItemType->full_name}}, {{$ItemType->email}}, {{$ItemType->mobile}}, {{$ItemType->business_name}}</option>
-
-                                                    @endforeach
-                                                @endif
-                                            @endif
-
-                                        </select>
-                                    </div>
-
-                                </div>
-                                <div class="form-row mb-3">
-                                    <div class="col-5 text-right">
-                                        <label style="font-size: 15px">Choose Excel File:</label>
-                                    </div>
-                                    <div class="col-7 text-left">
-                                        <input type="file" name="file" style="font-size: 15px">
-                                    </div>
-
-                                </div>
-
-                                <button type="submit" class="btn btn-success">Submit</button>
-
-                            </form>
-                        </div>
-                    </div>
-                    <!-- /.card-body -->
-                </div>
-                <!-- /.card -->
 
 
                 <div class="card p-5">
@@ -112,34 +54,6 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="card">
-                                        <div class="card-header">Merchant Info</div>
-                                        <div class="card-body">
-                                            <input id="searchInput" type="text" placeholder="Search merchant here..."
-                                                   style="width: 100%;margin-bottom: 20px;">
-
-                                            <table class="table" id="merchantTable">
-                                                <tr>
-                                                    <th>Merchant Id</th>
-                                                    <th>Merchant Name</th>
-                                                    <th>Merchant Email</th>
-                                                    <th>Merchant business name</th>
-                                                </tr>
-                                                <tbody id="merchantTable_body">
-                                                @foreach($dataRow_MerchantInfo as $row)
-                                                    <tr>
-                                                        <td>{{$row->id}}</td>
-                                                        <td>{{$row->full_name}}</td>
-                                                        <td>{{$row->email}}</td>
-                                                        <td>{{$row->business_name}}</td>
-                                                    </tr>
-                                                @endforeach
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-6">
                                     <div class="card">
                                         <div class="card-header">Sending type</div>
@@ -298,7 +212,7 @@
                                         <div class="card-header">Recipient Area</div>
                                         <div class="card-body">
                                             <input id="areaInput" type="text" placeholder="Search area here..."
-                                                   style="width: 100%;margin-bottom: 20px;">
+                                            style="width: 100%;margin-bottom: 20px;">
                                             <table class="table" id="areaTable">
                                                 <tr>
                                                     <th>recipient city name</th>
@@ -342,49 +256,28 @@
         }
 
     </style>
-
-
-@endsection
-@section("css")
-    @include("admin.include.lib.datatable.css")
-    <link rel="stylesheet" href="{{url('admin/plugins/select2/css/select2.min.css')}}">
-@endsection
-
-
-@section("js")
-
-    @include("admin.include.lib.datatable.js")
-    <!-- date-range-picker -->
-    <script src="{{url('admin/plugins/jquery/jquery.min.js')}}"></script>
-
-    <!-- InputMask -->
-    <script src="{{url('admin/plugins/moment/moment.min.js')}}"></script>
-    <script src="{{url('admin/plugins/inputmask/min/jquery.inputmask.bundle.min.js')}}"></script>
-    <script src="{{url('admin/plugins/daterangepicker/daterangepicker.js')}}"></script>
-    <script src="{{url('admin/plugins/select2/js/select2.full.min.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-
-
         $(document).ready(function(){
-
             $("#areaInput").on("keyup", function() {
                 var value = $(this).val().toLowerCase();
                 $("#areaTable #areaTable_body >tr").filter(function() {
                     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                 });
             });
-            $("#searchInput").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                $("#merchantTable #merchantTable_body >tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-
-            $(".select2").select2();
         });
-
-
     </script>
 
+
+
+
 @endsection
+@section("css")
+    @include("admin.include.lib.datatable.css")
+@endsection
+
+@section("js")
+    @include("admin.include.lib.datatable.js")
+@endsection
+
 

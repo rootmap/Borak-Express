@@ -23,23 +23,18 @@
      <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}"/>
 </head>
 <body class="hold-transition sidebar-mini">
-<div class="wrapper">
-  <!-- Navbar -->
-  @include('admin.include.top_nav')
-  <!-- /.navbar -->
 
-  <!-- Main Sidebar Container -->
-  @if(Auth::user()->user_type_id==1)
-    @include('admin.include.main_menu')
-  @elseif(Auth::user()->user_type_id==2)
-    @include('admin.include.merchant_sidebar')
-  @endif
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" 
-  {{-- @if (Auth::user()->user_type_id==2)
-    style="margin-left:0px;" 
-  @endif  --}}
+
+<!-- Content Wrapper. Contains page content -->
+<div class=""
+        {{-- @if (Auth::user()->user_type_id==2)
+          style="margin-left:0px;"
+      <div class="wrapper">
+        <!-- Navbar -->
+ Auth::user()->user_type_id==2)
+          style="margin-left:0px;"
+        @endif  --}}
   >
     <!-- Content Header (Page header) -->
     {{-- @include('admin.include.breadcrumb') --}}
@@ -54,7 +49,7 @@
   <footer class="main-footer"
    
 @if (Auth::user()->user_type_id==2)
-{{--style="margin-left:0px;" --}}
+style="margin-left:0px;" 
 @endif 
   >
     <div class="float-right d-none d-sm-block">

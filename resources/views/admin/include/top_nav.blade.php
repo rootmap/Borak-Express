@@ -1,6 +1,6 @@
 <nav 
 @if (Auth::user()->user_type_id==2)
-  style="margin-left:0px;" 
+{{--  style="margin-left:0px;" --}}
 @endif 
 class="main-header navbar navbar-expand-md navbar-light navbar-white">
   <div class="container">    

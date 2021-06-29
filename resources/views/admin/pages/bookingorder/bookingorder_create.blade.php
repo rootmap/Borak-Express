@@ -82,7 +82,7 @@
                                     <div class="row">
                                       <div class="col-md-12">
                                         <div class="form-group">
-                                          <label>Choose Merchant</label>
+                                          <label class="star-after">Choose Merchant</label>
                                           <select class="form-control select2" style="width: 100%;"  id="merchant_id" name="merchant_id">
                                                 <option value="">Please Select</option>
                                                 @if(isset($dataRow_MerchantInfo))    
@@ -106,7 +106,7 @@
                                     <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <label>Choose Sending Type</label>
+                                          <label class="star-after">Choose Sending Type</label>
                                           <select class="form-control select2" style="width: 100%;"  id="sending_type" name="sending_type">
                                                 <option value="">Please Select</option>
                                                 @if(isset($dataRow_SendingType))    
@@ -129,7 +129,7 @@
                                     <div class="col-sm-4">
                                       <!-- text input -->
                                       <div class="form-group">
-                                        <label for="recipient_number">Recipient Mob. No.</label>
+                                        <label class="star-after" for="recipient_number">Recipient Mob. No.</label>
                                         <input type="text" class="form-control" maxlength="13" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" placeholder="Enter Recipient Number" id="recipient_number" name="recipient_number"  value="{{ old('recipient_number') }}" >
                                       </div>
                                     </div>
@@ -148,7 +148,7 @@
                                   <div class="col-sm-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="recipient_name">Recipient Name</label>
+                                      <label class="star-after" for="recipient_name">Recipient Name</label>
                                       <input type="text" class="form-control" placeholder="Enter Recipient Name" id="recipient_name" name="recipient_name" value="{{ old('recipient_name') }}">
                                     </div>
                                   </div>
@@ -156,7 +156,7 @@
       
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <label>Choose Recipient City</label>
+                                          <label class="star-after">Choose Recipient City</label>
                                           <select class="form-control select2" style="width: 100%;"  id="recipient_city" name="recipient_city">
                                                 <option value="">Please Select</option>
                                                 @if(isset($dataRow_City))    
@@ -177,7 +177,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                          <label>Choose Recipient Area</label>
+                                          <label class="star-after">Choose Recipient Area</label>
                                           <select class="form-control select2" style="width: 100%;"  id="recipient_area" name="recipient_area">
                                                 <option value="">Please Select</option>
                                                 @if(isset($dataRow_BookingArea))    
@@ -199,14 +199,14 @@
                                 </div>
                             
                                 <div class="row">
-                                  <div class="col-sm-4">
+                                  <div class="col-sm-6">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="address">Address</label>
+                                      <label class="star-after" for="address">Address</label>
                                       <textarea class="form-control" rows="3"  placeholder="Enter Address" id="address" name="address">{{ old('address') }}</textarea>
                                     </div>
                                   </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-6">
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="landmarks">Landmarks</label>
@@ -235,7 +235,7 @@
       
                                   <div class="col-md-4">
                                           <div class="form-group">
-                                            <label>Choose Parcel Type</label>
+                                            <label class="star-after">Choose Parcel Type</label>
                                             <select class="form-control select2" style="width: 100%;"  id="parcel_type" name="parcel_type">
                                                   <option value="">Please Select</option>
                                                   @if(isset($dataRow_ItemType))    
@@ -257,7 +257,7 @@
       
                                     <div class="col-md-4">
                                       <div class="form-group">
-                                        <label>Choose Delivery Type</label>
+                                        <label class="star-after">Choose Delivery Type</label>
                                         <select class="form-control select2" style="width: 100%;"  id="delivery_type" name="delivery_type">
                                               <option value="">Please Select</option>
                                               @if(isset($dataRow_BookingDeliveryType))    
@@ -282,7 +282,7 @@
       
                                   <div class="col-md-4">
                                       <div class="form-group">
-                                        <label>Choose Package Name</label>
+                                        <label class="star-after">Choose Package Name</label>
                                         <select class="form-control select2" style="width: 100%;"  id="package_id" name="package_id">
                                               <option value="">Please Select</option>
                                               @if(isset($dataRow_BookingPackage))    
@@ -305,7 +305,7 @@
                                   <div class="col-sm-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="product_price">Product Price </label>
+                                      <label class="star-after" for="product_price">Product Price </label>
                                       <input type="text" class="form-control"  maxlength="13"   placeholder="Enter Product Price" id="product_price" name="product_price" value="{{ old('product_price')?old('product_price'):'0' }}">
                                       <code>(Please Add Shipping Price with Product Price)</code>
                                     </div>
@@ -314,7 +314,7 @@
                                   <div class="col-sm-4">
                                     <!-- text input -->
                                     <div class="form-group">
-                                      <label for="product_price">Payment Method</label>
+                                      <label class="star-after" for="product_price">Payment Method</label>
                                       <select class="form-control select2" style="width: 100%;"  id="payment_method" name="payment_method">
                                             <option value="">Please Select</option>
                                             @if(isset($dataRow_PaymentMethod))    
@@ -335,7 +335,7 @@
                                 </div>
                       
                                 <div class="row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <!-- text input -->
                                       <div class="form-group">
                                         <label for="deliver_date">Deliver Date</label>
@@ -343,10 +343,10 @@
                                       </div>
                                     </div>
       
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                       <!-- text input -->
                                       <div class="form-group">
-                                        <label for="no_of_items">No of Items</label>
+                                        <label class="star-after" for="no_of_items">No of Items</label>
                                         <input type="text" class="form-control" placeholder="Enter No of Items/Quantity" id="no_of_items" name="no_of_items" value="{{ old('no_of_items') }}">
                                       </div>
                                     </div>
@@ -354,187 +354,182 @@
                                     
                                     <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="shipping_cost" name="shipping_cost" value="{{ old('shipping_cost') }}">
                                     <input type="hidden" readonly value="0" placeholder="Enter shipping cost" id="total_charge" name="total_charge" value="{{ old('total_charge') }}">
-                                      
-      
+
+                                    @if(Auth::user()->user_type_id==2)
+                                            <div class="col-sm-4">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label for="landmarks">Special Note</label>
+                                                    <textarea class="form-control" rows="2"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="card card-warning card-outline position-sticky">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            <i class="fas fa-cash-register"></i>
+                                                            Cost Management
+                                                        </h3>
+                                                    </div>
+                                                    <div class="card-body" style="padding: 0px;">
+                                                        <style type="text/css">
+                                                            .shipping_cost_cart::after{
+                                                                content: ' Tk';
+                                                                text-align: right;
+                                                            }
+                                                        </style>
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td style="width: 59%;">Shipping Cost</td>
+                                                                <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>COD</td>
+                                                                <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total Borak Express Cost (+)</td>
+                                                                <td class="shipping_cost_cart" id="total_cart_sum">0</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card -->
+                                                </div>
+                                            </div>
+                                    @else
+                                            <div class="col-sm-4">
+                                                <!-- text input -->
+                                                <div class="form-group">
+                                                    <label for="landmarks">Special Note</label>
+                                                    <textarea class="form-control" rows="2"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <!-- radio -->
+                                                <div class="form-group">
+                                                    <label>Choose Parcel Status</label>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_0" name="parcel_status" value="Pending">
+                                                        <label class="form-check-label">Pending</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_1" name="parcel_status" value="Accepted">
+                                                        <label class="form-check-label">Accepted</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_2" name="parcel_status" value="Pickup">
+                                                        <label class="form-check-label">Pickup</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_3" name="parcel_status" value="On The Way">
+                                                        <label class="form-check-label">On The Way</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_4" name="parcel_status" value="Delivered">
+                                                        <label class="form-check-label">Delivered</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_5" name="parcel_status" value="Cancel">
+                                                        <label class="form-check-label">Cancel</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_6" name="parcel_status" value="Hold">
+                                                        <label class="form-check-label">Hold</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <!-- radio -->
+                                                <div class="form-group">
+                                                    <label>Choose Payment Status</label>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="payment_status_0" name="payment_status" value="Paid">
+                                                        <label class="form-check-label">Paid</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="payment_status_1" name="payment_status" value="Unpaid">
+                                                        <label class="form-check-label">Unpaid</label>
+                                                    </div>
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="payment_status_2" name="payment_status" value="Processing">
+                                                        <label class="form-check-label">Processing</label>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="card card-warning card-outline position-sticky">
+                                                    <div class="card-header">
+                                                        <h3 class="card-title">
+                                                            <i class="fas fa-cash-register"></i>
+                                                            Cost Management
+                                                        </h3>
+                                                    </div>
+                                                    <div class="card-body" style="padding: 0px;">
+                                                        <style type="text/css">
+                                                            .shipping_cost_cart::after{
+                                                                content: ' Tk';
+                                                                text-align: right;
+                                                            }
+                                                        </style>
+                                                        <table class="table table-bordered">
+                                                            <tbody>
+                                                            <tr>
+                                                                <td style="width: 59%;">Shipping Cost</td>
+                                                                <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>COD</td>
+                                                                <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total Borak Express Cost (+)</td>
+                                                                <td class="shipping_cost_cart" id="total_cart_sum">0</td>
+                                                            </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- /.card -->
+                                                </div>
+                                            </div>
+
+                                    @endif
                                 </div>
       
-                                @if(Auth::user()->user_type_id==2)
-                                  <div class="row">
-                                    <div class="col-sm-4">
-                                      <!-- text input -->
-                                      <div class="form-group">
-                                        <label for="landmarks">Special Note</label>
-                                        <textarea class="form-control" rows="5"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
-                                      </div>
-                                    </div>
-                                      <div class="col-md-4">
-                                        <div class="card card-warning card-outline position-sticky">
-                                          <div class="card-header">
-                                            <h3 class="card-title">
-                                              <i class="fas fa-cash-register"></i>
-                                              Cost Management
-                                            </h3>
-                                          </div>
-                                          <div class="card-body" style="padding: 0px;">
-                                              <style type="text/css">
-                                                  .shipping_cost_cart::after{
-                                                      content: ' Tk';
-                                                      text-align: right;
-                                                  }
-                                              </style>
-                                              <table class="table table-bordered">
-                                                  <tbody>
-                                                      <tr>
-                                                          <td style="width: 59%;">Shipping Cost</td>
-                                                          <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>COD</td>
-                                                          <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
-                                                      </tr>
-                                                      
-                                                      <tr>
-                                                          <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>Total Borak Express Cost (+)</td>
-                                                        <td class="shipping_cost_cart" id="total_cart_sum">0</td>
-                                                    </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                          <!-- /.card -->
-                                        </div>
-                                      </div>
-                                  </div>
-                                @else 
-                                <div class="row">
-                                  <div class="col-sm-3">
-                                    <!-- text input -->
-                                    <div class="form-group">
-                                      <label for="landmarks">Special Note</label>
-                                      <textarea class="form-control" rows="3"  placeholder="Enter Special Notes" id="special_note" name="special_note">{{ old('special_note') }}</textarea>
-                                    </div>
-                                  </div>
-                                  <div class="col-sm-3">
-                                    <!-- radio -->
-                                    <div class="form-group">
-                                    <label>Choose Parcel Status</label>
-                              
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_0" name="parcel_status" value="Pending">
-                                                <label class="form-check-label">Pending</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_1" name="parcel_status" value="Accepted">
-                                                <label class="form-check-label">Accepted</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_2" name="parcel_status" value="Pickup">
-                                                <label class="form-check-label">Pickup</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_3" name="parcel_status" value="On The Way">
-                                                <label class="form-check-label">On The Way</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_4" name="parcel_status" value="Delivered">
-                                                <label class="form-check-label">Delivered</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_5" name="parcel_status" value="Cancel">
-                                                <label class="form-check-label">Cancel</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="parcel_status_6" name="parcel_status" value="Hold">
-                                                <label class="form-check-label">Hold</label>
-                                              </div>
-                                      
-                                          </div>
-                                      </div>
-      
-                                  <div class="col-sm-3">
-                                    <!-- radio -->
-                                    <div class="form-group">
-                                    <label>Choose Payment Status</label>
-                              
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="payment_status_0" name="payment_status" value="Paid">
-                                                <label class="form-check-label">Paid</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="payment_status_1" name="payment_status" value="Unpaid">
-                                                <label class="form-check-label">Unpaid</label>
-                                              </div>
-                                      
-                                              <div class="form-check">
-                                                  <input class="form-check-input" type="radio" 
-                                                id="payment_status_2" name="payment_status" value="Processing">
-                                                <label class="form-check-label">Processing</label>
-                                              </div>
-                                      
-                                          </div>
-                                      </div>
 
-                                      <div class="col-md-3">
-                                        <div class="card card-warning card-outline position-sticky">
-                                          <div class="card-header">
-                                            <h3 class="card-title">
-                                              <i class="fas fa-cash-register"></i>
-                                              Cost Management
-                                            </h3>
-                                          </div>
-                                          <div class="card-body" style="padding: 0px;">
-                                              <style type="text/css">
-                                                  .shipping_cost_cart::after{
-                                                      content: ' Tk';
-                                                      text-align: right;
-                                                  }
-                                              </style>
-                                              <table class="table table-bordered">
-                                                  <tbody>
-                                                      <tr>
-                                                          <td style="width: 59%;">Shipping Cost</td>
-                                                          <td class="shipping_cost_cart cart_sum" id="shipping_cost_cart">0</td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>COD</td>
-                                                          <td class="shipping_cost_cart cart_sum" id="codbod_cost_cart">0</td>
-                                                      </tr>
-                                                      
-                                                      <tr>
-                                                          <td style="padding: 0px;" colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;" /></td>
-                                                      </tr>
-                                                      <tr>
-                                                        <td>Total Borak Express Cost (+)</td>
-                                                        <td class="shipping_cost_cart" id="total_cart_sum">0</td>
-                                                    </tr>
-                                                  </tbody>
-                                              </table>
-                                          </div>
-                                          <!-- /.card -->
-                                        </div>
-                                      </div>
-
-
-                                  </div>
-                                @endif
                               
                           
                 
@@ -566,6 +561,7 @@
     <link rel="stylesheet" href="{{url('admin/plugins/select2/css/select2.min.css')}}">
       <!-- daterange picker -->
     <link rel="stylesheet" href="{{url('admin/plugins/daterangepicker/daterangepicker.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/custom.css')}}">
 @endsection
         
 @section("js")
