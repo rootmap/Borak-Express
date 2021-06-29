@@ -178,11 +178,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
        //Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
-<<<<<<< Updated upstream
         Spatie\Permission\PermissionServiceProvider::class,
-=======
         Yajra\DataTables\DataTablesServiceProvider::class
->>>>>>> Stashed changes
 
     ],
 
