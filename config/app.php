@@ -178,7 +178,11 @@ return [
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
        //Meneses\LaravelMpdf\LaravelMpdfServiceProvider::class,
+<<<<<<< Updated upstream
         Spatie\Permission\PermissionServiceProvider::class,
+=======
+        Yajra\DataTables\DataTablesServiceProvider::class
+>>>>>>> Stashed changes
 
     ],
 
@@ -230,6 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         //'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
 
     ],
 

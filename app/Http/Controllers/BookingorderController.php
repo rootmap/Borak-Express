@@ -23,6 +23,7 @@ use File;
 use Config;
 use Response;
 use Mpdf\Mpdf;
+use Yajra\DataTables\DataTables;
 
 
 class BookingOrderController extends Controller
@@ -458,42 +459,55 @@ class BookingOrderController extends Controller
     public function index(){
         if(Auth::user()->user_type_id==1)
         {
-            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
-                             ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
-                             ->select('booking_orders.*',
-                             'merchant_infos.full_name',
-                             'merchant_infos.mobile',
-                             'merchant_infos.email',
-                             'merchant_infos.business_name',
-                             'merchant_infos.business_address',
-                             'merchant_infos.pickup_address'
-                             )
-                             ->orderBy('booking_orders.id','DESC')
-                             ->get();
+            if (request()->ajax()) {
+                return datatables()->of(BookingOrder::leftJoin('users', 'booking_orders.created_by', '=', 'users.id')
+                    ->leftJoin('merchant_infos', 'users.email', '=', 'merchant_infos.email')
+                    ->select('booking_orders.*',
+                        'merchant_infos.full_name',
+                        'merchant_infos.mobile',
+                        'merchant_infos.email',
+                        'merchant_infos.business_name',
+                        'merchant_infos.business_address',
+                        'merchant_infos.pickup_address'
+                    ))
+
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="javascript:void(0)" ata-toggle="tooltip" onClick="editData(' . $row->id . ')" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Edit this Spare Category">Edit</a>';
+                        $btn = $btn . ' <a href="javascript:void(0)" ata-toggle="tooltip" onClick="deleteData(' . $row->id . ')" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete this Spare Category">Delete</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
 
             //dd($tab);
         }
-        else
-        {
-            $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
-            ->leftJoin('merchant_infos','users.email','=','merchant_infos.email')
-            ->select('booking_orders.*',
-            'merchant_infos.full_name',
-            'merchant_infos.mobile',
-            'merchant_infos.email',
-            'merchant_infos.business_name',
-            'merchant_infos.business_address',
-            'merchant_infos.pickup_address'
-            )
-            ->where('booking_orders.created_by',$this->sdc->UserID())
-            ->orderBy('booking_orders.id','DESC')
-            ->get();
+        else {
+            if (request()->ajax()) {
+                return datatables()->of(BookingOrder::leftJoin('users', 'booking_orders.created_by', '=', 'users.id')
+                    ->leftJoin('merchant_infos', 'users.email', '=', 'merchant_infos.email')
+                    ->select('booking_orders.*',
+                        'merchant_infos.full_name',
+                        'merchant_infos.mobile',
+                        'merchant_infos.email',
+                        'merchant_infos.business_name',
+                        'merchant_infos.business_address',
+                        'merchant_infos.pickup_address'
+                    ))
+                    ->where('booking_orders.created_by', $this->sdc->UserID())
+                    ->addColumn('action', function ($row) {
+                        $btn = '<a href="javascript:void(0)" ata-toggle="tooltip" onClick="editData(' . $row->id . ')" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Edit this Spare Category">Edit</a>';
+                        $btn = $btn . ' <a href="javascript:void(0)" ata-toggle="tooltip" onClick="deleteData(' . $row->id . ')" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="top" title="Delete this Spare Category">Delete</a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
         }
-
 
         //dd($tab);
         
-        return view('admin.pages.bookingorder.bookingorder_list',['dataRow'=>$tab]);
+        return view('admin.pages.bookingorder.bookingorder_list');
     }
 
     /**
