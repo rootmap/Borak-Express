@@ -27,32 +27,32 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           {{-- <li class="nav-item">
-            <a href="{{url('crud')}}" class="nav-link {{ Request::path() == 'crud' ? 'active' : '' }}">
+            <a href="{{url('crud')}}" class="nav-link nav_link {{ Request::path() == 'crud' ? 'active' : '' }}">
               <i class="nav-icon fas fa-igloo"></i>
               <p>CRUD</p>
             </a>
           </li> --}}
           <li class="nav-item">
-            <a href="{{url('dashboard')}}" class="nav-link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
+            <a href="{{url('dashboard')}}" class="nav-link nav_link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
               <i class="nav-icon fas fa-igloo"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('bookingorder/create')}}" class="nav-link {{ Request::path() == 'bookingorder/create' ? 'active' : '' }}">
+            <a href="{{url('bookingorder/create')}}" class="nav-link nav_link {{ Request::path() == 'bookingorder/create' ? 'active' : '' }}">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>Booking Order</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('order/search')}}" class="nav-link {{ Request::path() == 'order/search' ? 'active' : '' }}">
+            <a href="{{url('order/search')}}" class="nav-link nav_link {{ Request::path() == 'order/search' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>Booking Order Report</p>
             </a>
           </li>
 
          <li class="nav-item">
-            <a href="{{url('bookingorder/bulkUpload')}}" class="nav-link {{ Request::path() == 'bookingorder/bulkUpload' ? 'active' : '' }}">
+            <a href="{{url('bookingorder/bulkUpload')}}" class="nav-link nav_link {{ Request::path() == 'bookingorder/bulkUpload' ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-upload"></i>
               <p>Bulk Order Upload</p>
             </a>
@@ -62,7 +62,7 @@
 
 {{-- 
           <li class="nav-item has-treeview {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantmfs','merchantmfs/list','merchantbankinfo','merchantbankinfo/list'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantbankinfo','merchantbankinfo/list'))?'active':'' }}">
+            <a href="#" class="nav-link nav_link {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantbankinfo','merchantbankinfo/list'))?'active':'' }}">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 API Integration
@@ -71,13 +71,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('merchantapi/gettoken')}}" class="nav-link {{ (Request::path() == 'merchantapi' || Request::path() == 'merchantapi') ? 'active' : '' }}">
+                <a href="{{url('merchantapi/gettoken')}}" class="nav-link nav_link {{ (Request::path() == 'merchantapi' || Request::path() == 'merchantapi') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Get API Token</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('merchantapi/documentation')}}" class="nav-link {{ (Request::path() == 'merchantapi' || Request::path() == 'merchantapi/documentation') ? 'active' : '' }}">
+                <a href="{{url('merchantapi/documentation')}}" class="nav-link nav_link {{ (Request::path() == 'merchantapi' || Request::path() == 'merchantapi/documentation') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>API Documentation</p>
                 </a>

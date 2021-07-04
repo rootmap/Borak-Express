@@ -19,6 +19,11 @@
     body{
       font-size: 0.7rem;
     }
+    .nav-item .nav_link{
+      font-size: 1rem !important;
+      opacity: 1 !important;
+      color: #ffffff !important;
+    }
   </style>
      <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}"/>
 </head>

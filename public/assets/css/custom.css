@@ -2,3 +2,10 @@
     content: " *";
     color: #D33282;
 }
+.bg_transparent{
+    background: transparent !important;
+    border: none !important;
+}
+label{
+    font-size: 0.8rem;
+}
