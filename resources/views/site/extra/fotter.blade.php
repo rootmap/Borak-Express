@@ -32,7 +32,7 @@
                 <form class="form newslatter-form" action="javascript:void(0);">
                     <div class="fieldset">
                         <input class="form__field" type="email" name="email" placeholder="Email address"/>
-                        <button class="form__submit" type="submit">
+                        <button class="form__submit btn_custom" type="submit">
                                 <i style="color: #fff;" class="fa fa-envelope"></i>
                         </button>
                     </div>
@@ -67,4 +67,19 @@
             </div>
         </div>
     </div>
+    <style>
+        .btn_custom{
+            background-color: #9e2074 !important;
+            color: #ffffff;
+            border: none !important;
+        }.btn_custom:focus{
+             outline: none !important;
+             border: transparent !important;
+         }.btn_custom:hover{
+              background-color: #bf1e89 !important;
+          }
+          .socials__link:hover{
+              color: #bf1e89 !important;
+          }
+    </style>
 </footer>

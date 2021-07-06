@@ -45,7 +45,9 @@ public function orderBookingInfo(){
         'dataRow_MerchantInfo'=>$tab_MerchantInfo,
         'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'edit'=>true]);
 
+}
+public function orderBookingTracking(){
 
-
+    return view('public.bookingorder_tracking');
 }
 }
