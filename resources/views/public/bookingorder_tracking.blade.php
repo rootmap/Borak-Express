@@ -19,87 +19,39 @@
                     <div class="logo_section text-center">
                         <img src="{{asset('Gray/borakexpress_float_logo_1597820471.png')}}" class="logo_section_img">
                     </div>
+                    <form method="POST" action="{{url('/public/tracking')}}">
                     <div class="search_section">
                         <div class="field" id="searchform">
-                            <input type="text" name="borak_track_id" id="searchterm" placeholder="Enter Borak Tracking No." />
-                            <button type="button" id="search">Find</button>
+
+                            <input @if ($data!=1 && $data !=0) value="{{$data[0]->order_id}}" @endif type="text" name="tracking_id" id="tracking_id" placeholder="Enter Borak Tracking No." required />
+                            <button type="submit" id="search" >Find</button>
+
                         </div>
                     </div>
+                    </form>
+                    @if ($data!==1 && $data !==0)
                     <div class="tracking_status_section">
-
                         <ul id="progressbar" class="text-center">
+                            @foreach($data as $parcel_status)
                             <li class="step0">
                                 <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
                                     <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
                                 </div>
                                 <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customerOrder marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
+                                    <h5 class="step_heading">{{$parcel_status->parcel_status}}</h5>
+                                    <p class="step_note">Order @if($parcel_status->parcel_status=='Pending') created @else {{strtolower($parcel_status->parcel_status)}} @endif by {{$parcel_status->username}}</p>
+                                    <p class="step_date_time">{{date("F j, Y, g:i a", strtotime($parcel_status->created_at))}}</p>
                                 </div>
                             </li>
-
-
-                            <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li>
-
-
-                            <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li> <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li> <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li> <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li> <li class="step0">
-                                <div style="display: flex; justify-content: start; align-items: center; margin-right: 10px">
-                                    <img src="{{asset('Gray/Shipped.svg')}}" width="30" height="30">
-                                </div>
-                                <div>
-                                    <h5 class="step_heading">DELIVERED</h5>
-                                    <p class="step_note">Order marked as delivered by customer by - customer</p>
-                                    <p class="step_date_time">07 Feb 2021, 03:12 PM</p>
-                                </div>
-                            </li>
+                                @endforeach
                         </ul>
                     </div>
+                    @endif
+                     @if ($data ==0)
+                        <div class="tracking_status_section">
+                            <h2 style="text-align: center">Sorry! No tracking found. Please check your tracking ID.</h2>
+                        </div>
+                    @endif
                 </div>
             </div>
             <!-- /.col -->
