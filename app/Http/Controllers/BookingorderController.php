@@ -1266,7 +1266,14 @@ class BookingOrderController extends Controller
     {
         $mpdf =  new \Mpdf\Mpdf([
             'default_font' => 'bangla',
-            'mode' => 'utf-8'
+            'mode' => 'utf-8',
+            'format' => [72, 236],
+            'margin_left' => .7,
+            'margin_right' => 0,
+            'margin_header' => 0,
+            'margin_footer' => 0,
+            'margin_top' => 0.5,
+            'margin_bottom' => 0
         ]);
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
@@ -1317,12 +1324,22 @@ class BookingOrderController extends Controller
             $hold .='
         <input type="checkbox"  id="hold" name="hold" >';
         }
+        $return = '';
+        if( $data->parcel_status == "Return")
+        {
+            $return .= '
+            <input type="image" id="return" src="'.asset("Gray/checked.png").'" >
+            ';
+        } else {
+            $return .='
+        <input type="checkbox"  id="return" name="return" >';
+        }
 
         $output ='
      <table width="100%" border="0">
     <tr>
         <td>
-            <table width="100%" border="0" cellspacing="0" cellpadding="10">
+            <table width="100%" border="0" cellspacing="0" cellpadding="7">
                 <tr>
                     <td width="50%">
                         <table border="1" width="100%" cellspacing="0" cellpadding="10">
@@ -1372,10 +1389,13 @@ class BookingOrderController extends Controller
                   <td>
                       <table width="100%" cellspacing="0" cellpadding="20">
                           <tr>
-                              <td width="50%" align="center">
-                                  <h3 style="border-inline-end: 3px solid #000000;">'. $data->payment_method_name . '</h3>
+                              <td width="50%" align="right">
+                                  <h3>'. $data->payment_method_name . '</h3>
                               </td>
-                              <td width="50%">
+                              <td width="10%" align="center">
+                                  <h3>|</h3>
+                              </td>
+                              <td width="40%">
                                   <h3>'. $data->product_price . '</h3>
                               </td>
                           </tr>
@@ -1402,6 +1422,10 @@ class BookingOrderController extends Controller
                     <td>
                        '.$hold.'
                         <label for="hold"> HOLD</label>
+                    </td>
+                    <td align="center">
+                       '.$return.'
+                        <label for="return"> RETURN</label>
                     </td>
                 </tr>
             </table>

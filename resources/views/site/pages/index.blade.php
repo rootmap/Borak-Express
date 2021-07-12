@@ -80,7 +80,7 @@
 </div>
 <!-- promo end-->
 <!-- section start-->
-<section class="section" id="services">
+<section class="section pb-0" id="services">
 	<div class="container">
 		<div class="row bottom-70">
 			<div class="col-12">
@@ -121,25 +121,28 @@
 <!-- section end-->
 <!-- section start-->
 <section class="section qoute-section pb-0" id="signup">
-	<div class="quote-section__bg">
-		<img class="img--bg" src="{{asset('site/img/quote-bg.jpg')}}" alt="bg"/>
-	</div>
+{{--	<div class="quote-section__bg">--}}
+{{--		<img class="img--bg" src="{{asset('site/img/registrtion_bg.png')}}" alt="bg"/>--}}
+{{--	</div>--}}
+	<div class="signup_section">
 	<div class="container">
+		<h4 class="signup_section_heading">মার্চেন্ট <span class="color_pink">তথ্য</span></h4>
+		<p class="signup_section_text">মার্চেন্টের তথ্য দিয়ে হয়ে যান আমাদের মার্চেন্ট এজেন্ট</p>
 		<div class="row">
-			<div class="col-lg-5 d-flex flex-column justify-content-between">
-				<div class="heading heading--white"><span class="heading__pre-title">Merchant Singup</span>
-					<h3 class="heading__title">Provide your merchant info</h3>
-					<p class="heading__text color--white">Borak  is a household name to all in Bangladesh for having been the pioneer of Courier and Parcel Services in this country. From the Corporate Clients to the average person all the persons have been availing the services of borak.</p><span class="heading__layout layout--white">Signup</span>
-				</div>
-				{{-- <div class="contact-trigger top-50 top-lg-0"><img class="contact-trigger__img" src="{{asset('site/img/contact_background.png')}}" alt="img"/>
-					<h4 class="contact-trigger__title">How we can help you!</h4><a class="button button--white" href="#"><span>Contact us</span> 
-						<svg class="icon">
-							<use xlink:href="#arrow"></use>
-						</svg></a>
-				</div> --}}
-			</div>
-			<div class="col-lg-7 top-50 top-lg-0">
-				<div class="form-wrapper is--bordered">
+{{--			<div class="col-lg-5 d-flex flex-column justify-content-between">--}}
+{{--				<div class="heading heading--white"><span class="heading__pre-title">Merchant Singup</span>--}}
+{{--					<h3 class="heading__title">Provide your merchant info</h3>--}}
+{{--					<p class="heading__text color--white">Borak  is a household name to all in Bangladesh for having been the pioneer of Courier and Parcel Services in this country. From the Corporate Clients to the average person all the persons have been availing the services of borak.</p><span class="heading__layout layout--white">Signup</span>--}}
+{{--				</div>--}}
+{{--				--}}{{-- <div class="contact-trigger top-50 top-lg-0"><img class="contact-trigger__img" src="{{asset('site/img/contact_background.png')}}" alt="img"/>--}}
+{{--					<h4 class="contact-trigger__title">How we can help you!</h4><a class="button button--white" href="#"><span>Contact us</span> --}}
+{{--						<svg class="icon">--}}
+{{--							<use xlink:href="#arrow"></use>--}}
+{{--						</svg></a>--}}
+{{--				</div> --}}
+{{--			</div>--}}
+			<div class="col-lg-5 top-50 top-lg-0">
+				<div class="form-wrapper is--bordered" style="border-radius: 17px;">
 					<form class="form quote-form" id="merchant" autocomplete="off" action="javascript:void(0);">
 						<h6 class="quote-form__title">Merchant Registration</h6>
 						<h6 class="quote-form__title" style="margin-bottom: 6px; color:#ccc;"><small>Enter Account Information</small></h6>
@@ -233,11 +236,12 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </section>
 <!-- section end-->
 
 <!-- section start-->
-<section class="section" id="partners">
+<section class="section pb-5" id="partners">
 	<div class="container">
 		<div class="row bottom-60">
 			<div class="col-12">

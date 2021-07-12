@@ -51,11 +51,15 @@
             background-color: #bf1e89;
         }
          .text_bold{
+             font-family: Hind Siliguri;
+             font-style: normal;
              font-weight: 500;
              font-size: 35px;
              display: block;
          }
          .text_normal{
+             font-family: Hind Siliguri;
+             font-style: normal;
              font-size: 22px;
              margin-top: 80px;
          }
@@ -143,6 +147,32 @@
             line-height: 20px;
             text-align: center;
             color: #000000;
+        }
+        .signup_section{
+            background-image: url("{{asset('site/img/registrtion_bg.png')}}");
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            background-position: center center;
+            padding: 50px 0;
+        }
+        .signup_section_heading{
+            font-family: Hind Siliguri;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 35px;
+            color: #000000;
+            margin-bottom: 2px;
+        }
+        .signup_section_text{
+            font-family: Hind Siliguri;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 25px;
+            color: #000000;
+        }
+        .form-wrapper {
+            background: #fff;
+            padding: 34px 20px 50px 20px !important;
         }
         @media (max-width: 768px) {
             .text_bold{
