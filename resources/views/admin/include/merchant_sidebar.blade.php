@@ -1,8 +1,8 @@
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(180deg, #56759F 0%, #1D3557 100%);">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: #9D2374;">
     <!-- Brand Logo -->
-    <a href="{{url('dashboard')}}" class="brand-link" style="background: #034EA1">
-      <img src="{{ url('admin/dist/img/AdminLTELogo.png') }}"
+    <a href="{{url('dashboard')}}" class="brand-link" style="background: #9D2374;border: none!important;">
+      <img src="{{ url('admin/dist/img/Logo_white.svg') }}"
            alt="Admin Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -10,7 +10,7 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="padding: 0 !important;">
       <!-- Sidebar user (optional) -->
       {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
@@ -34,7 +34,7 @@
           </li> --}}
           <li class="nav-item">
             <a href="{{url('dashboard')}}" class="nav-link nav_link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-igloo"></i>
+                <i class="nav-icon fas fa-th-large"></i>
               <p>Dashboard</p>
             </a>
           </li>
@@ -145,4 +145,13 @@
     color: #fff;
     padding: 10px;
   }
+    .nav_link:hover{
+        background: #761A57 !important;
+        border-radius: 0 !important;
+    }
+    .nav-link.active{
+        background: #761A57 !important;
+        border-radius: 0 !important;
+        border-left: 6px solid #2C2B2B;
+    }
   </style>
