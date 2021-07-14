@@ -13,29 +13,29 @@ class="main-header navbar navbar-expand-md navbar-light navbar-white">
       <ul class="navbar-nav">
         @if (Auth::user()->user_type_id==1)
         <li class="nav-item">
-          <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i> Sidebar</a>
+          <a class="nav-link top_nav_link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i> Sidebar</a>
         </li>
         @endif
         <li class="nav-item">
-          <a href="{{url('dashboard')}}" class="nav-link"><i class="fas fa-igloo"></i> Dashboard</a>
+          <a href="{{url('dashboard')}}" class="nav-link top_nav_link"><i class="fas fa-th-large"></i> Dashboard</a>
         </li>
         @if (Auth::user()->user_type_id==2)
         <li class="nav-item">
-          <a href="{{url('bookingorder/create')}}" class="nav-link"><i class="fas fa-cart-plus"></i> New Booking Order</a>
+          <a href="{{url('bookingorder/create')}}" class="nav-link top_nav_link"><i class="fas fa-cart-plus"></i> New Booking Order</a>
         </li>
         <li class="nav-item">
-          <a href="{{url('bookingorder')}}" class="nav-link"><i class="fas fa-database"></i> Booking Order List</a>
+          <a href="{{url('bookingorder')}}" class="nav-link top_nav_link"><i class="fas fa-database"></i> Booking Order List</a>
         </li>
         <li class="nav-item">
-          <a href="{{url('order/search')}}" class="nav-link"><i class="fas fa-chart-pie"></i> Filter / Export Booking Report</a>
+          <a href="{{url('order/search')}}" class="nav-link top_nav_link"><i class="fas fa-chart-pie"></i> Filter / Export Booking Report</a>
         </li>
         @else
         
         <li class="nav-item">
-          <a href="{{url('bookingorder/create')}}" class="nav-link"><i class="fas fa-cart-plus"></i> New Booking Order</a>
+          <a href="{{url('bookingorder/create')}}" class="nav-link top_nav_link"><i class="fas fa-cart-plus"></i> New Booking Order</a>
         </li>
         <li class="nav-item">
-          <a href="{{url('bookingorder')}}" class="nav-link"><i class="fas fa-database"></i> Booking Order List</a>
+          <a href="{{url('bookingorder')}}" class="nav-link top_nav_link"><i class="fas fa-database"></i> Booking Order List</a>
         </li>
         
         @endif
@@ -58,23 +58,48 @@ class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <!-- Right navbar links -->
     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
       <!-- Messages Dropdown Menu -->
+      @if (Auth::user()->user_type_id==1)
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{{url('change/password')}}" class="nav-link"><i class="fas fa-key"></i> Change Password</a>
-      </li>
-      @if(Auth::user()->user_type_id!=1)  
-      <li class="nav-item">
-        <a href="{{url('user/profile')}}" class="nav-link"><i class="fas fa-user"></i> Profile</a>
+        <a href="{{url('change/password')}}" class="nav-link top_nav_link"><i class="fas fa-key"></i> Change Password</a>
       </li>
       @endif
+      @if(Auth::user()->user_type_id!=1)
+        <li class="nav-item">
+          <div class="btn-group">
+            <a href="{{url('user/profile')}}" class="nav-link top_nav_link"><i class="fas fa-user"></i> Profile</a>
+            <button type="button" class="btn dropdown-toggle dropdown-toggle-split pl-0" data-toggle="dropdown">
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a href="{{url('user/profile')}}" class="dropdown-item"><i class="fas fa-user"></i> Profile</a>
+              <a href="{{url('change/password')}}" class="dropdown-item"><i class="fas fa-key"></i> Change Password</a>
+              <a  onclick="event.preventDefault();
+        document.getElementById('logout-form').submit();" href="javascript:void(0);" class="dropdown-item"><i class="fas fa-lock"></i> Logout</a>
+            </div>
+          </div>
+      </li>
+      @endif
+      @if (Auth::user()->user_type_id==1)
       <li class="nav-item">
         <a  onclick="event.preventDefault();
-        document.getElementById('logout-form').submit();" href="javascript:void(0);" class="nav-link"><i class="fas fa-lock"></i> Logout</a>
+        document.getElementById('logout-form').submit();" href="javascript:void(0);" class="nav-link top_nav_link"><i class="fas fa-lock"></i> Logout</a>
       </li>
+      @endif
     </ul>
   </div>
 </nav>
 <form id="logout-form" action="{{url('logout')}}" method="POST" style="display: none;">
     {{csrf_field()}}
 </form>
-   
+  <style>
+    .top_nav_link{
+      font-size: 14px;
+      color: #000000 !important;
+    }
+    .top_nav_link:hover{
+      color: #bf1e89 !important;
+    }
+    .top_nav_link i{
+      color: #9D2374 !important;
+    }
+  </style>
   <!-- /.control-sidebar -->

@@ -42,7 +42,7 @@
 .login_form_card{
     background: #FFFFFF;
     border-radius: 27px;
-    padding: 25px;
+    padding: 25px 70px;
 }
 .login_form_card_label{
     font-family: myRegularFont;
@@ -126,5 +126,8 @@
     }
     .display_block{
         display: none;
+    }
+    .login_form_card{
+        padding: 25px ;
     }
 }
