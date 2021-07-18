@@ -654,6 +654,23 @@ class BookingOrderController extends Controller
 
         Session::put('booking_id',$tab->id);
 
+        $merchant_info = MerchantInfo::where(["id"=>$request->merchant_id])->first();
+
+        $url = 'https://24smsbd.com/api/bulkSmsApi';
+        $data = array('sender_id' =>771,
+            'apiKey' => 'VGFuaW5Jc2xhbTpUYW5pbjc4MQ==',
+            'mobileNo' => $request->recipient_number,
+            'message' => 'Dear customer, Your Parcel from '.$merchant_info->business_name.' has been booked at Borak Express.'
+        );
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        $output = curl_exec($curl);
+        curl_close($curl);
         return redirect('bookingorder')->with('status','Added Successfully !');
 
     }
@@ -1238,8 +1255,78 @@ class BookingOrderController extends Controller
             $order_status->created_by = $order_created_by;
             //$order_status->remarks = $request->special_note;
             $order_status->remarks = '';
-
             $order_status->save();
+
+              $merchant_info = MerchantInfo::select("merchant_infos.business_name as business_name", "merchant_infos.mobile as merchant_mobile")
+                  ->join("users", "users.email","=","merchant_infos.email")
+                  ->where(["users.id"=>$request->merchant_id])->first();
+
+            if($request->parcel_status == 'Pickup'){
+                $url = 'https://24smsbd.com/api/bulkSmsApi';
+                $data = array('sender_id' =>771,
+                    'apiKey' => 'VGFuaW5Jc2xhbTpUYW5pbjc4MQ==',
+                    'mobileNo' => $request->recipient_number,
+                    'message' => 'Dear customer, Your Parcel from '.$merchant_info->business_name.' has been booked at Borak Express.'
+                );
+
+                $curl = curl_init($url);
+                curl_setopt($curl, CURLOPT_POST, true);
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                $output = curl_exec($curl);
+                curl_close($curl);
+            }
+
+              if($request->parcel_status == 'On The Way'){
+                 echo ($request->parcel_status);
+
+                  $url = 'https://24smsbd.com/api/bulkSmsApi';
+                  if($request->payment_method==2){
+                      $data = array('sender_id' =>771,
+                              'apiKey' => 'VGFuaW5Jc2xhbTpUYW5pbjc4MQ==',
+                              'mobileNo' => $request->recipient_number,
+                              'message' => 'Dear customer, Your Parcel from '.$merchant_info->business_name.' is out for delivery. Borak Express'
+                  );
+                  }
+                  if($request->payment_method==1){
+                      $data = array('sender_id' => 771,
+                          'apiKey' => 'VGFuaW5Jc2xhbTpUYW5pbjc4MQ==',
+                          'mobileNo' => $request->recipient_number,
+                          'message' => 'Dear customer, Your Parcel from ' . $merchant_info->business_name . ' is out for delivery. Please keep BDT ' . (number_format($request->product_price + $request->shipping_cost)) . ' ready. Borak Express'
+                      );
+                  }
+
+                  $curl = curl_init($url);
+                  curl_setopt($curl, CURLOPT_POST, true);
+                  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                  curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                  $output = curl_exec($curl);
+                  curl_close($curl);
+              }
+
+              if($request->parcel_status == 'Delivered'){
+                  $url = 'https://24smsbd.com/api/bulkSmsApi';
+                  $data = array('sender_id' =>771,
+                      'apiKey' => 'VGFuaW5Jc2xhbTpUYW5pbjc4MQ==',
+                      'mobileNo' => $merchant_info->merchant_mobile,
+                      'message' => 'Dear Merchant, Your Parcel (ID# '.$request->id.') has been delivered successfully by Borak Express'
+                  );
+
+                  $curl = curl_init($url);
+                  curl_setopt($curl, CURLOPT_POST, true);
+                  curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                  curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                  curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                  $output = curl_exec($curl);
+                  curl_close($curl);
+              }
+
+
           }
 
         return redirect('bookingorder')->with('status','Updated Successfully !');
