@@ -9,27 +9,31 @@
 	<div class="front-promo__layout"></div>
 	<picture>
 		<source srcset="{{asset('upload/slidersetting/'.$slider->slider_image)}}" media="(min-width: 992px)"/>
-		<img class="img--bg" src="{{asset('upload/slidersetting/'.$slider->slider_image)}}" alt="img"/>
+		<img class="img--bg slider_image" src="{{asset('upload/slidersetting/'.$slider->slider_image)}}" alt="img"/>
 	</picture>
 	<div class="align-container">
 		<div class="align-container__item">
 			<div class="container">
 				<div class="row align-items-center">
 					<div class="col-xl-10 offset-xl-1 text-center">
-						<h2 class="front-promo__title">{{$slider->heading}}<span class="front-promo__overlay">{{$slider->water_mark}}</span></h2>
-						<p class="front-promo__subtitle">{{$slider->detail}}</p>
-							<a class="button button--promo" style="border-radius:20px 0 0px 0;" href="{{url('login')}}"><span>Merchant Login</span> 
+						<h2 class="front-promo__title ">{{$slider->heading}}<span class="front-promo__overlay">{{$slider->water_mark}}</span></h2>
+						<p class="front-promo__subtitle d-none">{{$slider->detail}}</p>
+						<div class="text-left">
+							<p class="text_normal"><span class="text_bold">একমাত্র</span> Borak Express এর মাধ্যমে ২৪ ঘণ্টায় <span class="text_bold">ঢাকার ভিতরে ডেলিভারী</span> </p>
+
+							<a class="button button--promo btn_custom" style="border-radius:20px 0 0px 0;" href="{{url('login')}}"><span>Merchant Login</span>
 								<i class="fa fa-unlock"></i>
 							</a>
-							<a class="button button--promo" href="#signup"><span>Merchant Signup</span> 
+							<a class="button button--promo btn_custom" href="#signup"><span>Merchant Signup</span>
 								<i class="fa fa-arrow-down"></i>
 							</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="promo-tabs tabs horizontal-tabs">
+	<div class="promo-tabs tabs horizontal-tabs" style="border-radius: 10px;padding: 10px">
 		<ul class="horizontal-tabs__header">
 			<li><a href="#horizontal-tabs__item-1"><span><i class="fa fa-barcode" aria-hidden="true"></i> Borak Tracking No</span></a></li>
 			<li><a href="#horizontal-tabs__item-2"><span><i class="fa fa-barcode" aria-hidden="true"></i> Merchant Product ID Tracking</span></a></li>
@@ -44,7 +48,7 @@
 							</label>
 						</div>
 						<div class="col-sm-6 col-md-3">
-							<button class="button button--green borak-search" type="button"><span>Search</span> 
+							<button class="button button--green borak-search btn_custom" type="button"><span>Search</span>
 								<svg class="icon">
 									<i class="fa fa-search" aria-hidden="true"></i>
 								</svg>
@@ -62,7 +66,7 @@
 							</label>
 						</div>
 						<div class="col-sm-6 col-md-3">
-							<button class="button button--green  borak-search" type="button"><span>Search</span> 
+							<button class="button button--green  borak-search btn_custom" type="button"><span>Search</span>
 								<svg class="icon">
 									<i class="fa fa-search" aria-hidden="true"></i>
 								</svg>
@@ -76,35 +80,35 @@
 </div>
 <!-- promo end-->
 <!-- section start-->
-<section class="section" id="services">
+<section class="section pb-0" id="services">
 	<div class="container">
 		<div class="row bottom-70">
 			<div class="col-12">
-				<div class="heading heading--center"><span class="heading__pre-title">What we do</span>
-					<h3 class="heading__title">Our Services</h3><span class="heading__layout">Services</span>
+				<div class="heading heading--center "><span class="heading__pre-title d-none">What we do</span>
+					<h3 class="heading__title">Our Services</h3><span class="heading__layout d-none">Services</span>
 				</div>
 			</div>
 		</div>
 		<div class="row offset-70">
 			<div class="col-lg-4">
-				<div class="advantages-item text-center">
-					<div class="advantages-item__img"><img src="{{asset('site/img/pack_4/i8.svg')}}" alt="icon"/></div>
-					<h2 class="advantages-item__title">Packaging Service</h2>
-					<p class="advantages-item__text">Under this service we provide Carton Packaging Booking Services: Items that are booked vide cartons are procured from SETS. The items are specific to delivery</p>
+				<div class="card service_card">
+					<div class="service_card__img text-center"><img src="{{asset('site/img/pack_4/vaadin_package.svg')}}" alt="icon"/></div>
+					<h2 class="service_card__title text-center">Packaging Service</h2>
+					<p class="service_card__text text-center">Under this service we provide Carton Packaging Booking Services: Items that are booked vide cartons are procured from SETS. The items are specific to delivery</p>
 				</div>
 			</div>
 			<div class="col-lg-4">
-				<div class="advantages-item text-center">
-					<div class="advantages-item__img"><img src="{{asset('site/img/pack_4/i15.svg')}}" alt="icon"/></div>
-					<h2 class="advantages-item__title">Parcel service</h2>
-					<p class="advantages-item__text">Due to its presence in every remote pocket throughout this country many have found it to be very convenient to send and receive with ease and harmony and this has tempted all to use Sundarban against many competitors who are in the similar trade.</p>
+				<div class="card service_card">
+					<div class="service_card__img text-center"><img src="{{asset('site/img/pack_4/carbon_delivery-parcel.svg')}}" alt="icon"/></div>
+					<h2 class="service_card__title text-center">Parcel service</h2>
+					<p class="service_card__text text-center">Due to its presence in every remote pocket throughout this country many have found it to be very convenient to send and receive with ease and harmony and this has tempted all to use Sundarban against many competitors who are in the similar trade.</p>
 				</div>
 			</div>
 			<div class="col-lg-4">
-				<div class="advantages-item text-center">
-					<div class="advantages-item__img"><img src="{{asset('site/img/pack_4/i12.svg')}}" alt="icon"/></div>
-					<h2 class="advantages-item__title">E-Commerce Service</h2>
-					<p class="advantages-item__text">Single point of contact for the many services. It is catering to multiple services from a one point and that also includes its own logistics fleet.</p>
+				<div class="card service_card">
+					<div class="service_card__img text-center"><img src="{{asset('site/img/pack_4/mdi_truck-delivery.svg')}}" alt="icon"/></div>
+					<h2 class="service_card__title text-center">E-Commerce Service</h2>
+					<p class="service_card__text text-center">Single point of contact for the many services. It is catering to multiple services from a one point and that also includes its own logistics fleet.</p>
 				</div>
 			</div>
 		</div>
@@ -117,25 +121,28 @@
 <!-- section end-->
 <!-- section start-->
 <section class="section qoute-section pb-0" id="signup">
-	<div class="quote-section__bg">
-		<img class="img--bg" src="{{asset('site/img/quote-bg.jpg')}}" alt="bg"/>
-	</div>
+{{--	<div class="quote-section__bg">--}}
+{{--		<img class="img--bg" src="{{asset('site/img/registrtion_bg.png')}}" alt="bg"/>--}}
+{{--	</div>--}}
+	<div class="signup_section">
 	<div class="container">
+		<h4 class="signup_section_heading">মার্চেন্ট <span class="color_pink">তথ্য</span></h4>
+		<p class="signup_section_text">মার্চেন্টের তথ্য দিয়ে হয়ে যান আমাদের মার্চেন্ট এজেন্ট</p>
 		<div class="row">
-			<div class="col-lg-5 d-flex flex-column justify-content-between">
-				<div class="heading heading--white"><span class="heading__pre-title">Merchant Singup</span>
-					<h3 class="heading__title">Provide your merchant info</h3>
-					<p class="heading__text color--white">Borak  is a household name to all in Bangladesh for having been the pioneer of Courier and Parcel Services in this country. From the Corporate Clients to the average person all the persons have been availing the services of borak.</p><span class="heading__layout layout--white">Signup</span>
-				</div>
-				{{-- <div class="contact-trigger top-50 top-lg-0"><img class="contact-trigger__img" src="{{asset('site/img/contact_background.png')}}" alt="img"/>
-					<h4 class="contact-trigger__title">How we can help you!</h4><a class="button button--white" href="#"><span>Contact us</span> 
-						<svg class="icon">
-							<use xlink:href="#arrow"></use>
-						</svg></a>
-				</div> --}}
-			</div>
-			<div class="col-lg-7 top-50 top-lg-0">
-				<div class="form-wrapper is--bordered">
+{{--			<div class="col-lg-5 d-flex flex-column justify-content-between">--}}
+{{--				<div class="heading heading--white"><span class="heading__pre-title">Merchant Singup</span>--}}
+{{--					<h3 class="heading__title">Provide your merchant info</h3>--}}
+{{--					<p class="heading__text color--white">Borak  is a household name to all in Bangladesh for having been the pioneer of Courier and Parcel Services in this country. From the Corporate Clients to the average person all the persons have been availing the services of borak.</p><span class="heading__layout layout--white">Signup</span>--}}
+{{--				</div>--}}
+{{--				--}}{{-- <div class="contact-trigger top-50 top-lg-0"><img class="contact-trigger__img" src="{{asset('site/img/contact_background.png')}}" alt="img"/>--}}
+{{--					<h4 class="contact-trigger__title">How we can help you!</h4><a class="button button--white" href="#"><span>Contact us</span> --}}
+{{--						<svg class="icon">--}}
+{{--							<use xlink:href="#arrow"></use>--}}
+{{--						</svg></a>--}}
+{{--				</div> --}}
+{{--			</div>--}}
+			<div class="col-lg-5 top-50 top-lg-0">
+				<div class="form-wrapper is--bordered" style="border-radius: 17px;">
 					<form class="form quote-form" id="merchant" autocomplete="off" action="javascript:void(0);">
 						<h6 class="quote-form__title">Merchant Registration</h6>
 						<h6 class="quote-form__title" style="margin-bottom: 6px; color:#ccc;"><small>Enter Account Information</small></h6>
@@ -221,7 +228,7 @@
 						</div>
 						<div class="row">
 							<div class="col-12">
-								<button class="quote-form__submit complete-merchant" style="margin-top: 6px;" type="button">Signup</button>
+								<button class="quote-form__submit complete-merchant btn_custom" style="margin-top: 6px;" type="button">Signup</button>
 							</div>
 						</div>
 					</form>
@@ -229,35 +236,106 @@
 			</div>
 		</div>
 	</div>
+	</div>
 </section>
 <!-- section end-->
 
 <!-- section start-->
-<section class="section" id="partners">
+<section class="section pb-5" id="partners">
 	<div class="container">
 		<div class="row bottom-60">
 			<div class="col-12">
-				<div class="heading heading--center"><span class="heading__pre-title">Partners</span>
-					<h3 class="heading__title">Companies who <span class="color--green">Trust</span> us</h3><span class="heading__layout">Partners</span>
+				<div class="heading heading--center">
+					<h3 class="partners_section_heading__title"><span class="color_pink">সুপারফাস্ট </span> ডেলিভারিতে আমরা আছি আপনাদের পাশে </h3>
+					<p class="partners_section_heading__text">গুরুত্বপূর্ণ যেকোনো পণ্য সবচেয়ে নিরাপদে ও স্বল্প সময়ে আপনাদের দোড়গোড়ায় পৌঁছে দিতে আমরা সর্বদা প্রস্তুত</p>
 				</div>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-12">
-				<!-- logos slider start-->
-				<div class="logos-slider logos-slider--style-2">
-					<div class="logos-slider__item"><img src="{{asset('site/img/logo_1.png')}}" alt="logo"/></div>
-					<div class="logos-slider__item"><img src="{{asset('site/img/logo_2.png')}}" alt="logo"/></div>
-					<div class="logos-slider__item"><img src="{{asset('site/img/logo_3.png')}}" alt="logo"/></div>
-					<div class="logos-slider__item"><img src="{{asset('site/img/logo_4.png')}}" alt="logo"/></div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Delivery care.svg')}}" alt="img"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						ক্যাশ অন ডেলিভারি<br>
+						সম্পূর্ণ চার্জ ফ্রি
+					</p>
 				</div>
-				<div class="logos-slider__dots"></div>
-				<!-- logos slider end-->
 			</div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Parcel address.svg')}}" alt="logo"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						ঢাকার মধ্যে ডেলিভারি<br>
+						চার্জ মাত্র ৬০ টাকা
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Delivery on foot.svg')}}" alt="logo"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						পণ্য সংগ্রহের দিনই<br>
+						ঢাকায় ডেলিভারি
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Assembly instructions.svg')}}" alt="logo"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						সময় মতো<br>
+						পেমেন্টের সুবিধা
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Loader.svg')}}" alt="logo"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						বেশি পার্সেল থাকলে<br>
+						অগ্রিম পেমেন্ট করা হয়
+					</p>
+				</div>
+			</div>
+			<div class="col-lg-4">
+				<div class="card partners_section_card">
+					<div class="partners_section_card_img text-center">
+						<img src="{{asset('site/img/Movers.svg')}}" alt="logo"/>
+					</div>
+					<p class="partners_section_card_text text-center">
+						প্রতিদিনই এক্সচেঞ্জ<br>
+						এর ব্যবস্থা আছে
+					</p>
+				</div>
+			</div>
+
 		</div>
 	</div>
 </section>
 <style>
+	.slider_image{
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		 object-fit: fill !important;
+		z-index: 0;
+	}
+	.btn_custom{
+		background-color: #9e2074;
+		color: #ffffff;
+	}
 .progressbar_bg{
 	background:#fff;
 	width: 100%;
@@ -412,7 +490,7 @@
             				'<h6 class="step_heading">' + data[key].parcel_status + '</h6>'+
            					// '<p class="step_note">'+ data[key].remarks +'</p>'+
             				'<p class="step_date_time">'+data[key].created_at+'</p>'+
-							'<hr>'
+							'<hr>'+
         					'</div>'+
     						'</li>';
                      

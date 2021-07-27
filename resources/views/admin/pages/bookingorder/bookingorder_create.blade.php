@@ -37,7 +37,7 @@
       <!-- left column -->
       <div class="col-md-12">
         <!-- general form elements -->
-        <div class="card card-primary">
+        <div class="card card-primary bg_transparent border-0">
           <div class="card-header">
             <h3 class="card-title">Create New Booking Order</h3>
             <div class="card-tools">
@@ -63,10 +63,8 @@
           
             <div class="card-body">
                         <fieldset>
-                          
-                        </fieldset>
 
-                        <fieldset>
+                        <div class="card p-3">
                           
                           
                                 <div class="row">
@@ -215,7 +213,13 @@
                                     </div>
       
                                 </div>
-                                <div class="row">
+
+
+                        </div>
+
+
+                            <div class="card p-3">
+                            <div class="row">
                                   <div class="col-md-12">
                                     <h6>
                                         Parcel Information
@@ -528,6 +532,7 @@
 
                                     @endif
                                 </div>
+                            </div>
       
 
                               

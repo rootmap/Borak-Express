@@ -14,3 +14,4 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/orderbookinginfo','PublicBookingorderController@orderBookingInfo');
+Route::any('/tracking','PublicBookingorderController@orderBookingTracking');

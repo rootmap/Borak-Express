@@ -1,8 +1,8 @@
 
-<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: linear-gradient(180deg, #56759F 0%, #1D3557 100%);">
+<aside class="main-sidebar sidebar-dark-primary elevation-4" style="background: #9D2374;">
     <!-- Brand Logo -->
-    <a href="{{url('dashboard')}}" class="brand-link" style="background: #034EA1">
-      <img src="{{ url('admin/dist/img/AdminLTELogo.png') }}"
+    <a href="{{url('dashboard')}}" class="brand-link" style="background: #9D2374;border: none!important;">
+      <img src="{{ url('admin/dist/img/Logo_white.svg') }}"
            alt="Admin Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -10,7 +10,7 @@
     </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="padding: 0 !important;">
       <!-- Sidebar user (optional) -->
       {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
@@ -33,25 +33,25 @@
             </a>
           </li> --}}
           <li class="nav-item">
-            <a href="{{url('dashboard')}}" class="nav-link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
-              <i class="nav-icon fas fa-igloo"></i>
+            <a href="{{url('dashboard')}}" class="nav-link nav_link {{ Request::path() == 'dashboard' ? 'active' : '' }}">
+              <i class="nav-icon fas fa-th-large"></i>
               <p>Dashboard</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('bookingorder/create')}}" class="nav-link {{ Request::path() == 'bookingorder/create' ? 'active' : '' }}">
+            <a href="{{url('bookingorder/create')}}" class="nav-link nav_link {{ Request::path() == 'bookingorder/create' ? 'active' : '' }}">
               <i class="nav-icon fas fa-shopping-cart"></i>
               <p>Booking Order</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('bookingorder/adminBulkUpload')}}" class="nav-link {{ Request::path() == 'bookingorder/adminBulkUpload' ? 'active' : '' }}">
+            <a href="{{url('bookingorder/adminBulkUpload')}}" class="nav-link nav_link {{ Request::path() == 'bookingorder/adminBulkUpload' ? 'active' : '' }}">
               <i class="nav-icon fas fa-file-upload"></i>
               <p>Bulk Order Upload</p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{url('order/search')}}" class="nav-link {{ Request::path() == 'order/search' ? 'active' : '' }}">
+            <a href="{{url('order/search')}}" class="nav-link nav_link {{ Request::path() == 'order/search' ? 'active' : '' }}">
               <i class="nav-icon fas fa-chart-pie"></i>
               <p>Booking Order Report</p>
             </a>
@@ -144,7 +144,7 @@
           </li> --}}
 
           <li class="nav-item has-treeview {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod','shippingcost'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod','shippingcost'))?'active':'' }}">
+            <a href="#" class="nav-link nav_link {{ in_array(Request::path(),array('sendingtype','bookingdeliverytype','bookingpackage','city','bookingarea','paymentmethod','shippingcost'))?'active':'' }}">
               <i class="nav-icon fas fa-images"></i>
               <p>
                 Booking Settings
@@ -153,43 +153,43 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('sendingtype')}}" class="nav-link {{ Request::path() == 'sendingtype' ? 'active' : '' }}">
+                <a href="{{url('sendingtype')}}" class="nav-link nav_link {{ Request::path() == 'sendingtype' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking Sending Type</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('bookingdeliverytype')}}" class="nav-link {{ Request::path() == 'bookingdeliverytype' ? 'active' : '' }}">
+                <a href="{{url('bookingdeliverytype')}}" class="nav-link nav_link {{ Request::path() == 'bookingdeliverytype' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking Delivery Type</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('bookingpackage')}}" class="nav-link {{ Request::path() == 'bookingpackage' ? 'active' : '' }}">
+                <a href="{{url('bookingpackage')}}" class="nav-link nav_link {{ Request::path() == 'bookingpackage' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking Package</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('city')}}" class="nav-link {{ Request::path() == 'city' ? 'active' : '' }}">
+                <a href="{{url('city')}}" class="nav-link nav_link {{ Request::path() == 'city' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking City</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('bookingarea')}}" class="nav-link {{ Request::path() == 'bookingarea' ? 'active' : '' }}">
+                <a href="{{url('bookingarea')}}" class="nav-link nav_link {{ Request::path() == 'bookingarea' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking Area</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('paymentmethod')}}" class="nav-link {{ Request::path() == 'paymentmethod' ? 'active' : '' }}">
+                <a href="{{url('paymentmethod')}}" class="nav-link nav_link {{ Request::path() == 'paymentmethod' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Payment Method</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('shippingcost')}}" class="nav-link {{ Request::path() == 'shippingcost' ? 'active' : '' }}">
+                <a href="{{url('shippingcost')}}" class="nav-link nav_link {{ Request::path() == 'shippingcost' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Booking Cost</p>
                 </a>
@@ -200,7 +200,7 @@
 
 
           <li class="nav-item has-treeview {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantmfs','merchantmfs/list','merchantbankinfo','merchantbankinfo/list'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantbankinfo','merchantbankinfo/list'))?'active':'' }}">
+            <a href="#" class="nav-link nav_link {{ in_array(Request::path(),array('merchantinfo','merchantinfo/list','merchantbankinfo','merchantbankinfo/list'))?'active':'' }}">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Merchant
@@ -209,19 +209,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('merchantinfo')}}" class="nav-link {{ (Request::path() == 'merchantinfo' || Request::path() == 'merchantinfo/list') ? 'active' : '' }}">
+                <a href="{{url('merchantinfo')}}" class="nav-link nav_link {{ (Request::path() == 'merchantinfo' || Request::path() == 'merchantinfo/list') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Merchant Info</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('merchantmfs')}}" class="nav-link {{ (Request::path() == 'merchantmfs' || Request::path() == 'merchantmfs/list') ? 'active' : '' }}">
+                <a href="{{url('merchantmfs')}}" class="nav-link nav_link {{ (Request::path() == 'merchantmfs' || Request::path() == 'merchantmfs/list') ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Merchant MFS</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('merchantbankinfo')}}" class="nav-link {{ Request::path() == 'merchantbankinfo' ? 'active' : '' }}">
+                <a href="{{url('merchantbankinfo')}}" class="nav-link nav_link {{ Request::path() == 'merchantbankinfo' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Merchant Bank Info</p>
                 </a>
@@ -232,7 +232,7 @@
 
           
           <li class="nav-item has-treeview {{ in_array(Request::path(),array('sitesetting','userrole','paymenttype','walletprovider','itemtype','bankaccounttype','slidersetting'))?'menu-open':'' }}">
-            <a href="#" class="nav-link {{ in_array(Request::path(),array('sitesetting','userrole','paymenttype','walletprovider','itemtype','bankaccounttype','slidersetting'))?'active':'' }}">
+            <a href="#" class="nav-link nav_link {{ in_array(Request::path(),array('sitesetting','userrole','paymenttype','walletprovider','itemtype','bankaccounttype','slidersetting'))?'active':'' }}">
               <i class="nav-icon fas fa-cogs"></i>
               <p>
                 Setting
@@ -241,19 +241,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('sitesetting')}}" class="nav-link {{ Request::path() == 'sitesetting' ? 'active' : '' }}">
+                <a href="{{url('sitesetting')}}" class="nav-link nav_link {{ Request::path() == 'sitesetting' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Site Setting</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('userrole')}}" class="nav-link {{ Request::path() == 'userrole' ? 'active' : '' }}">
+                <a href="{{url('userrole')}}" class="nav-link nav_link {{ Request::path() == 'userrole' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>User Role</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('paymenttype')}}" class="nav-link {{ Request::path() == 'paymenttype' ? 'active' : '' }}">
+                <a href="{{url('paymenttype')}}" class="nav-link nav_link {{ Request::path() == 'paymenttype' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Payment Type</p>
                 </a>
@@ -261,25 +261,25 @@
               
   
               <li class="nav-item">
-                <a href="{{url('walletprovider')}}" class="nav-link {{ Request::path() == 'walletprovider' ? 'active' : '' }}">
+                <a href="{{url('walletprovider')}}" class="nav-link nav_link {{ Request::path() == 'walletprovider' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Wallet Provider</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('itemtype')}}" class="nav-link {{ Request::path() == 'itemtype' ? 'active' : '' }}">
+                <a href="{{url('itemtype')}}" class="nav-link nav_link {{ Request::path() == 'itemtype' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Percel Item Type</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('bankaccounttype')}}" class="nav-link {{ Request::path() == 'bankaccounttype' ? 'active' : '' }}">
+                <a href="{{url('bankaccounttype')}}" class="nav-link nav_link {{ Request::path() == 'bankaccounttype' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bank Account Type</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('slidersetting')}}" class="nav-link {{ Request::path() == 'slidersetting' ? 'active' : '' }}">
+                <a href="{{url('slidersetting')}}" class="nav-link nav_link {{ Request::path() == 'slidersetting' ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Slider CMS</p>
                 </a>
@@ -346,4 +346,16 @@
     color: #fff;
     padding: 10px;
   }
+    .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:focus, [class*=sidebar-dark-] .nav-treeview>.nav-item>.nav-link.active:hover {
+      background-color: #3d9970 !important;
+    }
+    .nav_link:hover{
+      background: #761A57 !important;
+      border-radius: 0 !important;
+    }
+    .nav-link.active{
+      background: #761A57 !important;
+      border-radius: 0 !important;
+      border-left: 6px solid #2C2B2B;
+    }
   </style>

@@ -7,10 +7,13 @@ use App\BookingPackage;
 use App\City;
 use App\ItemType;
 use App\MerchantInfo;
+use App\OrderStatusHistory;
 use App\PaymentMethod;
 use App\SendingType;
 use App\ShippingCost;
+use Illuminate\Http\Request;
 use Response;
+use stdClass;
 
 
 class PublicBookingorderController extends Controller
@@ -45,7 +48,29 @@ public function orderBookingInfo(){
         'dataRow_MerchantInfo'=>$tab_MerchantInfo,
         'dataRow_BookingDeliveryType'=>$tab_BookingDeliveryType,'dataRow_BookingPackage'=>$tab_BookingPackage,'edit'=>true]);
 
+}
+
+public function orderBookingTracking(Request $request)
+{
+    if (isset($request->tracking_id)) {
+        $data = OrderStatusHistory::select('booking_order_status_history.*', 'users.name as username')
+            ->join('users', 'users.id', 'booking_order_status_history.created_by')
+            ->where('order_id', $request->tracking_id)
+            ->orderBy('created_at', 'DESC')->get();
+        if ($data->count() > 0) {
+            return view('public.bookingorder_tracking', ['data' => $data]);
+        } else {
+            $data = new stdClass();
+            $data->status = 0;
+            return view('public.bookingorder_tracking', ['data' => 0]);
+        }
 
 
+    }
+    else {
+        $data = new stdClass();
+        $data->status = 0;
+        return view('public.bookingorder_tracking', ['data'=>1]);
+    }
 }
 }

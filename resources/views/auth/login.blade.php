@@ -1,89 +1,76 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Log in | Welcome to Borak Express</title>
-  <!-- Tell the browser to be responsive to screen width -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}"/>
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{{url('admin/plugins/fontawesome-free/css/all.min.css')}}">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{{url('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{{url('admin/dist/css/adminlte.min.css')}}">
-  <!-- Google Font: Source Sans Pro -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Log in | Welcome to Borak Express</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{{asset('favicon/favicon.ico')}}"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{url('admin/plugins/fontawesome-free/css/all.min.css')}}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{{url('admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css')}}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{{url('admin/dist/css/adminlte.min.css')}}">
+    <link rel="stylesheet" href="{{url('assets/css/login.css')}}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
 <body class="hold-transition login-page">
-  <div class="row">
-      <div class="col-md-12">
-          @include("admin.include.msg")
-      </div>
-  </div>
-<div class="login-box">
-  <div class="login-logo" style="    font-size: 2rem;">
-    <a href="{{url('/')}}'"><b>Welcome to Borak Express</b></a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Sign in to start your session</p>
-
-      <form action="{{ route('login') }}" method="post">
-        {{ csrf_field() }}
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" name="email" placeholder="Email" value="{{ old('email') }}" >
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="password">
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-8">
-            <div class="icheck-primary">
-              <input type="checkbox" id="remember" name="remember">
-              <label for="remember">
-                Remember Me
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-4">
-            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-          </div>
-          <!-- /.col -->
-        </div>
-      </form>
-
-      <div class="social-auth-links text-center mb-3">
-        <p>- OR -</p>
-      </div>
-      <!-- /.social-auth-links -->
-
-      <p class="mb-1">
-        <a href="{{url('reset/password')}}"><i class="fa fa-key"></i> Reset my password</a>
-      </p>
-
-      <!-- /.social-auth-links -->
-
- 
+<div class="row">
+    <div class="col-md-12">
+        @include("admin.include.msg")
     </div>
-    <!-- /.login-card-body -->
-  </div>
+</div>
+<div class="login_page">
+    <div class="login_page_form_section">
+        <div class="login_page_form_section_card">
+            <div class="text-center">
+                <div class="d-flex justify-content-center">
+                    <img src="{{asset('Gray/Logo.svg')}}" class="mb-3 display_block">
+                </div>
+                <p class="login_page_form_section_card_text">
+                    <span class="login_page_form_section_card_text_bold">বোরাক এক্সপ্রেস</span>
+                    -এ আপনাকে স্বাগতম
+                </p>
+                <div class="d-flex justify-content-center">
+                    <img src="{{asset('site/img/login_page_banner.svg')}}" class="mb-3 display_none" style="width: 80%">
+                </div>
+            </div>
+            <div class="login_form_card">
+                <form action="{{ route('login') }}" method="post">
+                    {{ csrf_field() }}
+                    <div class="form-group position-relative">
+                        <label for="email" class="login_form_card_label">Your Email</label>
+                        <input type="email" class="form-control login_form_card_input" id="email" name="email" placeholder="Email" value="{{ old('email') }}" >
+                    </div>
+                    <div class="form-group position-relative">
+                        <label for="password" class="login_form_card_label">Enter Password</label>
+                        <input type="password" class="form-control login_form_card_input" placeholder="Password" name="password" id="password">
+                    </div>
+                    <div class="form-group form-check ml-1">
+                        <label class="form-check-label mb-0">
+                            <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                Remember Me
+                        </label>
+                        <span class="float_right">
+                            <a href="{{url('reset/password')}}" class="forget_pass_btn">Forgot Password</a>
+                        </span>
+                    </div>
+                    <div class="form-group ">
+                        <input type="submit" class="login_form_card_login_btn" value="Login">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="login_page_banner_section">
+        <img src="{{asset('site/img/login_page_banner.svg')}}" style="width: 80%">
+    </div>
 </div>
 <!-- /.login-box -->
 
