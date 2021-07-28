@@ -54,6 +54,7 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Choose Order Status</label>
+                                        {{$status}}
                                         <select class="form-control select2" style="width: 100%;"  id="status" name="status">
                                                 <option 
                                                 @isset($status)
@@ -78,11 +79,11 @@
                                                 value="Accepted">Accepted</option>                                                
                                                 <option 
                                                 @isset($status)
-                                                    @if($status=="Pickup")
+                                                    @if($status=="Picked up")
                                                         selected="selected"
                                                     @endif
                                                 @endisset 
-                                                value="Pickup">Pickup</option>                                                
+                                                value="Picked up">Picked up</option>
                                                 <option 
                                                 @isset($status)
                                                     @if($status=="On The Way")
@@ -99,18 +100,25 @@
                                                 value="Delivered">Delivered</option>                                                
                                                 <option 
                                                 @isset($status)
-                                                    @if($status=="Cancel")
+                                                    @if($status=="Canceled")
                                                         selected="selected"
                                                     @endif
                                                 @endisset 
-                                                value="Cancel">Cancel</option>                                                
+                                                value="Canceled">Canceled</option>
                                                 <option 
                                                 @isset($status)
                                                     @if($status=="Hold")
                                                         selected="selected"
                                                     @endif
                                                 @endisset 
-                                                value="Hold">Hold</option>                                                
+                                                value="Hold">Hold</option>
+                                            <option
+                                                    @isset($status)
+                                                    @if($status=="Returned")
+                                                    selected="selected"
+                                                    @endif
+                                                    @endisset
+                                                    value="Returned">Returned</option>
                                         </select>
                                     </div>
                                 </div>
@@ -119,13 +127,13 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="recipient_name">Start Date</label>
-                                        <input type="text" class="form-control deliverdate" value="{{$start_date}}" placeholder="Enter Recipient Name" id="search" name="start_date">
+                                        <input type="text" class="form-control deliverdate" value="{{$start_date}}" placeholder="Enter Start Date Date" name="start_date">
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label for="recipient_name">End Date</label>
-                                        <input type="text" class="form-control deliverdate" value="{{$end_date}}" placeholder="Enter Recipient Name" id="search" name="end_date">
+                                        <input type="text" class="form-control deliverdate" value="{{$end_date}}" placeholder="Enter End  Date" name="end_date">
                                     </div>
                                 </div>
                             </div>
@@ -179,7 +187,7 @@
                               </div>
                               <div class="col-sm-3">
                                 <div class="form-group">
-                                    <label>Choose Deliver Area</label>
+                                    <label>Choose Delivery Area</label>
                                     <select class="form-control select2" style="width: 100%;"  id="area_id" name="area_id">
                                       <option value="">Please Select</option>
                                       @if(!empty($area_id))
@@ -204,7 +212,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-info"><i class="fas fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-info" id="search"><i class="fas fa-search"></i> Search</button>
                                     <a href="javascript:void(0);" data-url="{{url('order/export/excel')}}" class="btn btn-info export"><i class="fas fa-file-excel"></i> Export Excel</a>
                                     <a href="javascript:void(0);" data-url="{{url('order/export/pdf')}}" class="btn btn-info export"><i class="fas fa-file-pdf"></i> Export PDF</a>
                                     <a href="{{url('order/search')}}"  class="btn btn-danger"><i class="fas fa-trash"></i> Clear Search</a>
@@ -364,7 +372,6 @@
 @endsection
 @section("css")
     @include("admin.include.lib.datatable.css")
-    <!-- daterange picker -->
     <link rel="stylesheet" href="{{url('admin/plugins/select2/css/select2.min.css')}}">
     <link rel="stylesheet" href="{{url('admin/plugins/daterangepicker/daterangepicker.css')}}">
 @endsection
@@ -402,6 +409,7 @@
                   });
               }
 
+
               $("#area_id").html(area_html);
               $("#area_id").select2();
             });
@@ -410,6 +418,7 @@
                 var data_url=$(this).attr('data-url');
                 $("#filter").attr('action',data_url)
                 $("#filter").submit();
+                $("#filter").attr('action','search')
             });
         });
     </script>

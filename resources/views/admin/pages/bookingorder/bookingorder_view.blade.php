@@ -521,14 +521,14 @@
                                         <div class="form-check">
                                             <input disabled  class="form-check-input" type="radio"  
                                                 <?php 
-                                                if($dataRow->parcel_status=="Pickup"){
+                                                if($dataRow->parcel_status=="Picked up"){
                                                     ?>
                                                     checked="checked" 
                                                     <?php 
                                                 }
                                                 ?>
-                                          id="parcel_status_2" name="parcel_status" value="Pickup">
-                                          <label class="form-check-label">Pickup</label>
+                                          id="parcel_status_2" name="parcel_status" value="Picked up">
+                                          <label class="form-check-label">Picked up</label>
                                         </div>
                                 
                                         <div class="form-check">
@@ -560,28 +560,40 @@
                                         <div class="form-check">
                                             <input disabled  class="form-check-input" type="radio"  
                                                 <?php 
-                                                if($dataRow->parcel_status=="Cancel"){
+                                                if($dataRow->parcel_status=="Canceled"){
                                                     ?>
                                                     checked="checked" 
                                                     <?php 
                                                 }
                                                 ?>
-                                          id="parcel_status_5" name="parcel_status" value="Cancel">
-                                          <label class="form-check-label">Cancel</label>
+                                          id="parcel_status_5" name="parcel_status" value="Canceled">
+                                          <label class="form-check-label">Canceled</label>
                                         </div>
-                                
+
                                         <div class="form-check">
-                                            <input disabled  class="form-check-input" type="radio"  
-                                                <?php 
+                                            <input disabled  class="form-check-input" type="radio"
+                                                <?php
                                                 if($dataRow->parcel_status=="Hold"){
                                                     ?>
-                                                    checked="checked" 
-                                                    <?php 
+                                                    checked="checked"
+                                                    <?php
                                                 }
                                                 ?>
                                           id="parcel_status_6" name="parcel_status" value="Hold">
                                           <label class="form-check-label">Hold</label>
                                         </div>
+                                          <div class="form-check">
+                                              <input disabled  class="form-check-input" type="radio"
+                                                     <?php
+                                                     if($dataRow->parcel_status=="Returned"){
+                                                     ?>
+                                                     checked="checked"
+                                                     <?php
+                                                     }
+                                                     ?>
+                                                     id="parcel_status_6" name="parcel_status" value="Returned">
+                                              <label class="form-check-label">Returned</label>
+                                          </div>
                                 
                                     </div>
                                 </div>
@@ -735,4 +747,3 @@
     </script>
 
 @endsection
-        

@@ -26,7 +26,7 @@
               <div class="inner">
                 <h3>{{$total_booking}}</h3>
 
-                <p>Total Booking Order</p>
+                <p>Total Booked Order</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -75,12 +75,12 @@
               <div class="inner">
                 <h3>{{$total_booking_Pickup}}</h3>
 
-                <p>Total Pickup Parcel</p>
+                <p>Total Picked up Parcel</p>
               </div>
               <div class="icon">
                 <i class="fas fa-truck"></i>
               </div>
-              <a style="font-size: 20px;"    href="javascript:void(0);" data-param="Pickup" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a style="font-size: 20px;"    href="javascript:void(0);" data-param="Picked Up" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -95,7 +95,7 @@
               <div class="icon">
                 <i class="fas fa-truck-loading"></i>
               </div>
-              <a style="font-size: 20px;"   href="javascript:void(0);" data-param="Pickup" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a style="font-size: 20px;"   href="javascript:void(0);" data-param="Delivered" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
 
@@ -105,12 +105,12 @@
               <div class="inner">
                 <h3>{{$total_booking_Cancel}}</h3>
 
-                <p>Total Cancel Order</p>
+                <p>Total Canceled Order</p>
               </div>
               <div class="icon">
                 <i class="ion ion-cash"></i>
               </div>
-              <a style="font-size: 20px;"  href="javascript:void(0);" data-param="Cancel" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a style="font-size: 20px;"  href="javascript:void(0);" data-param="Canceled" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

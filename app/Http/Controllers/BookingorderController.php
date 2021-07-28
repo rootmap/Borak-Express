@@ -39,27 +39,20 @@ class BookingOrderController extends Controller
     
     public function search(Request $request){
         $search=$request->search;
-        $start_date='';
+        $start_date='2021-04-01';
         if(isset($request->start_date))
         {
             $start_date=$request->start_date;
         }
 
-        $end_date='';
+        $end_date=date("Y-m-d");
         if(isset($request->end_date))
         {
             $end_date=$request->end_date;
         }
 
-        if(empty($start_date) && !empty($end_date))
-        {
-            $start_date=$end_date;
-        }
 
-        if(!empty($start_date) && empty($end_date))
-        {
-            $end_date=$start_date;
-        }
+
 
         $dateString='';
         if(!empty($start_date) && !empty($end_date))
@@ -129,8 +122,7 @@ class BookingOrderController extends Controller
                 ->when($status, function ($query) use ($status) {
                         return $query->where('booking_orders.parcel_status',$status);
                 })
-                
-                ->take(50)
+
                 ->get();
 
                 // dd($tab);
