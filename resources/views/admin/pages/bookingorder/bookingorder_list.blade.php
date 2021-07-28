@@ -61,31 +61,21 @@
                     <table class="table table-bordered table-hover table-checkable  dt-responsive nowrap" id="dataList">
                     <thead>
                         <tr>
+
                             <th class="text-center">ID</th>
-                            <th class="text-center">Merchant Name</th>
-                            <th class="text-center">Merchant Phone</th>
                             <th class="text-center">Merchant Business</th>
-                            <th class="text-center">Sending Type</th>
-                            <th class="text-center">Rec. Number</th>
-                            <th class="text-center">Rec. 2nd Number</th>
-                            <th class="text-center">Rec. Name</th>
-                            <th class="text-center">Special Notes</th>
-                            <th class="text-center">Rec. City</th>
-                            <th class="text-center">Rec. Area</th>
-                            <th class="text-center">Address</th>
-                            <th class="text-center">Landmark</th>
-                            <th class="text-center">Pickup Address</th>
-                            <th class="text-center">Product ID</th>
-                            <th class="text-center">Parcel Type</th>
-                            <th class="text-center">Del. Type</th>
-                            <th class="text-center">Package</th>
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Payment Method</th>
-                            <th class="text-center">Del. Date</th>
-                            <th class="text-center">No of Items</th>
-                            <th class="text-center">Status</th>
-                            <th class="text-center">Payment</th>
-                            <th class="text-center">Created</th>
+                            <th class="text-center">Merchant Phone</th>
+                            <th class="text-center">Pick up Address</th>
+                            <th class="text-center">Recipient Name</th>
+                            <th class="text-center">Recipient Phone</th>
+                            <th class="text-center">Recipient Area</th>
+                            <th class="text-center">Delivery Address</th>
+                            <th class="text-center">Total Price</th>
+                            <th class="text-center">Pick up Date</th>
+                            <th class="text-center">Delivery Date</th>
+                            <th class="text-center">Order Status</th>
+                            <th class="text-center">Payment Status</th>
+                            <th class="text-center">Actions</th>
 
                         </tr>
                     </thead>
@@ -101,12 +91,10 @@
         </section>
 @endsection
 @section("css")
-    @include("admin.include.lib.datatable.css")
 @endsection
 <link rel="stylesheet" href ="{{asset('assets/customjs/datatables/datatables.bundle.css')}}">
 
 @section("js")
-    @include("admin.include.lib.datatable.js")
     <script src="{{asset('assets/customjs/bookingorder.js')}}"></script>
     <script src="{{asset('assets/customjs/datatables/datatables.bundle.js')}}"></script>
     <script src="{{asset('assets/customjs/datatables/extensions/buttons.js')}}"></script>

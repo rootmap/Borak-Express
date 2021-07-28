@@ -460,16 +460,21 @@ class BookingOrderController extends Controller
         if(Auth::user()->user_type_id==1)
         {
             if (request()->ajax()) {
-                return datatables()->of(BookingOrder::leftJoin('users', 'booking_orders.created_by', '=', 'users.id')
-                    ->leftJoin('merchant_infos', 'users.email', '=', 'merchant_infos.email')
-                    ->select('booking_orders.*',
-                        'merchant_infos.full_name',
-                        'merchant_infos.mobile',
-                        'merchant_infos.email',
-                        'merchant_infos.business_name',
-                        'merchant_infos.business_address',
-                        'merchant_infos.pickup_address'
-                    ))
+                return datatables()->of(BookingOrder::
+                select('booking_orders.*',
+                    'merchant_infos.full_name as merchant_name',
+                    'merchant_infos.mobile as merchant_mobile',
+                    'merchant_infos.email as merchant_email',
+                    'merchant_infos.business_name as merchant_business',
+                    'merchant_infos.business_address as merchant_address',
+                    'merchant_infos.pickup_address as pickup_address',
+                    'booking_order_status_history.parcel_status as order_status',
+                    'booking_order_status_history.created_at as pickup_date'
+                )
+                ->join('users', 'booking_orders.created_by', '=', 'users.id')
+                    ->join('merchant_infos', 'users.email', '=', 'merchant_infos.email')
+                    ->join('booking_order_status_history', 'booking_order_status_history.order_id', '=', 'booking_orders.id'))
+
 
                     ->addColumn('action', function ($row) {
                         $btn = '<a href="javascript:void(0)" ata-toggle="tooltip" onClick="editData(' . $row->id . ')" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Edit this Spare Category">Edit</a>';
