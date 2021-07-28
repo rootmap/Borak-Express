@@ -80,7 +80,7 @@
               <div class="icon">
                 <i class="fas fa-truck"></i>
               </div>
-              <a style="font-size: 20px;"    href="javascript:void(0);" data-param="Picked Up" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a style="font-size: 20px;"    href="javascript:void(0);" data-param="Picked up" class="small-box-footer linkFormAct">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

@@ -54,7 +54,6 @@
                                 <div class="col-sm-3">
                                     <div class="form-group">
                                         <label>Choose Order Status</label>
-                                        {{$status}}
                                         <select class="form-control select2" style="width: 100%;"  id="status" name="status">
                                                 <option 
                                                 @isset($status)
