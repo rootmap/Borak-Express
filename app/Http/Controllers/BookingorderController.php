@@ -1599,7 +1599,8 @@ class BookingOrderController extends Controller
                     foreach ($data as $key => $value) {
 
                         if($value->filter()->isNotEmpty()) {
-                            if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method) {
+                            if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method!=null && $value->package_id !=null
+                            && $value->recipient_number !=null && $value->address!=null) {
                             $order_count++;
                                 $order_created_by=$this->sdc->UserID();
 
@@ -1691,7 +1692,7 @@ class BookingOrderController extends Controller
                         if ($insertData) {
                             Session::flash('success', 'Your Data has successfully imported');
                         }else {
-                            Session::flash('error', 'Error inserting the data..');
+                            Session::flash('error', 'Error inserting the data. Please fill up all fields.');
                             return back();
                         }
                     }
