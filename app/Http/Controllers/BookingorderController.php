@@ -1600,7 +1600,7 @@ class BookingOrderController extends Controller
 
                         if($value->filter()->isNotEmpty()) {
                             if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method!=null && $value->package_id !=null
-                            && $value->recipient_number !=null && $value->address!=null) {
+                            && $value->recipient_number !=null && $value->address!=null && $value->package_id>1 ) {
                             $order_count++;
                                 $order_created_by=$this->sdc->UserID();
 
@@ -1630,13 +1630,36 @@ class BookingOrderController extends Controller
                             //$total_charge= ($value->no_of_items)*$shipping_cost;
                             $total_charge = "0.00";
 
+                                $recipient_number = str_replace("-","",$value->recipient_number);
+                                $recipient_number = str_replace(" ","",$recipient_number);
+                                $recipient_number = str_replace("+","",$recipient_number);
+                                $recipient_number2 = str_replace("-","",$value->recipient_number_two);
+                                $recipient_number2 = str_replace(" ","",$recipient_number2);
+                                $recipient_number2 = str_replace("+","",$recipient_number2);
+
+                                if(strlen($recipient_number)==10){
+                                    $recipient_number = '0'.$recipient_number;
+                                }
+                                if(strlen($recipient_number==13)){
+                                    $recipient_number = substr($recipient_number,2);
+                                }
+                                if(strlen($recipient_number2)==10){
+                                    $recipient_number2 = '0'.$recipient_number2;
+                                }
+                                if(strlen($recipient_number2)==13){
+                                    echo "here";
+                                    $recipient_number2 = substr($recipient_number2,2);
+                                }
+                                $deliver_date = $value->deliver_date;
+                                if($value->deliver_date==null || $deliver_date ==''){
+                                    $deliver_date = date('Y-m-d', strtotime("+2 days"));
+                                }
+
                             $insert[] = [
-
-
                                 'sending_type_name' => $sending_type_0_ItemType,
                                 'sending_type' => $value->sending_type,
-                                'recipient_number' => $value->recipient_number,
-                                'recipient_number_two' => $value->recipient_number_two,
+                                'recipient_number' => $recipient_number,
+                                'recipient_number_two' => $recipient_number2,
                                 'recipient_name' => $value->recipient_name,
                                 'address' => $value->address,
                                 'recipient_city_name' => $recipient_city_4_City,
@@ -1652,7 +1675,7 @@ class BookingOrderController extends Controller
                                 'package_id_name' => $package_id_10_BookingPackage,
                                 'package_id' => $value->package_id,
                                 'product_price' => $value->product_price,
-                                'deliver_date' => $value->deliver_date,
+                                'deliver_date' => date("Y-m-d", strtotime($deliver_date) ),
                                 'no_of_items' => $value->no_of_items,
                                 'special_note' => $value->special_note,
                                 'parcel_status' => $parcel_status,
