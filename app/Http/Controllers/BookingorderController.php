@@ -1578,6 +1578,7 @@ class BookingOrderController extends Controller
 
     }
     public function import(Request $request){
+
         //validate the xls file
         $this->validate($request, array(
             'file'      => 'required'
@@ -1590,17 +1591,20 @@ class BookingOrderController extends Controller
                 $path = $request->file->getRealPath();
                 $data = Excel::load($path, function($reader) {
                 })->get();
+
                 //echo '<pre>';
                 //var_dump($data); die;
                 //echo '</pre>';
                 // ignoreEmpty()->skip(1)
                 if(!empty($data) && $data->count()){
+
                 $order_count = 0;
                     foreach ($data as $key => $value) {
 
                         if($value->filter()->isNotEmpty()) {
                             if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method!=null && $value->package_id !=null
-                            && $value->recipient_number !=null && $value->address!=null && $value->package_id>1 ) {
+                            && $value->recipient_number !=null && $value->address!=null && $value->package_id!=null ) {
+
                             $order_count++;
                                 $order_created_by=$this->sdc->UserID();
 
@@ -1647,7 +1651,6 @@ class BookingOrderController extends Controller
                                     $recipient_number2 = '0'.$recipient_number2;
                                 }
                                 if(strlen($recipient_number2)==13){
-                                    echo "here";
                                     $recipient_number2 = substr($recipient_number2,2);
                                 }
                                 $deliver_date = $value->deliver_date;
@@ -1699,6 +1702,7 @@ class BookingOrderController extends Controller
                     if(!empty($insert)){
 
                         $insertData = DB::table('booking_orders')->insert($insert);
+
                         $latest_order = DB::table('booking_orders')->SELECT('*')
                             ->orderBy('created_at', 'desc')->take($order_count)->get();
 
