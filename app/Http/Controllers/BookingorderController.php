@@ -1472,13 +1472,13 @@ class BookingOrderController extends Controller
                       <table width="100%" cellspacing="0" cellpadding="20">
                           <tr>
                               <td width="50%" align="right">
-                                  <h3>'. $data->payment_method_name . '</h3>
+                                  <h2>'. $data->payment_method_name . '</h2>
                               </td>
                               <td width="10%" align="center">
                                   <h3>|</h3>
                               </td>
                               <td width="40%">
-                                  <h3>'. $data->product_price . '</h3>
+                                  <h2>'. $data->product_price . '</h2>
                               </td>
                           </tr>
                       </table>
