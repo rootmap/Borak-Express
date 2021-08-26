@@ -93,15 +93,14 @@
 
 @section('css')
 	<!-- Data Tables Stylesheet -->
-	<link rel="stylesheet" type="text/css" href="{{asset('theme/admin-core/vendors/datatables/datatables.min.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{asset('theme/admin-core/css/custom.datatables.css')}}">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
 	<!-- Framework Stylesheets End-->
 	<!-- Font Awsome Stylesheet -->
 	<link rel="stylesheet" href="{{asset('theme/admin-core/vendors/fontawesome5.7.2/css/all.min.css')}}">
 @endsection
 
 @section('js')
-	<script src="{{asset('theme/admin-core/vendors/datatables/datatables.min.js')}}"></script>
+	<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
 	<script>
 		$(document).ready(function () {
 			$('#example').DataTable();

@@ -433,8 +433,8 @@
 
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                               id="parcel_status_2" name="parcel_status" value="Pickup">
-                                                        <label class="form-check-label">Pickup</label>
+                                                               id="parcel_status_2" name="parcel_status" value="Picked up">
+                                                        <label class="form-check-label">Picked up</label>
                                                     </div>
 
                                                     <div class="form-check">
@@ -451,14 +451,19 @@
 
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
-                                                               id="parcel_status_5" name="parcel_status" value="Cancel">
-                                                        <label class="form-check-label">Cancel</label>
+                                                               id="parcel_status_5" name="parcel_status" value="Canceled">
+                                                        <label class="form-check-label">Canceled</label>
                                                     </div>
 
                                                     <div class="form-check">
                                                         <input class="form-check-input" type="radio"
                                                                id="parcel_status_6" name="parcel_status" value="Hold">
                                                         <label class="form-check-label">Hold</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="parcel_status_6" name="parcel_status" value="Returned">
+                                                        <label class="form-check-label">Returned</label>
                                                     </div>
 
                                                 </div>
@@ -693,4 +698,3 @@
     </script>
 
 @endsection
-        

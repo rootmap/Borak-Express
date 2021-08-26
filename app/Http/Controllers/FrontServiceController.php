@@ -44,10 +44,12 @@ class FrontServiceController extends Controller
                             
             $total_booking = BookingOrder::select('id')->count();
             $total_booking_Accepted = BookingOrder::select('id')->where('parcel_status','Accepted')->count();
-            $total_booking_Pickup = BookingOrder::select('id')->where('parcel_status','Pickup')->count();
+            $total_booking_Pickup = BookingOrder::select('id')->where('parcel_status','Picked Up')->count();
             $total_booking_Delivered = BookingOrder::select('id')->where('parcel_status','Delivered')->count();
-            $total_booking_Pending = BookingOrder::select('id')->where('parcel_status','Pending')->count();
-            $total_booking_Cancel = BookingOrder::select('id')->where('parcel_status','Cancel')->count();
+            $total_booking_Pending = BookingOrder::select('booking_orders.id')->where('booking_orders.parcel_status','Pending')->count();
+
+          //  dd($total_booking_Pending); die;
+            $total_booking_Cancel = BookingOrder::select('id')->where('parcel_status','Canceled')->count();
         }
         else
         {
@@ -68,10 +70,10 @@ class FrontServiceController extends Controller
 
             $total_booking = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->count();
             $total_booking_Accepted = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Accepted')->count();
-            $total_booking_Pickup = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Pickup')->count();
+            $total_booking_Pickup = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Picked Up')->count();
             $total_booking_Delivered = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Delivered')->count();
             $total_booking_Pending = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Pending')->count();
-            $total_booking_Cancel = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Cancel')->count();
+            $total_booking_Cancel = BookingOrder::select('id')->where('created_by',$this->sdc->UserID())->where('parcel_status','Canceled')->count();
         }
 
          $data=[
