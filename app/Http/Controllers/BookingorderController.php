@@ -40,27 +40,20 @@ class BookingOrderController extends Controller
     
     public function search(Request $request){
         $search=$request->search;
-        $start_date='';
+        $start_date='2021-04-01';
         if(isset($request->start_date))
         {
             $start_date=$request->start_date;
         }
 
-        $end_date='';
+        $end_date=date("Y-m-d");
         if(isset($request->end_date))
         {
             $end_date=$request->end_date;
         }
 
-        if(empty($start_date) && !empty($end_date))
-        {
-            $start_date=$end_date;
-        }
 
-        if(!empty($start_date) && empty($end_date))
-        {
-            $end_date=$start_date;
-        }
+
 
         $dateString='';
         if(!empty($start_date) && !empty($end_date))
@@ -130,8 +123,7 @@ class BookingOrderController extends Controller
                 ->when($status, function ($query) use ($status) {
                         return $query->where('booking_orders.parcel_status',$status);
                 })
-                
-                ->take(50)
+
                 ->get();
 
                 // dd($tab);
@@ -195,40 +187,30 @@ class BookingOrderController extends Controller
 
     private function filterExport($request){
         $search=$request->search;
-        $start_date='';
+        $start_date='2021-04-01';
         if(isset($request->start_date))
         {
             $start_date=$request->start_date;
         }
 
-        $end_date='';
+        $end_date=date("Y-m-d");
         if(isset($request->end_date))
         {
             $end_date=$request->end_date;
         }
 
-        if(empty($start_date) && !empty($end_date))
-        {
-            $start_date=$end_date;
-        }
 
-        if(!empty($start_date) && empty($end_date))
-        {
-            $end_date=$start_date;
-        }
 
         $dateString='';
         if(!empty($start_date) && !empty($end_date))
         {
             $dateString="CAST(booking_orders.created_at as date) BETWEEN '".$start_date."' AND '".$end_date."'";
         }
-
         $status='';
         if(isset($request->status))
         {
             $status=$request->status;
         }
-
         if(Auth::user()->user_type_id==1)
         {
             $tab=BookingOrder::leftJoin('users','booking_orders.created_by','=','users.id')
@@ -242,6 +224,15 @@ class BookingOrderController extends Controller
                 'merchant_infos.pickup_address'
                 )
                 ->orderBy('booking_orders.id','DESC')
+                ->when($request->merchant_id>0, function($query) use ($request){
+                    return $query->where(["booking_orders.created_by"=>$request->merchant_id]);
+                })
+                ->when($request->city_id>0, function($query) use ($request){
+                    return $query->where(["booking_orders.recipient_city"=>$request->city_id]);
+                })
+                ->when($request->area_id>0, function($query) use ($request){
+                    return $query->where(["booking_orders.recipient_area"=>$request->area_id]);
+                })
                 ->when($search, function ($query) use ($search) {
                               
                     $query->whereRaw("(booking_orders.id LIKE '%".$search."%' OR booking_orders.recipient_number LIKE '%".$search."%' OR 
@@ -257,6 +248,7 @@ class BookingOrderController extends Controller
                         return $query->where('booking_orders.parcel_status',$status);
                 })
                 ->get();
+
         }
         else
         {
@@ -1605,6 +1597,7 @@ class BookingOrderController extends Controller
 
     }
     public function import(Request $request){
+
         //validate the xls file
         $this->validate($request, array(
             'file'      => 'required'
@@ -1617,16 +1610,20 @@ class BookingOrderController extends Controller
                 $path = $request->file->getRealPath();
                 $data = Excel::load($path, function($reader) {
                 })->get();
+
                 //echo '<pre>';
                 //var_dump($data); die;
                 //echo '</pre>';
                 // ignoreEmpty()->skip(1)
                 if(!empty($data) && $data->count()){
+
                 $order_count = 0;
                     foreach ($data as $key => $value) {
 
                         if($value->filter()->isNotEmpty()) {
-                            if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method) {
+                            if ($value->sending_type != null && $value->recipient_city != null && $value->payment_method!=null && $value->package_id !=null
+                            && $value->recipient_number !=null && $value->address!=null && $value->package_id!=null ) {
+
                             $order_count++;
                                 $order_created_by=$this->sdc->UserID();
 
@@ -1656,13 +1653,35 @@ class BookingOrderController extends Controller
                             //$total_charge= ($value->no_of_items)*$shipping_cost;
                             $total_charge = "0.00";
 
+                                $recipient_number = str_replace("-","",$value->recipient_number);
+                                $recipient_number = str_replace(" ","",$recipient_number);
+                                $recipient_number = str_replace("+","",$recipient_number);
+                                $recipient_number2 = str_replace("-","",$value->recipient_number_two);
+                                $recipient_number2 = str_replace(" ","",$recipient_number2);
+                                $recipient_number2 = str_replace("+","",$recipient_number2);
+
+                                if(strlen($recipient_number)==10){
+                                    $recipient_number = '0'.$recipient_number;
+                                }
+                                if(strlen($recipient_number==13)){
+                                    $recipient_number = substr($recipient_number,2);
+                                }
+                                if(strlen($recipient_number2)==10){
+                                    $recipient_number2 = '0'.$recipient_number2;
+                                }
+                                if(strlen($recipient_number2)==13){
+                                    $recipient_number2 = substr($recipient_number2,2);
+                                }
+                                $deliver_date = $value->deliver_date;
+                                if($value->deliver_date==null || $deliver_date ==''){
+                                    $deliver_date = date('Y-m-d', strtotime("+2 days"));
+                                }
+
                             $insert[] = [
-
-
                                 'sending_type_name' => $sending_type_0_ItemType,
                                 'sending_type' => $value->sending_type,
-                                'recipient_number' => $value->recipient_number,
-                                'recipient_number_two' => $value->recipient_number_two,
+                                'recipient_number' => $recipient_number,
+                                'recipient_number_two' => $recipient_number2,
                                 'recipient_name' => $value->recipient_name,
                                 'address' => $value->address,
                                 'recipient_city_name' => $recipient_city_4_City,
@@ -1678,7 +1697,7 @@ class BookingOrderController extends Controller
                                 'package_id_name' => $package_id_10_BookingPackage,
                                 'package_id' => $value->package_id,
                                 'product_price' => $value->product_price,
-                                'deliver_date' => $value->deliver_date,
+                                'deliver_date' => date("Y-m-d", strtotime($deliver_date) ),
                                 'no_of_items' => $value->no_of_items,
                                 'special_note' => $value->special_note,
                                 'parcel_status' => $parcel_status,
@@ -1702,6 +1721,7 @@ class BookingOrderController extends Controller
                     if(!empty($insert)){
 
                         $insertData = DB::table('booking_orders')->insert($insert);
+
                         $latest_order = DB::table('booking_orders')->SELECT('*')
                             ->orderBy('created_at', 'desc')->take($order_count)->get();
 
@@ -1718,7 +1738,7 @@ class BookingOrderController extends Controller
                         if ($insertData) {
                             Session::flash('success', 'Your Data has successfully imported');
                         }else {
-                            Session::flash('error', 'Error inserting the data..');
+                            Session::flash('error', 'Error inserting the data. Please fill up all fields.');
                             return back();
                         }
                     }
