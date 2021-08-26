@@ -19,6 +19,9 @@
                 <a class="screen__link" href="#signup">Merchant Signup</a>
             </div>
             <div class="screen__item">
+                <a class="screen__link" href="#package">Package</a>
+            </div>
+            <div class="screen__item">
                 <a class="screen__link" href="{{url('login')}}">Merchant Login</a>
             </div>
             <div class="screen__item">

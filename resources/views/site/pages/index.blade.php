@@ -322,6 +322,24 @@
 		</div>
 	</div>
 </section>
+<!-- section end-->
+<!-- section start-->
+<section class="section  pb-5" id="package">
+	<div class="container">
+		<div class="row ">
+			<div class="col-12">
+				<div class="heading heading--center">
+					<h3 class="partners_section_heading__title"><span class="color_pink">বোরাকের </span> প্যাকেজসমূহ </h3>
+
+				</div>
+			</div>
+		</div>
+		<img src="{{asset('site/img/Borak-package.png')}}" class="img-fluid" alt="package"/>
+	</div>
+</section>
+<!-- section end-->
+
+
 <style>
 	.slider_image{
 		position: absolute;

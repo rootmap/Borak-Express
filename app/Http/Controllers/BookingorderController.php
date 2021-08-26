@@ -1345,14 +1345,17 @@ class BookingOrderController extends Controller
     {
         $mpdf =  new \Mpdf\Mpdf([
             'default_font' => 'bangla',
+            'default_font_size' => 9,
             'mode' => 'utf-8',
-            'format' => [72, 236],
-            'margin_left' => .7,
-            'margin_right' => 0,
+            'format' => [210, 296],
+            'margin_left' => 5,
+            'margin_right' => 5,
             'margin_header' => 0,
             'margin_footer' => 0,
-            'margin_top' => 0.5,
-            'margin_bottom' => 0
+            'margin_top' => 2,
+            'margin_bottom' => 0,
+            'orientation' =>'P',
+            'display_mood' => 'fullpage'
         ]);
         $mpdf->WriteHTML($this->convert_customer_data_to_html($id));
 
